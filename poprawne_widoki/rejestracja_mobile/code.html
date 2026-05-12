@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Załóż konto - CameLog</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#2f1400",
+                        "surface-container-low": "#e8facd",
+                        "secondary": "#835418",
+                        "primary": "#8f4a00",
+                        "secondary-fixed-dim": "#faba75",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#fffbff",
+                        "on-tertiary-container": "#fcffe3",
+                        "tertiary-fixed-dim": "#bfcd8f",
+                        "on-primary-fixed-variant": "#6f3800",
+                        "surface-tint": "#924c00",
+                        "surface-variant": "#d7e9bd",
+                        "on-surface-variant": "#544438",
+                        "primary-fixed": "#ffdcc4",
+                        "inverse-on-surface": "#e5f7cb",
+                        "inverse-surface": "#273517",
+                        "surface-container-highest": "#d7e9bd",
+                        "tertiary-fixed": "#dbe9a9",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#e2f4c8",
+                        "on-secondary-fixed-variant": "#673d00",
+                        "on-secondary-fixed": "#2b1700",
+                        "primary-fixed-dim": "#ffb781",
+                        "secondary-fixed": "#ffdcbb",
+                        "tertiary": "#55612e",
+                        "inverse-primary": "#ffb781",
+                        "background": "#f0ffd8",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#fdbd77",
+                        "outline-variant": "#d9c2b3",
+                        "surface-dim": "#cee0b5",
+                        "on-surface": "#121f05",
+                        "tertiary-container": "#6e7a44",
+                        "on-error": "#ffffff",
+                        "on-background": "#121f05",
+                        "surface": "#f0ffd8",
+                        "surface-bright": "#f0ffd8",
+                        "on-tertiary-fixed": "#171e00",
+                        "outline": "#877366",
+                        "on-tertiary-fixed-variant": "#404b1b",
+                        "on-secondary-container": "#784a0d",
+                        "surface-container-high": "#dcefc3",
+                        "primary-container": "#ae611a",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Manrope", "sans-serif"],
+                        "label-sm": ["Manrope", "sans-serif"],
+                        "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans", "sans-serif"],
+                        "display": ["Plus Jakarta Sans", "sans-serif"],
+                        "body-lg": ["Manrope", "sans-serif"],
+                        "body-md": ["Manrope", "sans-serif"],
+                        "headline-lg": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.4", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    },
+                    "boxShadow": {
+                        "desert-0": "none",
+                        "desert-1": "0 4px 16px -4px rgba(40, 54, 24, 0.06)",
+                        "desert-2": "0 8px 24px -8px rgba(40, 54, 24, 0.08)",
+                        "desert-3": "0 16px 32px -12px rgba(40, 54, 24, 0.12)"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex items-center justify-center p-margin-mobile md:p-margin-desktop antialiased font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<main class="w-full max-w-md bg-surface-container-lowest rounded-3xl shadow-desert-2 overflow-hidden flex flex-col relative border border-outline-variant/30">
+<!-- Header Section -->
+<div class="px-8 pt-10 pb-6 flex flex-col items-center text-center relative z-10 bg-gradient-to-b from-surface-container-high/50 to-transparent">
+<!-- Brand Logo Space -->
+<div class="w-16 h-16 rounded-2xl bg-secondary-container flex items-center justify-center mb-6 shadow-desert-1 transform -rotate-3">
+<span class="material-symbols-outlined text-4xl text-on-secondary-container" data-weight="fill" style="font-variation-settings: 'FILL' 1;">park</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary mb-2">Załóż konto</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Dołącz do CameLog i stwórz swoją zieloną oazę.</p>
+</div>
+<!-- Form Section -->
+<div class="px-8 pb-10 flex flex-col gap-6 relative z-10">
+<form action="#" class="flex flex-col gap-5" method="POST">
+<!-- Name Input -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="name">Imię lub pseudonim</label>
+<div class="relative group">
+<span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-outline-variant group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">person</span>
+</span>
+<input class="w-full pl-11 pr-4 py-3 bg-surface-container-lowest border-2 border-surface-variant rounded-xl text-on-surface font-body-md placeholder-outline focus:outline-none focus:border-primary focus:ring-0 transition-colors shadow-desert-1 focus:shadow-desert-2" id="name" name="name" placeholder="Jak mamy się do Ciebie zwracać?" required="" type="text"/>
+</div>
+</div>
+<!-- Email Input -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="email">Adres e-mail</label>
+<div class="relative group">
+<span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-outline-variant group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">mail</span>
+</span>
+<input class="w-full pl-11 pr-4 py-3 bg-surface-container-lowest border-2 border-surface-variant rounded-xl text-on-surface font-body-md placeholder-outline focus:outline-none focus:border-primary focus:ring-0 transition-colors shadow-desert-1 focus:shadow-desert-2" id="email" name="email" placeholder="twoj@email.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="password">Hasło</label>
+<div class="relative group">
+<span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-outline-variant group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">lock</span>
+</span>
+<input class="w-full pl-11 pr-4 py-3 bg-surface-container-lowest border-2 border-surface-variant rounded-xl text-on-surface font-body-md placeholder-outline focus:outline-none focus:border-primary focus:ring-0 transition-colors shadow-desert-1 focus:shadow-desert-2" id="password" name="password" placeholder="Min. 8 znaków" required="" type="password"/>
+</div>
+</div>
+<!-- Repeat Password Input -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="password_repeat">Powtórz hasło</label>
+<div class="relative group">
+<span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-outline-variant group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">lock_reset</span>
+</span>
+<input class="w-full pl-11 pr-4 py-3 bg-surface-container-lowest border-2 border-surface-variant rounded-xl text-on-surface font-body-md placeholder-outline focus:outline-none focus:border-primary focus:ring-0 transition-colors shadow-desert-1 focus:shadow-desert-2" id="password_repeat" name="password_repeat" placeholder="Potwierdź swoje hasło" required="" type="password"/>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="mt-4 w-full bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md py-4 px-6 rounded-xl shadow-desert-2 hover:shadow-desert-3 transition-all duration-300 flex items-center justify-center gap-2 group" type="submit">
+<span>Utwórz konto</span>
+<span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<!-- Terms -->
+<p class="text-center font-label-sm text-label-sm text-on-surface-variant mt-2 px-4">
+                    Zakładając konto akceptujesz <a class="text-primary hover:underline" href="#">Regulamin</a> oraz <a class="text-primary hover:underline" href="#">Politykę prywatności</a>.
+                </p>
+</form>
+</div>
+<!-- Benefits Summary Footer -->
+<div class="bg-surface-container-low p-6 border-t border-surface-variant flex flex-col gap-4">
+<h3 class="font-label-md text-label-md text-on-surface text-center">Dlaczego warto dołączyć?</h3>
+<ul class="flex flex-col gap-3 font-body-md text-body-md text-on-surface-variant">
+<li class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container/50 flex items-center justify-center text-on-secondary-container shrink-0">
+<span class="material-symbols-outlined text-sm">notifications_active</span>
+</div>
+<span>Spersonalizowane przypomnienia o podlewaniu</span>
+</li>
+<li class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container/50 flex items-center justify-center text-on-secondary-container shrink-0">
+<span class="material-symbols-outlined text-sm">potted_plant</span>
+</div>
+<span>Historia rozwoju każdej Twojej rośliny</span>
+</li>
+</ul>
+</div>
+<!-- Login Link -->
+<div class="bg-surface-container py-4 text-center border-t border-surface-variant">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Masz już konto? <a class="font-label-md text-primary hover:text-primary/80 transition-colors" href="#">Zaloguj się</a>
+</p>
+</div>
+</main>
+</body></html>

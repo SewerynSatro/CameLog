@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CameLog - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#2f1400",
+                      "surface-container-low": "#e8facd",
+                      "secondary": "#835418",
+                      "primary": "#8f4a00",
+                      "secondary-fixed-dim": "#faba75",
+                      "on-secondary": "#ffffff",
+                      "on-primary-container": "#fffbff",
+                      "on-tertiary-container": "#fcffe3",
+                      "tertiary-fixed-dim": "#bfcd8f",
+                      "on-primary-fixed-variant": "#6f3800",
+                      "surface-tint": "#924c00",
+                      "surface-variant": "#d7e9bd",
+                      "on-surface-variant": "#544438",
+                      "primary-fixed": "#ffdcc4",
+                      "inverse-on-surface": "#e5f7cb",
+                      "inverse-surface": "#273517",
+                      "surface-container-highest": "#d7e9bd",
+                      "tertiary-fixed": "#dbe9a9",
+                      "on-tertiary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "surface-container": "#e2f4c8",
+                      "on-secondary-fixed-variant": "#673d00",
+                      "on-secondary-fixed": "#2b1700",
+                      "primary-fixed-dim": "#ffb781",
+                      "secondary-fixed": "#ffdcbb",
+                      "tertiary": "#55612e",
+                      "inverse-primary": "#ffb781",
+                      "background": "#f0ffd8",
+                      "error-container": "#ffdad6",
+                      "secondary-container": "#fdbd77",
+                      "outline-variant": "#d9c2b3",
+                      "surface-dim": "#cee0b5",
+                      "on-surface": "#121f05",
+                      "tertiary-container": "#6e7a44",
+                      "on-error": "#ffffff",
+                      "on-background": "#121f05",
+                      "surface": "#f0ffd8",
+                      "surface-bright": "#f0ffd8",
+                      "on-tertiary-fixed": "#171e00",
+                      "outline": "#877366",
+                      "on-tertiary-fixed-variant": "#404b1b",
+                      "on-secondary-container": "#784a0d",
+                      "surface-container-high": "#dcefc3",
+                      "primary-container": "#ae611a",
+                      "error": "#ba1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "margin-desktop": "40px",
+                      "container-max": "1280px",
+                      "gutter": "24px",
+                      "unit": "8px"
+              },
+              "fontFamily": {
+                      "label-md": [
+                              "Manrope"
+                      ],
+                      "label-sm": [
+                              "Manrope"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-lg": [
+                              "Manrope"
+                      ],
+                      "body-md": [
+                              "Manrope"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .desert-shadow {
+            box-shadow: 0 4px 16px rgba(40, 54, 24, 0.05);
+        }
+        .desert-shadow-hover:hover {
+            box-shadow: 0 8px 24px rgba(40, 54, 24, 0.08);
+            transform: translateY(-2px);
+        }
+        .desert-shadow-overlay {
+            box-shadow: 0 12px 32px rgba(40, 54, 24, 0.12);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex">
+<!-- SideNavBar (Desktop) -->
+<nav class="w-[280px] h-screen fixed left-0 top-0 hidden lg:flex flex-col bg-surface-container-lowest border-r border-outline-variant shadow-sm z-50">
+<div class="flex flex-col gap-unit p-margin-desktop h-full">
+<div class="flex items-center gap-3 mb-8 px-2">
+<img alt="CameLog stylized camel tree logo" class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A minimal flat vector mark representing a stylized camel silhouette in desert tones. The camel's body flows smoothly into the shape of a broad-leafed tree canopy. The color palette uses deep forest green and soft sand colors, embodying a resilient, warm desert oasis aesthetic. Perfect for a modern plant care brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoIW7RPw3s0Edokp5reVOMnhvBYZqK37iccw0GoxOsMVMZjhew_EPfQ59uCtytvtpTyBWBIHrFdbfLjwgNj_8rlPxccoXR7wwB39P_T5dVMS71cgfpddL7tDhsexGCdVoM9K_t_dUFOsCxsg8_4FtK4elJ9Iz4FC1L5r_qqJ25Wlf71712NWqqmOAdYOMQMpf-CoYfV8pLhhWmbglS0b7UYUL4GGmnSlQHqfArfbUtDVFfL6vsboOUfRrgZVZ7R_ykXV5qjw41ZdF8"/>
+<div>
+<h1 class="font-display text-headline-md text-primary">CameLog</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Desert Oasis Care</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 bg-primary text-on-primary rounded-full px-6 py-3 font-label-md scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">potted_plant</span>
+                    Rośliny
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">assignment</span>
+                    Taski
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">notifications</span>
+                    Przypomnienia
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+                    Statystyki
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">person</span>
+                    Profil
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+                    Admin
+                </a>
+</div>
+<button class="mt-auto bg-tertiary-container text-on-tertiary-container rounded-full px-6 py-4 font-label-md flex items-center justify-center gap-2 hover:bg-tertiary transition-colors shadow-md active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                Dodaj roślinę
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-[280px] flex flex-col min-h-screen pb-24 lg:pb-0">
+<!-- TopAppBar -->
+<header class="w-full h-16 sticky top-0 z-40 bg-background/80 backdrop-blur-md flex justify-between items-center px-margin-mobile lg:px-margin-desktop transition-all duration-300">
+<h1 class="lg:hidden font-display text-headline-md text-primary tracking-tight">CameLog</h1>
+<div class="hidden lg:block text-headline-md font-headline-md text-on-background">Cześć, Ola 👋</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface hover:bg-surface-container-low p-2 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="absolute top-1 right-1 w-2.5 h-2.5 bg-error rounded-full border-2 border-background"></span>
+</button>
+<img alt="User profile avatar of Ola" class="w-10 h-10 rounded-full object-cover border-2 border-surface-container-highest cursor-pointer hover:border-primary transition-colors" data-alt="A warm, inviting portrait of a smiling woman in her 30s. Soft, natural sunlight illuminates her face, highlighting a serene expression. The background is slightly blurred with hints of lush indoor houseplants, echoing a botanical, nurturing theme. The overall aesthetic is friendly, modern, and aligned with a community-focused plant care application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDb1u2Px5EwO7JDokBvsZcAV9SyDd7l3XTvdsXoBz9T8pVAEBeBmJblKRfPoJ8vyviPjDsmTf84XCf-InHlw5777YbK4xTGLmTxig9rzCZJEx4SFlc_zNhLHmW5Z1A9zpP0TmLKms8ENmuhtR1J339zAwDoQfoNgRnv2tfDKnbm3J3ne0E4PxmKdE_EAWWdnjjATrO6o8RFKg7uvUm-tQtkjdugN1wHFW8paMbabdencMFpDHeDNxOIaJFjSBdvSFyD9MgSnhAcm8y0"/>
+</div>
+</header>
+<div class="lg:hidden px-margin-mobile pt-4 pb-2">
+<h2 class="text-headline-md font-headline-md text-on-background">Cześć, Ola 👋</h2>
+</div>
+<div class="flex-1 p-margin-mobile lg:p-margin-desktop grid grid-cols-1 xl:grid-cols-12 gap-8 max-w-container-max mx-auto w-full">
+<!-- Left Column (Main Dashboard Content) -->
+<div class="xl:col-span-8 flex flex-col gap-12">
+<!-- Summary Stats Bento Grid -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-surface-container-lowest rounded-xl p-6 desert-shadow flex flex-col gap-2">
+<span class="material-symbols-outlined text-tertiary text-3xl">potted_plant</span>
+<p class="font-body-md text-on-surface-variant">Moje rośliny</p>
+<p class="font-headline-lg text-headline-lg text-primary">18</p>
+</div>
+<div class="bg-secondary-container rounded-xl p-6 desert-shadow flex flex-col gap-2 relative overflow-hidden">
+<div class="absolute -right-4 -bottom-4 opacity-20">
+<span class="material-symbols-outlined text-[100px] text-on-secondary-container">assignment</span>
+</div>
+<span class="material-symbols-outlined text-on-secondary-container text-3xl relative z-10">task_alt</span>
+<p class="font-body-md text-on-secondary-container relative z-10">Taski na dziś</p>
+<p class="font-headline-lg text-headline-lg text-on-secondary-container relative z-10">4</p>
+</div>
+<div class="bg-error-container rounded-xl p-6 desert-shadow flex flex-col gap-2">
+<span class="material-symbols-outlined text-on-error-container text-3xl">warning</span>
+<p class="font-body-md text-on-surface-variant">Zaległe</p>
+<p class="font-headline-lg text-headline-lg text-error">2</p>
+</div>
+<div class="bg-surface-container-highest rounded-xl p-6 desert-shadow flex flex-col gap-2">
+<span class="material-symbols-outlined text-tertiary text-3xl">done_all</span>
+<p class="font-body-md text-on-surface-variant">Wykonane w tyg.</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">21</p>
+</div>
+</section>
+<!-- Tasks Section -->
+<section>
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-background">Dzisiaj do zrobienia</h3>
+<button class="text-primary font-label-md text-label-md hover:underline flex items-center gap-1">
+                            Zobacz wszystkie <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Task Card 1 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl desert-shadow desert-shadow-hover transition-all flex items-center gap-4 cursor-pointer group">
+<div class="w-6 h-6 rounded border-2 border-tertiary flex-shrink-0 group-hover:bg-tertiary/10 transition-colors"></div>
+<div class="flex-1">
+<h4 class="font-label-md text-label-md text-on-surface">Podlej Monsterę</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span> Salon
+                                </p>
+</div>
+<span class="px-3 py-1 bg-surface-container text-tertiary rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">water_drop</span> Podlewanie
+                            </span>
+</div>
+<!-- Task Card 2 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl desert-shadow desert-shadow-hover transition-all flex items-center gap-4 cursor-pointer group">
+<div class="w-6 h-6 rounded border-2 border-tertiary flex-shrink-0 group-hover:bg-tertiary/10 transition-colors"></div>
+<div class="flex-1">
+<h4 class="font-label-md text-label-md text-on-surface">Nawieź Fikusa</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span> Biuro
+                                </p>
+</div>
+<span class="px-3 py-1 bg-secondary-container/30 text-secondary rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">science</span> Nawożenie
+                            </span>
+</div>
+</div>
+</section>
+<!-- Plants Grid Section -->
+<section>
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-background">Twoje rośliny</h3>
+<button class="text-primary font-label-md text-label-md hover:underline flex items-center gap-1">
+                            Zarządzaj <span class="material-symbols-outlined text-sm">settings</span>
+</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Plant Card 1 -->
+<div class="bg-surface-container-lowest rounded-2xl desert-shadow desert-shadow-hover transition-all overflow-hidden flex flex-col group cursor-pointer">
+<div class="h-48 relative overflow-hidden">
+<img alt="Monstera plant" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-t-lg" data-alt="A healthy Monstera Deliciosa plant in a modern terracotta pot, placed indoors against a bright, warm cream-colored wall. Sunlight filters through a window, casting soft, dappled shadows across the large, split green leaves. The aesthetic is clean, minimalist, and vibrant, reflecting a well-cared-for houseplant in a serene desert-inspired home environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCi_Wn596oA60yeOX5xueiND0lNYyupeHPjS5fMEnBhMkcb3dMxa-xvl2Zh2hpyVz_J57mUOg2IXXnl4wwJwQ0BtkHRy95FeDuuepx1wxkkUEcGQ-LbVrOC5oamG3lr6ps4fU04R_cgCtdfH5jNYvmxKLzjVhFeTemt1CX5BG7kxv6_Yrkja8-KoymbdBlMWJQEzW6oNW72B71E6VL2Q1Xn-hi5JwYuiIU1GkRMtNiQ2j2tIpH2I4qUQ4JVjCca0F8DyuBAyb1zRC4Q"/>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-label-sm text-label-sm text-on-surface">Zdrowa</span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<h4 class="font-headline-md text-headline-md text-on-surface">Monstera</h4>
+<div class="flex justify-between items-center text-on-surface-variant">
+<div class="flex items-center gap-1" title="Podlewanie">
+<span class="material-symbols-outlined text-tertiary">water_drop</span>
+<span class="font-label-sm text-label-sm">2 dni</span>
+</div>
+<div class="flex items-center gap-1" title="Nasłonecznienie">
+<span class="material-symbols-outlined text-secondary">light_mode</span>
+<span class="font-label-sm text-label-sm">Jasne</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Plant Card 2 -->
+<div class="bg-surface-container-lowest rounded-2xl desert-shadow desert-shadow-hover transition-all overflow-hidden flex flex-col group cursor-pointer">
+<div class="h-48 relative overflow-hidden">
+<img alt="Fikus plant" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-t-lg" data-alt="A lush Ficus Lyrata (Fiddle Leaf Fig) standing tall in a woven basket planter. The setting is a bright, airy room with soft sand-toned walls. The large, violin-shaped leaves are a deep, glossy green, catching the gentle natural light. The overall mood is calm, organic, and contemporary, fitting a sophisticated plant tracking dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTGSnqbx9SP6gIElNQbHsFvV2W7P081gfbM1TxveUcwtjYfwAytXSjFqMSuUqNlkmRO_Mfd5cmp6lWC4eMjaYrnOvXiij5yryy-xfTuO4sUzJbuHLGByk3Z5UFZ0Kzch2WkPg3jFMTK_Y7GQQkRv-smdr1NGKad6_FeLV6Q0mGSay0BmqrMnrgzXL19RM72pWw3Oau7hsau2SAifRvrp6xFlOMP2u7N_QKqu-Woo7YT0kha5lUxPc8kewKz8FjnZLO2FBpHraBLvh7"/>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed-dim"></span>
+<span class="font-label-sm text-label-sm text-on-surface">Umiarkowanie</span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<h4 class="font-headline-md text-headline-md text-on-surface">Fikus</h4>
+<div class="flex justify-between items-center text-on-surface-variant">
+<div class="flex items-center gap-1" title="Podlewanie">
+<span class="material-symbols-outlined text-tertiary">water_drop</span>
+<span class="font-label-sm text-label-sm">Dziś</span>
+</div>
+<div class="flex items-center gap-1" title="Nawożenie">
+<span class="material-symbols-outlined text-secondary">science</span>
+<span class="font-label-sm text-label-sm">Dziś</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Plant Card 3 -->
+<div class="bg-surface-container-lowest rounded-2xl desert-shadow desert-shadow-hover transition-all overflow-hidden flex flex-col group cursor-pointer">
+<div class="h-48 relative overflow-hidden">
+<img alt="Kalatea plant" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-t-lg" data-alt="A striking Calathea plant with its distinctive patterned leaves, showcasing varying shades of green and purple undersides. It is potted in a smooth, matte ceramic pot resting on a light wooden surface. The lighting is diffused and soft, creating a tranquil and meticulously cared-for indoor garden atmosphere, consistent with a premium botanical app interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhuqA-xUfQT_eg83x8ztcG3vhKKqgtTjS2QlzkZ7IaV6L-U-hfkzjypE5FZM_kYQOKXlXo6IAuQ9Uh3WDhFj9qZrAwP7miu_q_5Zd5_t2-M3y5bY9Fa6T5Tit7ENAHRmuXubIrPvHciiZ4_tRDAEoPJ74_FJzbPU4jHcBo8r0aGlGmNhUDTXYEn8CytA2uTx5NN9chURheHCFt0sgwrY_A6afm_58bs1hgkOFmpsppau5-GHK0zMD7f6URsaKYJzfvHeckf19d1gGx"/>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur px-2 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-label-sm text-label-sm text-on-surface">Zdrowa</span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<h4 class="font-headline-md text-headline-md text-on-surface">Kalatea</h4>
+<div class="flex justify-between items-center text-on-surface-variant">
+<div class="flex items-center gap-1" title="Podlewanie">
+<span class="material-symbols-outlined text-tertiary">water_drop</span>
+<span class="font-label-sm text-label-sm">4 dni</span>
+</div>
+<div class="flex items-center gap-1" title="Zraszanie">
+<span class="material-symbols-outlined text-secondary">mist</span>
+<span class="font-label-sm text-label-sm">Jutro</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column (Side Panel) -->
+<aside class="xl:col-span-4 flex flex-col gap-6">
+<div class="bg-surface-dim rounded-2xl p-6 desert-shadow sticky top-24">
+<h3 class="font-headline-md text-headline-md text-on-background mb-4">Nadchodzące</h3>
+<div class="flex flex-col gap-4 relative">
+<!-- Timeline line -->
+<div class="absolute left-[11px] top-2 bottom-2 w-px bg-outline-variant"></div>
+<!-- Timeline Item 1 -->
+<div class="flex gap-4 relative">
+<div class="w-6 h-6 rounded-full bg-surface-container-lowest border-2 border-primary flex items-center justify-center z-10 flex-shrink-0 mt-1">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl desert-shadow flex-1">
+<p class="font-label-sm text-label-sm text-primary mb-1">Jutro</p>
+<h4 class="font-label-md text-label-md text-on-surface">Podlej wszystkie sukulenty</h4>
+<p class="font-body-md text-sm text-on-surface-variant mt-1">Sypialnia, Parapet</p>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="flex gap-4 relative">
+<div class="w-6 h-6 rounded-full bg-surface-container-lowest border-2 border-outline-variant flex items-center justify-center z-10 flex-shrink-0 mt-1">
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl desert-shadow flex-1 opacity-75">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Za 3 dni</p>
+<h4 class="font-label-md text-label-md text-on-surface">Przytnij suche liście Zamiokulkasa</h4>
+</div>
+</div>
+<!-- Timeline Item 3 -->
+<div class="flex gap-4 relative">
+<div class="w-6 h-6 rounded-full bg-surface-container-lowest border-2 border-outline-variant flex items-center justify-center z-10 flex-shrink-0 mt-1">
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl desert-shadow flex-1 opacity-75">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Za 5 dni</p>
+<h4 class="font-label-md text-label-md text-on-surface">Zmień ziemię w Aloesie</h4>
+<p class="font-body-md text-sm text-on-surface-variant mt-1">Potrzebne: Ziemia do kaktusów</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border border-outline rounded-full font-label-md text-label-md text-on-surface hover:bg-surface-container transition-colors">
+                        Pełny kalendarz
+                    </button>
+</div>
+</aside>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="fixed bottom-0 w-full z-50 lg:hidden rounded-t-xl bg-surface-container/90 backdrop-blur-lg border-t border-outline-variant/30 shadow-lg pb-safe">
+<div class="flex justify-around items-center h-20 px-2">
+<!-- Active Tab -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl px-4 py-1 scale-110 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant rounded-xl px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined">potted_plant</span>
+<span class="font-label-sm text-label-sm mt-1">Rośliny</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant rounded-xl px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-label-sm text-label-sm mt-1">Dodaj</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant rounded-xl px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined">task_alt</span>
+<span class="font-label-sm text-label-sm mt-1">Zadania</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant rounded-xl px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm mt-1">Profil</span>
+</a>
+</div>
+</nav>
+</body></html>

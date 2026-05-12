@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Monstera Deliciosa - CameLog</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Manrope:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#2f1400",
+                        "surface-container-low": "#e8facd",
+                        "secondary": "#835418",
+                        "primary": "#8f4a00",
+                        "secondary-fixed-dim": "#faba75",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#fffbff",
+                        "on-tertiary-container": "#fcffe3",
+                        "tertiary-fixed-dim": "#bfcd8f",
+                        "on-primary-fixed-variant": "#6f3800",
+                        "surface-tint": "#924c00",
+                        "surface-variant": "#d7e9bd",
+                        "on-surface-variant": "#544438",
+                        "primary-fixed": "#ffdcc4",
+                        "inverse-on-surface": "#e5f7cb",
+                        "inverse-surface": "#273517",
+                        "surface-container-highest": "#d7e9bd",
+                        "tertiary-fixed": "#dbe9a9",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#e2f4c8",
+                        "on-secondary-fixed-variant": "#673d00",
+                        "on-secondary-fixed": "#2b1700",
+                        "primary-fixed-dim": "#ffb781",
+                        "secondary-fixed": "#ffdcbb",
+                        "tertiary": "#55612e",
+                        "inverse-primary": "#ffb781",
+                        "background": "#f0ffd8",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#fdbd77",
+                        "outline-variant": "#d9c2b3",
+                        "surface-dim": "#cee0b5",
+                        "on-surface": "#121f05",
+                        "tertiary-container": "#6e7a44",
+                        "on-error": "#ffffff",
+                        "on-background": "#121f05",
+                        "surface": "#f0ffd8",
+                        "surface-bright": "#f0ffd8",
+                        "on-tertiary-fixed": "#171e00",
+                        "outline": "#877366",
+                        "on-tertiary-fixed-variant": "#404b1b",
+                        "on-secondary-container": "#784a0d",
+                        "surface-container-high": "#dcefc3",
+                        "primary-container": "#ae611a",
+                        "error": "#ba1a1a"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "unit": "8px"
+                    },
+                    fontFamily: {
+                        "label-md": ["Manrope"],
+                        "label-sm": ["Manrope"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "display": ["Plus Jakarta Sans"],
+                        "body-lg": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "label-md": ["14px", { lineHeight: "1.4", letterSpacing: "0.01em", fontWeight: "600" }],
+                        "label-sm": ["12px", { lineHeight: "1.4", fontWeight: "700" }],
+                        "headline-md": ["24px", { lineHeight: "1.3", fontWeight: "600" }],
+                        "headline-lg-mobile": ["28px", { lineHeight: "1.2", fontWeight: "700" }],
+                        "display": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-lg": ["32px", { lineHeight: "1.2", fontWeight: "700" }]
+                    },
+                    boxShadow: {
+                        'surface': '0 4px 16px -4px rgba(40, 54, 24, 0.06)',
+                        'elevated': '0 8px 24px -8px rgba(40, 54, 24, 0.08)',
+                        'overlay': '0 12px 32px -12px rgba(40, 54, 24, 0.12)'
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .desert-shadow {
+            box-shadow: 0 4px 16px -4px rgba(40, 54, 24, 0.06);
+        }
+        .desert-shadow-hover:hover {
+            box-shadow: 0 8px 24px -8px rgba(40, 54, 24, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen selection:bg-primary/20 selection:text-primary">
+<!-- TopAppBar (Mobile/Tablet) -->
+<header class="w-full h-16 sticky top-0 z-40 bg-background/80 backdrop-blur-md hidden md:flex lg:hidden justify-between items-center px-margin-mobile transition-all duration-300">
+<div class="font-display text-headline-md text-primary">CameLog</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface hover:bg-surface-container-low p-2 rounded-full transition-colors duration-300">
+<span class="material-symbols-outlined">notifications_active</span>
+</button>
+<img alt="User profile avatar of Ola" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A small circular avatar placeholder image showing a friendly person's face. The photo should have warm, natural lighting consistent with a sunny desert oasis aesthetic. The background should be softly blurred in earthy tones like sand or soft terracotta, ensuring the face is clear and welcoming." src="https://lh3.googleusercontent.com/aida-public/AB6AXuApvNiePdeK1RbmNQGSmdHgKGNsW4A53fx-xK3ZQ5VIgc0bo-TUEHRTFnc4uMx3wkqCagHF3GZW6cW_7uLkWmr0bPPXWwhC3k64Vwvniaz5SjCFsCnEVc4O6x1zaP9WzaDEef42SAF1nqz1kSQOrDUdLHu9KjuhpcOxKERBuzlQXzsgrp900Rvy1O-hUDHvp1Po92EZRphsBxJ2seHQW7Keiso7F-QEv4mRa_vjAIK70NtrK1_a2ZKlTiFcV-fiAo7AZDiK-KFDX3dk"/>
+</div>
+</header>
+<div class="flex">
+<!-- SideNavBar (Desktop) -->
+<nav class="w-[280px] h-screen fixed left-0 top-0 hidden lg:flex flex-col bg-surface-container-lowest border-r border-outline-variant shadow-sm z-50">
+<div class="p-margin-desktop pb-6 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div>
+<h1 class="font-display text-headline-md text-primary">CameLog</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Desert Oasis Care</p>
+</div>
+</div>
+<div class="flex flex-col gap-unit p-margin-desktop pt-0 flex-1 overflow-y-auto">
+<a class="text-on-surface-variant hover:text-primary px-6 py-3 font-label-md rounded-full hover:bg-surface-container-high transition-colors duration-200 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+<a class="bg-primary text-on-primary rounded-full px-6 py-3 font-label-md flex items-center gap-3 scale-95 shadow-surface transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">potted_plant</span>
+                    Rośliny
+                </a>
+<a class="text-on-surface-variant hover:text-primary px-6 py-3 font-label-md rounded-full hover:bg-surface-container-high transition-colors duration-200 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">assignment</span>
+                    Taski
+                </a>
+<a class="text-on-surface-variant hover:text-primary px-6 py-3 font-label-md rounded-full hover:bg-surface-container-high transition-colors duration-200 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">notifications</span>
+                    Przypomnienia
+                </a>
+<a class="text-on-surface-variant hover:text-primary px-6 py-3 font-label-md rounded-full hover:bg-surface-container-high transition-colors duration-200 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+                    Statystyki
+                </a>
+<a class="text-on-surface-variant hover:text-primary px-6 py-3 font-label-md rounded-full hover:bg-surface-container-high transition-colors duration-200 flex items-center gap-3 mt-auto" href="#">
+<span class="material-symbols-outlined">person</span>
+                    Profil
+                </a>
+<a class="text-on-surface-variant hover:text-primary px-6 py-3 font-label-md rounded-full hover:bg-surface-container-high transition-colors duration-200 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+                    Admin
+                </a>
+</div>
+<div class="p-6 border-t border-outline-variant/30">
+<button class="w-full bg-secondary text-on-secondary rounded-full py-3 font-label-md flex items-center justify-center gap-2 hover:bg-secondary/90 transition-colors shadow-surface">
+<span class="material-symbols-outlined">add</span>
+                    Dodaj roślinę
+                </button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 lg:ml-[280px] pb-32 md:pb-12 max-w-container-max mx-auto w-full">
+<!-- Mobile Header -->
+<div class="lg:hidden px-margin-mobile pt-6 pb-2 flex justify-between items-center sticky top-0 z-30 bg-surface/90 backdrop-blur-md">
+<button class="p-2 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex gap-2">
+<button class="p-2 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Plant Header (Hero) -->
+<div class="px-margin-mobile md:px-margin-desktop py-6 lg:py-12">
+<div class="bg-surface-container-lowest rounded-3xl p-6 lg:p-8 desert-shadow flex flex-col md:flex-row gap-8 items-start relative overflow-hidden">
+<!-- Decorative background element -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-surface-container-low rounded-bl-full -z-10 opacity-50"></div>
+<!-- Plant Image -->
+<div class="w-full md:w-1/3 aspect-[4/5] md:aspect-square rounded-2xl overflow-hidden shadow-surface flex-shrink-0 relative">
+<img alt="Monstera Deliciosa plant" class="w-full h-full object-cover" data-alt="A vibrant, healthy Monstera Deliciosa houseplant with large, deeply fenestrated green leaves. The plant sits in a simple, textured terracotta pot on a light wood floor. Soft, warm natural sunlight streams in from a nearby window, creating gentle shadows and highlighting the rich forest green tones of the foliage against a clean, warm cream-colored wall." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgN93UW3y7-8iZJ6M_mDjMXD6_dMQkNibSuRvX5tNRDqlvxJXGSvhdCY3iE5nXI37Bv7EVpFPwou3YTRobrlao5m6oIPI8w9EB4ZyxnkaomgBrFa0lT_hVDzFvv0e1UiSdPJRDnL2g0z2HRtCyJBgExg2ie1qji3VD9uODVKOKNTo84nAgiyNkXmp3oAdi_LWxJs-fmVd3irmAGR510737QZS0uzhxdEZqt80OZVQwAp8F2xRnhrXVJU50G5oT_czDolOMbzxv6fo4"/>
+<div class="absolute top-4 right-4 bg-tertiary-fixed text-on-tertiary-fixed font-label-sm px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm backdrop-blur-sm bg-opacity-90">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+                            W dobrej kondycji
+                        </div>
+</div>
+<!-- Plant Info -->
+<div class="flex-1 flex flex-col justify-center">
+<div class="mb-4">
+<h1 class="font-display text-display text-primary mb-2">Monstera</h1>
+<p class="font-headline-md text-headline-md text-on-surface-variant italic">Monstera Deliciosa</p>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-6">
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<p class="font-label-sm text-on-surface-variant">Lokalizacja</p>
+<p class="font-label-md text-on-surface">Salon</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">calendar_today</span>
+</div>
+<div>
+<p class="font-label-sm text-on-surface-variant">Posadzono</p>
+<p class="font-label-md text-on-surface">12.04.2023</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Desktop Actions -->
+<div class="hidden lg:flex flex-col gap-3 absolute top-8 right-8">
+<button class="bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md py-2 px-4 rounded-full flex items-center gap-2 transition-colors border border-outline-variant">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+                            Edytuj
+                        </button>
+</div>
+</div>
+</div>
+<!-- Content Grid -->
+<div class="px-margin-mobile md:px-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-gutter pb-12">
+<!-- Main Content Area -->
+<div class="lg:col-span-8 flex flex-col gap-12">
+<!-- Przegląd Section -->
+<section>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">visibility</span>
+                            Przegląd
+                        </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Care Needs Card -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl desert-shadow h-full">
+<h3 class="font-label-md text-on-surface-variant mb-4 uppercase tracking-wider">Potrzeby</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between border-b border-outline-variant/30 pb-3">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-blue-50 text-blue-700">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Podlewanie</p>
+<p class="font-label-sm text-on-surface-variant text-xs">Umiarkowane, gdy wierzch przeschnie</p>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between border-b border-outline-variant/30 pb-3">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-yellow-50 text-yellow-700">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">light_mode</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Światło</p>
+<p class="font-label-sm text-on-surface-variant text-xs">Jasne, rozproszone</p>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-green-50 text-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">compost</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Nawożenie</p>
+<p class="font-label-sm text-on-surface-variant text-xs">Co 2 tygodnie wiosna/lato</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Notes Card -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl desert-shadow h-full flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-md text-on-surface-variant uppercase tracking-wider">Notatki</h3>
+<button class="text-primary hover:bg-primary/10 p-1.5 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+<div class="bg-surface p-4 rounded-xl flex-1 border border-outline-variant/50">
+<p class="font-body-md text-on-surface text-sm italic">"Ostatnio wypuściła nowy, ogromny liść! Wygląda na to, że miejsce przy wschodnim oknie bardzo jej służy."</p>
+<p class="font-label-sm text-on-surface-variant mt-2 text-right">- 15.10.2023</p>
+</div>
+</div>
+</div>
+<!-- API Recommendations Card -->
+<div class="mt-6 bg-surface-container-high/40 border border-outline-variant border-dashed p-6 rounded-2xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+<span class="material-symbols-outlined text-[100px]">database</span>
+</div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">cloud_download</span>
+<h3 class="font-label-md text-on-surface uppercase tracking-wider">Zalecenia pielęgnacyjne z API</h3>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full ml-2">Perenual</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-outline-variant/30">
+<p class="font-label-sm text-on-surface-variant mb-1">Gatunek (Baza)</p>
+<p class="font-label-md text-on-surface">Swiss Cheese Plant</p>
+<p class="font-label-sm italic text-on-surface-variant">Monstera deliciosa</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-outline-variant/30">
+<p class="font-label-sm text-on-surface-variant mb-1">Podlewanie i Wymagania</p>
+<div class="flex flex-col gap-1 mt-1">
+<p class="font-label-sm text-on-surface flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-blue-500">water_drop</span>Częste</p>
+<p class="font-label-sm text-on-surface flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-tertiary">psychology</span>Poziom: Średni</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-outline-variant/30">
+<p class="font-label-sm text-on-surface-variant mb-1">Nasłonecznienie</p>
+<p class="font-label-sm text-on-surface flex items-center gap-1.5 mt-1"><span class="material-symbols-outlined text-[16px] text-yellow-600">light_mode</span>Częściowy cień</p>
+<p class="font-label-sm text-on-surface-variant ml-5">Part shade to full shade</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Taski Section -->
+<section>
+<div class="flex justify-between items-end mb-6">
+<h2 class="font-headline-lg text-headline-lg text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">assignment_turned_in</span>
+                                Taski
+                            </h2>
+<button class="text-primary font-label-md flex items-center gap-1 hover:underline">
+                                Zobacz wszystkie <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+<div class="space-y-3">
+<!-- Task Item -->
+<div class="bg-surface-container-lowest p-4 rounded-xl desert-shadow flex items-center justify-between desert-shadow-hover transition-shadow border-l-4 border-blue-400">
+<div class="flex items-center gap-4">
+<button class="w-6 h-6 rounded border-2 border-outline hover:border-primary transition-colors flex items-center justify-center text-transparent hover:text-primary/20">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<div>
+<p class="font-label-md text-on-surface">Podlanie</p>
+<p class="font-label-sm text-error">Dziś</p>
+</div>
+</div>
+<div class="bg-blue-50 text-blue-700 p-2 rounded-full">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+</div>
+</div>
+<!-- Task Item -->
+<div class="bg-surface-container-lowest p-4 rounded-xl desert-shadow flex items-center justify-between desert-shadow-hover transition-shadow border-l-4 border-outline-variant">
+<div class="flex items-center gap-4">
+<button class="w-6 h-6 rounded border-2 border-outline hover:border-primary transition-colors flex items-center justify-center text-transparent hover:text-primary/20">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<div>
+<p class="font-label-md text-on-surface">Zraszanie liści</p>
+<p class="font-label-sm text-on-surface-variant">Za 2 dni</p>
+</div>
+</div>
+<div class="bg-surface-container-high text-on-surface-variant p-2 rounded-full">
+<span class="material-symbols-outlined text-[20px]">shower</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Historia Section -->
+<section>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">history</span>
+                            Historia
+                        </h2>
+<div class="bg-surface-container-lowest p-6 rounded-2xl desert-shadow relative">
+<!-- Vertical Line -->
+<div class="absolute left-[39px] top-8 bottom-8 w-[2px] bg-outline-variant/30"></div>
+<div class="space-y-8 relative z-10">
+<!-- Timeline Item -->
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-full bg-blue-100 border-4 border-surface-container-lowest flex items-center justify-center flex-shrink-0 z-10 text-blue-700">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+</div>
+<div class="pt-1">
+<p class="font-label-md text-on-surface">Podlano</p>
+<p class="font-label-sm text-on-surface-variant">22 Paź 2023, 10:30</p>
+</div>
+</div>
+<!-- Timeline Item -->
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-full bg-green-100 border-4 border-surface-container-lowest flex items-center justify-center flex-shrink-0 z-10 text-tertiary">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">compost</span>
+</div>
+<div class="pt-1">
+<p class="font-label-md text-on-surface">Dodano nawóz</p>
+<p class="font-label-sm text-on-surface-variant">15 Paź 2023</p>
+<p class="font-body-md text-sm mt-1 text-on-surface-variant">Nawóz do roślin zielonych, 1/2 dawki.</p>
+</div>
+</div>
+<!-- Timeline Item -->
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-4 border-surface-container-lowest flex items-center justify-center flex-shrink-0 z-10 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">content_cut</span>
+</div>
+<div class="pt-1">
+<p class="font-label-md text-on-surface">Przycięto suche liście</p>
+<p class="font-label-sm text-on-surface-variant">01 Wrz 2023</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Sidebar (Quick Actions & Stats) -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Quick Actions Widget -->
+<div class="bg-surface-container-low p-6 rounded-2xl">
+<h3 class="font-label-md text-on-surface-variant mb-4 uppercase tracking-wider">Szybkie akcje</h3>
+<div class="flex flex-col gap-3">
+<button class="w-full bg-primary text-on-primary font-label-md py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined">add_task</span>
+                                Dodaj zadanie
+                            </button>
+<button class="w-full bg-surface-container-lowest border border-outline-variant text-primary font-label-md py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">edit_note</span>
+                                Dodaj notatkę
+                            </button>
+<button class="w-full bg-surface-container-lowest border border-outline-variant text-primary font-label-md py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">photo_camera</span>
+                                Dodaj zdjęcie
+                            </button>
+</div>
+</div>
+<!-- Statistics Widget -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl desert-shadow">
+<h3 class="font-label-md text-on-surface-variant mb-4 uppercase tracking-wider flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">bar_chart</span>
+                            Statystyki (30 dni)
+                        </h3>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="font-label-sm text-on-surface">Podlewanie</span>
+<span class="font-label-sm text-on-surface-variant">4 razy</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2">
+<div class="bg-blue-400 h-2 rounded-full" style="width: 70%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="font-label-sm text-on-surface">Zraszanie</span>
+<span class="font-label-sm text-on-surface-variant">8 razy</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2">
+<div class="bg-primary/50 h-2 rounded-full" style="width: 90%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="font-label-sm text-on-surface">Nawożenie</span>
+<span class="font-label-sm text-on-surface-variant">1 raz</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2">
+<div class="bg-tertiary h-2 rounded-full" style="width: 30%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile) -->
+<nav class="fixed bottom-0 w-full z-50 lg:hidden rounded-t-xl bg-surface-container/90 backdrop-blur-lg border-t border-outline-variant/30 shadow-lg">
+<div class="flex justify-around items-center h-20 pb-safe px-2">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant rounded-xl p-2 transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-[10px] mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl px-4 py-2 scale-110 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">potted_plant</span>
+<span class="font-label-sm text-[10px] mt-1">Rośliny</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant rounded-xl p-2 transition-colors" href="#">
+<span class="material-symbols-outlined text-[28px] text-primary">add_circle</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant rounded-xl p-2 transition-colors" href="#">
+<span class="material-symbols-outlined">task_alt</span>
+<span class="font-label-sm text-[10px] mt-1">Zadania</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-variant rounded-xl p-2 transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-[10px] mt-1">Profil</span>
+</a>
+</div>
+</nav>
+</body></html>

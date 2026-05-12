@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Offline – CameLog</title>
+  <link rel="icon" href="/assets/images/logo.svg" type="image/svg+xml" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap');
+    :root{
+      --bg:#f0ffd8; --surface:#ffffff; --on-surface:#121f05; --on-variant:#544438;
+      --primary:#8f4a00; --primary-container:#ae611a; --secondary-container:#fdbd77;
+      --outline-variant:#d9c2b3;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh; background:var(--bg); color:var(--on-surface);
+      font-family:'Manrope',system-ui,sans-serif;
+      display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .card{
+      max-width:480px; width:100%; background:var(--surface);
+      border-radius:24px; padding:48px 32px; text-align:center;
+      box-shadow:0 16px 32px rgba(40,54,24,.06);
+    }
+    h1{
+      font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:32px;
+      margin:24px 0 8px; color:var(--primary);
+    }
+    p{color:var(--on-variant); line-height:1.6; margin:8px 0 32px}
+    .logo{width:88px; height:88px}
+    .actions{display:flex; gap:12px; justify-content:center; flex-wrap:wrap}
+    .btn{
+      display:inline-flex; align-items:center; gap:8px; padding:14px 22px;
+      border-radius:9999px; font-weight:600; cursor:pointer; border:0;
+      font-family:'Manrope',sans-serif; font-size:15px;
+    }
+    .btn-primary{background:var(--primary); color:#fff}
+    .btn-primary:hover{background:var(--primary-container)}
+    .btn-secondary{background:var(--secondary-container); color:#784a0d}
+    .ping{
+      display:inline-block; width:10px; height:10px; border-radius:9999px;
+      background:#ba1a1a; margin-right:8px; animation:p 1.4s infinite;
+    }
+    @keyframes p{50%{opacity:.4}}
+    .status{font-size:13px; color:var(--on-variant); margin-top:24px}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <img src="/assets/images/logo.svg" alt="CameLog" class="logo" />
+    <h1>Jesteś offline</h1>
+    <p>Nie mamy teraz połączenia z internetem. Twoje rośliny są bezpieczne 🌱<br>
+       Sprawdź połączenie i spróbuj ponownie.</p>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="location.reload()">Spróbuj ponownie</button>
+      <a class="btn btn-secondary" href="/">Wróć do dashboardu</a>
+    </div>
+    <p class="status"><span class="ping"></span>Tryb offline</p>
+  </main>
+  <script>
+    window.addEventListener('online', () => location.reload());
+  </script>
+</body>
+</html>

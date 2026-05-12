@@ -1,0 +1,48 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: camelog-app:dev
+    container_name: camelog-app
+    ports:
+      - "8081:80"
+    environment:
+      APP_DEBUG: "true"
+      APP_URL: "http://localhost:8081"
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: camelog
+      DB_USER: camelog
+      DB_PASSWORD: camelog
+      PERENUAL_API_KEY: ""
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./public/uploads:/var/www/html/public/uploads
+      - ./storage:/var/www/html/storage
+
+  db:
+    image: mariadb:10.11
+    container_name: camelog-db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpw
+      MARIADB_DATABASE: camelog
+      MARIADB_USER: camelog
+      MARIADB_PASSWORD: camelog
+    ports:
+      - "3307:3306"
+    volumes:
+      - camelog-db-data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  camelog-db-data:

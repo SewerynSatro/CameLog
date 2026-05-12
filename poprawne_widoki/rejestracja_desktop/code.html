@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CameLog - Załóż konto</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#2f1400",
+                      "surface-container-low": "#e8facd",
+                      "secondary": "#835418",
+                      "primary": "#8f4a00",
+                      "secondary-fixed-dim": "#faba75",
+                      "on-secondary": "#ffffff",
+                      "on-primary-container": "#fffbff",
+                      "on-tertiary-container": "#fcffe3",
+                      "tertiary-fixed-dim": "#bfcd8f",
+                      "on-primary-fixed-variant": "#6f3800",
+                      "surface-tint": "#924c00",
+                      "surface-variant": "#d7e9bd",
+                      "on-surface-variant": "#544438",
+                      "primary-fixed": "#ffdcc4",
+                      "inverse-on-surface": "#e5f7cb",
+                      "inverse-surface": "#273517",
+                      "surface-container-highest": "#d7e9bd",
+                      "tertiary-fixed": "#dbe9a9",
+                      "on-tertiary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "surface-container": "#e2f4c8",
+                      "on-secondary-fixed-variant": "#673d00",
+                      "on-secondary-fixed": "#2b1700",
+                      "primary-fixed-dim": "#ffb781",
+                      "secondary-fixed": "#ffdcbb",
+                      "tertiary": "#55612e",
+                      "inverse-primary": "#ffb781",
+                      "background": "#f0ffd8",
+                      "error-container": "#ffdad6",
+                      "secondary-container": "#fdbd77",
+                      "outline-variant": "#d9c2b3",
+                      "surface-dim": "#cee0b5",
+                      "on-surface": "#121f05",
+                      "tertiary-container": "#6e7a44",
+                      "on-error": "#ffffff",
+                      "on-background": "#121f05",
+                      "surface": "#f0ffd8",
+                      "surface-bright": "#f0ffd8",
+                      "on-tertiary-fixed": "#171e00",
+                      "outline": "#877366",
+                      "on-tertiary-fixed-variant": "#404b1b",
+                      "on-secondary-container": "#784a0d",
+                      "surface-container-high": "#dcefc3",
+                      "primary-container": "#ae611a",
+                      "error": "#ba1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px",
+                      "2xl": "1rem",
+                      "3xl": "1.5rem"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "margin-desktop": "40px",
+                      "container-max": "1280px",
+                      "gutter": "24px",
+                      "unit": "8px"
+              },
+              "fontFamily": {
+                      "label-md": [
+                              "Manrope"
+                      ],
+                      "label-sm": [
+                              "Manrope"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-lg": [
+                              "Manrope"
+                      ],
+                      "body-md": [
+                              "Manrope"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+      </script>
+<style>
+        .desert-shadow-1 {
+            box-shadow: 0 4px 16px -4px rgba(40, 54, 24, 0.06);
+        }
+        .desert-shadow-2 {
+            box-shadow: 0 8px 24px -6px rgba(40, 54, 24, 0.08);
+        }
+      </style>
+</head>
+<body class="bg-background min-h-screen flex flex-col font-body-md text-on-background selection:bg-surface-variant selection:text-on-surface-variant">
+<main class="flex-grow flex items-center justify-center p-margin-mobile md:p-margin-desktop w-full max-w-container-max mx-auto">
+<div class="bg-surface-container-lowest rounded-3xl desert-shadow-2 w-full max-w-4xl flex flex-col md:flex-row overflow-hidden border border-outline-variant/30">
+<!-- Illustration / Branding Side -->
+<div class="bg-surface-container-high w-full md:w-5/12 p-8 md:p-12 flex flex-col items-center justify-center text-center relative overflow-hidden">
+<!-- Decorative background blob -->
+<div class="absolute top-0 left-0 w-full h-full bg-surface-variant opacity-20 blur-3xl rounded-full scale-150 transform -translate-x-1/4 -translate-y-1/4"></div>
+<div class="relative z-10 flex flex-col items-center">
+<!-- Logo placeholder - replacing generated image with stylized SVG -->
+<div class="w-32 h-32 md:w-48 md:h-48 mb-6 flex items-center justify-center text-primary-container">
+<svg class="w-full h-full" fill="none" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<path d="M50 20 C 30 20, 20 40, 30 60 C 40 50, 60 50, 70 60 C 80 40, 70 20, 50 20 Z" fill="currentColor"></path>
+<path d="M40 50 Q 50 80, 60 50 L 50 90 Z" fill="#283618"></path>
+</svg>
+</div>
+<h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-primary mb-4">CameLog</h2>
+<p class="font-body-md text-on-surface-variant mb-8 max-w-[250px]">Twoja domowa oaza pod kontrolą. Dołącz do nas i zadbaj o swoje rośliny.</p>
+<ul class="flex flex-col gap-4 text-left w-full max-w-[240px]">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="font-label-md text-on-surface">Przypomnienia o pielęgnacji</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+<span class="font-label-md text-on-surface">Historia podlewania</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">bar_chart</span>
+<span class="font-label-md text-on-surface">Statystyki roślin</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Registration Form Side -->
+<div class="w-full md:w-7/12 p-8 md:p-12 lg:p-16 flex flex-col justify-center bg-surface-container-lowest">
+<h1 class="font-display text-headline-lg text-on-background mb-2">Załóż konto</h1>
+<p class="font-body-md text-on-surface-variant mb-8">Wypełnij formularz, aby rozpocząć swoją przygodę z CameLog.</p>
+<form class="flex flex-col gap-5">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface" for="name">Imię</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">person</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-lowest border-2 border-outline-variant rounded-lg font-body-md text-on-surface focus:border-primary focus:ring-0 transition-colors placeholder:text-outline-variant" id="name" placeholder="Wpisz swoje imię" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface" for="email">Adres e-mail</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">mail</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-lowest border-2 border-outline-variant rounded-lg font-body-md text-on-surface focus:border-primary focus:ring-0 transition-colors placeholder:text-outline-variant" id="email" placeholder="twoj@email.com" type="email"/>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface" for="password">Hasło</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">lock</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-lowest border-2 border-outline-variant rounded-lg font-body-md text-on-surface focus:border-primary focus:ring-0 transition-colors placeholder:text-outline-variant" id="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface" for="password_repeat">Powtórz hasło</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">lock</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-lowest border-2 border-outline-variant rounded-lg font-body-md text-on-surface focus:border-primary focus:ring-0 transition-colors placeholder:text-outline-variant" id="password_repeat" placeholder="••••••••" type="password"/>
+</div>
+</div>
+</div>
+<button class="mt-4 w-full bg-primary text-on-primary py-3.5 px-6 rounded-lg font-label-md text-label-md hover:bg-primary-container transition-colors desert-shadow-1 active:scale-[0.98] flex justify-center items-center gap-2" type="button">
+<span>Utwórz konto</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</form>
+<div class="mt-8 text-center">
+<p class="font-body-md text-on-surface-variant">
+<a class="font-label-md text-primary hover:text-primary-container transition-colors underline-offset-4 hover:underline" href="#">Masz już konto? Zaloguj się</a>
+</p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CameLog - Twoje Zadania</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#2b1700",
+                        "surface-bright": "#f0ffd8",
+                        "surface-tint": "#924c00",
+                        "primary-fixed-dim": "#ffb781",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#273517",
+                        "on-primary-container": "#fffbff",
+                        "tertiary-fixed-dim": "#bfcd8f",
+                        "inverse-primary": "#ffb781",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#544438",
+                        "secondary-fixed": "#ffdcbb",
+                        "surface-container": "#e2f4c8",
+                        "on-primary-fixed": "#2f1400",
+                        "surface-dim": "#cee0b5",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#e5f7cb",
+                        "primary-container": "#ae611a",
+                        "on-surface": "#121f05",
+                        "primary": "#8f4a00",
+                        "secondary": "#835418",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#e8facd",
+                        "secondary-container": "#fdbd77",
+                        "tertiary-fixed": "#dbe9a9",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-background": "#121f05",
+                        "on-tertiary-container": "#fcffe3",
+                        "tertiary-container": "#6e7a44",
+                        "on-tertiary-fixed": "#171e00",
+                        "background": "#f0ffd8",
+                        "tertiary": "#55612e",
+                        "secondary-fixed-dim": "#faba75",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#673d00",
+                        "on-primary-fixed-variant": "#6f3800",
+                        "primary-fixed": "#ffdcc4",
+                        "outline": "#877366",
+                        "on-tertiary-fixed-variant": "#404b1b",
+                        "on-secondary-container": "#784a0d",
+                        "surface-variant": "#d7e9bd",
+                        "surface": "#f0ffd8",
+                        "surface-container-highest": "#d7e9bd",
+                        "outline-variant": "#d9c2b3",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#dcefc3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Manrope"],
+                        "display": ["Plus Jakarta Sans"],
+                        "body-lg": ["Manrope"],
+                        "label-sm": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.4", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar (Mobile Only) -->
+<header class="w-full h-16 sticky top-0 z-40 bg-background/80 backdrop-blur-md flex justify-between items-center px-margin-mobile lg:hidden flat transition-all duration-300">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">potted_plant</span>
+<span class="font-display text-headline-md text-primary">CameLog</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface hover:bg-surface-container-low p-2 rounded-full transition-colors duration-200">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="text-on-surface hover:bg-surface-container-low p-2 rounded-full transition-colors duration-200 relative">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<img alt="User profile avatar of Ola" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest object-cover" data-alt="A close-up portrait of a smiling young woman with light brown hair, bathed in warm, soft sunlight against a neutral cream background. The mood is friendly, natural, and inviting, matching a modern tactile, organic brand aesthetic. The lighting highlights her natural features and creates a soft, welcoming atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByjv5MaUyhYaN-i3DOYgrSIRfTW06h_w-gi5e1oQr4KYAlG_kimZxLHwk_jz67nmfxk-icHpMz8pEsRi_WFTIVtPt_fq-U0kfO3dJfL7EVBoHyigYvHC-D7zuJptGUoqivWNaHgJAanq6oKqpHy-HuQ-7_Qo3dihvL_5B0_Lki7yAHk9u9t9DYkeokXRThQIXphPdIJv45HBd70W5JZ2Thr1VN3EKRmfVu7dKjg8UAWig-RqU9nj4Jjcgz1i_QnLt5OuXkYNmDc674"/>
+</div>
+</header>
+<div class="flex min-h-screen max-w-container-max mx-auto">
+<!-- SideNavBar (Desktop) -->
+<nav class="bg-surface-container-lowest w-[280px] h-screen sticky top-0 hidden lg:flex flex-col border-r border-outline-variant shadow-sm flex flex-col gap-unit p-margin-desktop z-30">
+<div class="flex items-center gap-4 mb-8 px-2">
+<div class="w-12 h-12 bg-primary-container rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container text-3xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div>
+<h1 class="font-display text-headline-md text-primary tracking-tight">CameLog</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Desert Oasis Care</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 flex-1">
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 px-6 py-3 rounded-full font-label-md scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 px-6 py-3 rounded-full font-label-md scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">potted_plant</span>
+                    Rośliny
+                </a>
+<!-- ACTIVE NAV ITEM -->
+<a class="flex items-center gap-4 bg-primary text-on-primary rounded-full px-6 py-3 font-label-md hover:bg-primary/90 transition-colors duration-200 shadow-[0_4px_12px_rgba(143,74,0,0.2)] scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">assignment</span>
+                    Taski
+                </a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 px-6 py-3 rounded-full font-label-md scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">notifications</span>
+                    Przypomnienia
+                </a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 px-6 py-3 rounded-full font-label-md scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+                    Statystyki
+                </a>
+</div>
+<div class="flex flex-col gap-2 mt-auto">
+<button class="w-full bg-secondary-container text-on-secondary-container hover:bg-secondary-container/90 py-3 rounded-full font-label-md flex items-center justify-center gap-2 transition-colors duration-200 mb-4 shadow-sm">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                    Dodaj roślinę
+                </button>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 px-6 py-3 rounded-full font-label-md scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">person</span>
+                    Profil
+                </a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 px-6 py-3 rounded-full font-label-md scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+                    Admin
+                </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 p-margin-mobile lg:p-margin-desktop w-full overflow-y-auto pb-32 lg:pb-margin-desktop">
+<header class="mb-12 flex items-end justify-between">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-background tracking-tight mb-2">Twoje Zadania</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Harmonogram pielęgnacji Twojej oazy na najbliższe dni.</p>
+</div>
+<div class="hidden lg:flex items-center gap-4">
+<button class="p-2 bg-surface-container-lowest border border-outline-variant rounded-full text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="p-2 bg-surface-container-lowest border border-outline-variant rounded-full text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined">calendar_today</span>
+</button>
+</div>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left/Center Column: Task Lists -->
+<div class="lg:col-span-8 flex flex-col gap-10">
+<!-- Section: Zaległe -->
+<section>
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-error">warning</span>
+<h3 class="font-headline-md text-headline-md text-error">Zaległe</h3>
+<span class="bg-error-container text-on-error-container font-label-sm text-label-sm px-2 py-0.5 rounded-full ml-2">2</span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Task Card 1 -->
+<div class="group bg-surface-container-lowest rounded-xl p-gutter shadow-[0_4px_16px_rgba(40,54,24,0.04)] hover:shadow-[0_8px_24px_rgba(40,54,24,0.08)] transition-all duration-300 flex items-center justify-between border-l-4 border-error">
+<div class="flex items-center gap-4">
+<button class="w-6 h-6 rounded-full border-2 border-outline flex items-center justify-center text-transparent hover:border-tertiary hover:text-tertiary transition-colors duration-200">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</button>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Monstera Deliciosa</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">water_drop</span> Podlewanie
+                                        </p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-label-sm text-error bg-error-container/50 px-3 py-1 rounded-full">Wczoraj</span>
+<button class="hidden sm:flex font-label-md text-label-md text-primary hover:text-primary-container px-3 py-1 rounded-full hover:bg-surface-container-high transition-colors duration-200 items-center gap-1">
+                                        Wykonane
+                                    </button>
+</div>
+</div>
+<!-- Task Card 2 -->
+<div class="group bg-surface-container-lowest rounded-xl p-gutter shadow-[0_4px_16px_rgba(40,54,24,0.04)] hover:shadow-[0_8px_24px_rgba(40,54,24,0.08)] transition-all duration-300 flex items-center justify-between border-l-4 border-error">
+<div class="flex items-center gap-4">
+<button class="w-6 h-6 rounded-full border-2 border-outline flex items-center justify-center text-transparent hover:border-tertiary hover:text-tertiary transition-colors duration-200">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</button>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Fikus Lyrata</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">science</span> Nawożenie
+                                        </p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-label-sm text-error bg-error-container/50 px-3 py-1 rounded-full">2 dni temu</span>
+<button class="hidden sm:flex font-label-md text-label-md text-primary hover:text-primary-container px-3 py-1 rounded-full hover:bg-surface-container-high transition-colors duration-200 items-center gap-1">
+                                        Wykonane
+                                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Dzisiaj -->
+<section>
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary">today</span>
+<h3 class="font-headline-md text-headline-md text-on-background">Dzisiaj</h3>
+<span class="bg-primary-container text-on-primary-container font-label-sm text-label-sm px-2 py-0.5 rounded-full ml-2">4</span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Task Card 3 -->
+<div class="group bg-surface-container-lowest rounded-xl p-gutter shadow-[0_4px_16px_rgba(40,54,24,0.04)] hover:shadow-[0_8px_24px_rgba(40,54,24,0.08)] transition-all duration-300 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<button class="w-6 h-6 rounded-full border-2 border-tertiary flex items-center justify-center text-transparent hover:bg-tertiary hover:text-on-tertiary transition-colors duration-200">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</button>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Zamiokulkas</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">cleaning_services</span> Przecieranie liści
+                                        </p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-label-sm text-primary bg-surface-variant px-3 py-1 rounded-full">Dzisiaj</span>
+<button class="hidden sm:flex font-label-md text-label-md text-tertiary hover:text-tertiary-container px-3 py-1 rounded-full hover:bg-surface-container-high transition-colors duration-200 items-center gap-1">
+                                        Wykonane
+                                    </button>
+</div>
+</div>
+<!-- Task Card 4 -->
+<div class="group bg-surface-container-lowest rounded-xl p-gutter shadow-[0_4px_16px_rgba(40,54,24,0.04)] hover:shadow-[0_8px_24px_rgba(40,54,24,0.08)] transition-all duration-300 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<button class="w-6 h-6 rounded-full border-2 border-tertiary flex items-center justify-center text-transparent hover:bg-tertiary hover:text-on-tertiary transition-colors duration-200">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</button>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Sansewieria</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">sensors</span> Sprawdzenie wilgotności
+                                        </p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-label-sm text-primary bg-surface-variant px-3 py-1 rounded-full">Dzisiaj</span>
+<button class="hidden sm:flex font-label-md text-label-md text-tertiary hover:text-tertiary-container px-3 py-1 rounded-full hover:bg-surface-container-high transition-colors duration-200 items-center gap-1">
+                                        Wykonane
+                                    </button>
+</div>
+</div>
+<!-- Task Card 5 -->
+<div class="group bg-surface-container-lowest rounded-xl p-gutter shadow-[0_4px_16px_rgba(40,54,24,0.04)] hover:shadow-[0_8px_24px_rgba(40,54,24,0.08)] transition-all duration-300 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<button class="w-6 h-6 rounded-full border-2 border-tertiary flex items-center justify-center text-transparent hover:bg-tertiary hover:text-on-tertiary transition-colors duration-200">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</button>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Pilea Peperomioides</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">water_drop</span> Podlewanie
+                                        </p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-label-sm text-primary bg-surface-variant px-3 py-1 rounded-full">Dzisiaj</span>
+<button class="hidden sm:flex font-label-md text-label-md text-tertiary hover:text-tertiary-container px-3 py-1 rounded-full hover:bg-surface-container-high transition-colors duration-200 items-center gap-1">
+                                        Wykonane
+                                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Nadchodzące -->
+<section class="opacity-80 hover:opacity-100 transition-opacity duration-300">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-on-surface-variant">event_upcoming</span>
+<h3 class="font-headline-md text-headline-md text-on-surface-variant">Nadchodzące</h3>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Task Card 6 -->
+<div class="group bg-surface/50 border border-outline-variant/50 rounded-xl p-gutter flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center"></div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Kaktus Saguarito</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">water_drop</span> Podlewanie
+                                        </p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-low px-3 py-1 rounded-full">Jutro</span>
+</div>
+<!-- Task Card 7 -->
+<div class="group bg-surface/50 border border-outline-variant/50 rounded-xl p-gutter flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center"></div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Aloes Vera</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">home_work</span> Przeprowadzka
+                                        </p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-low px-3 py-1 rounded-full">Za 3 dni</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Task Summary & Focus Widget -->
+<aside class="lg:col-span-4 flex flex-col gap-6 sticky top-[104px]">
+<!-- Summary Card -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_4px_16px_rgba(40,54,24,0.04)] border border-outline-variant/30">
+<h3 class="font-headline-md text-headline-md text-on-background mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">analytics</span>
+                            Podsumowanie
+                        </h3>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface-container-low p-4 rounded-xl text-center">
+<span class="block font-display text-[32px] font-bold text-primary leading-none mb-1">4</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">Dzisiaj</span>
+</div>
+<div class="bg-error-container/30 p-4 rounded-xl text-center border border-error-container">
+<span class="block font-display text-[32px] font-bold text-error leading-none mb-1">2</span>
+<span class="font-label-sm text-label-sm text-error uppercase tracking-wide">Zaległe</span>
+</div>
+</div>
+<div class="pt-6 border-t border-outline-variant/50">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant">Postęp na dziś</span>
+<span class="font-label-sm text-label-sm text-tertiary font-bold">0%</span>
+</div>
+<div class="w-full bg-surface-variant rounded-full h-2 overflow-hidden">
+<div class="bg-tertiary h-2 rounded-full w-[0%] transition-all duration-500"></div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-3 text-center">
+                                Wykonano w tym tygodniu: <strong class="text-on-surface">12 zadań</strong>
+</p>
+</div>
+</div>
+<!-- Mini Botanical Illustration / Empty State vibe -->
+<div class="bg-secondary-fixed rounded-2xl p-6 flex flex-col items-center justify-center text-center relative overflow-hidden border border-secondary-fixed-dim">
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-[120px]">potted_plant</span>
+</div>
+<span class="material-symbols-outlined text-[48px] text-secondary mb-3 relative z-10" data-weight="fill" style="font-variation-settings: 'FILL' 1;">psychiatry</span>
+<h4 class="font-headline-md text-headline-md text-on-secondary-fixed mb-2 relative z-10">Oaza spokoju</h4>
+<p class="font-body-md text-body-md text-on-secondary-fixed-variant relative z-10">Regularna opieka sprawia, że Twoje rośliny rosną zdrowe i silne.</p>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 w-full z-50 lg:hidden rounded-t-2xl bg-surface-container/90 dark:bg-surface-container-highest/90 backdrop-blur-lg border-t border-outline-variant/30 shadow-lg flex justify-around items-center h-20 pb-safe px-2">
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-16 h-14 hover:bg-surface-variant rounded-xl transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[24px] mb-1">home</span>
+<span class="font-label-sm text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-16 h-14 hover:bg-surface-variant rounded-xl transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[24px] mb-1">potted_plant</span>
+<span class="font-label-sm text-[10px]">Rośliny</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-16 h-14 hover:bg-surface-variant rounded-xl transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[24px] mb-1">add_circle</span>
+<span class="font-label-sm text-[10px]">Dodaj</span>
+</a>
+<!-- ACTIVE -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl w-16 h-14 scale-110 transition-transform duration-200 shadow-sm" href="#">
+<span class="material-symbols-outlined text-[24px] mb-1" data-weight="fill" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+<span class="font-label-sm text-[10px] font-bold">Zadania</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-16 h-14 hover:bg-surface-variant rounded-xl transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[24px] mb-1">person</span>
+<span class="font-label-sm text-[10px]">Profil</span>
+</a>
+</nav>
+</body></html>

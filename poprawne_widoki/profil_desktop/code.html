@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CameLog - Profil</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Manrope:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#2b1700",
+                      "surface-bright": "#f0ffd8",
+                      "surface-tint": "#924c00",
+                      "primary-fixed-dim": "#ffb781",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#273517",
+                      "on-primary-container": "#fffbff",
+                      "tertiary-fixed-dim": "#bfcd8f",
+                      "inverse-primary": "#ffb781",
+                      "on-tertiary": "#ffffff",
+                      "on-surface-variant": "#544438",
+                      "secondary-fixed": "#ffdcbb",
+                      "surface-container": "#e2f4c8",
+                      "on-primary-fixed": "#2f1400",
+                      "surface-dim": "#cee0b5",
+                      "on-error-container": "#93000a",
+                      "inverse-on-surface": "#e5f7cb",
+                      "primary-container": "#ae611a",
+                      "on-surface": "#121f05",
+                      "primary": "#8f4a00",
+                      "secondary": "#835418",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#e8facd",
+                      "secondary-container": "#fdbd77",
+                      "tertiary-fixed": "#dbe9a9",
+                      "on-primary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "on-background": "#121f05",
+                      "on-tertiary-container": "#fcffe3",
+                      "tertiary-container": "#6e7a44",
+                      "on-tertiary-fixed": "#171e00",
+                      "background": "#f0ffd8",
+                      "tertiary": "#55612e",
+                      "secondary-fixed-dim": "#faba75",
+                      "error": "#ba1a1a",
+                      "on-secondary-fixed-variant": "#673d00",
+                      "on-primary-fixed-variant": "#6f3800",
+                      "primary-fixed": "#ffdcc4",
+                      "outline": "#877366",
+                      "on-tertiary-fixed-variant": "#404b1b",
+                      "on-secondary-container": "#784a0d",
+                      "surface-variant": "#d7e9bd",
+                      "surface": "#f0ffd8",
+                      "surface-container-highest": "#d7e9bd",
+                      "outline-variant": "#d9c2b3",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-high": "#dcefc3"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "40px",
+                      "gutter": "24px",
+                      "unit": "8px",
+                      "margin-mobile": "16px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-md": [
+                              "Manrope"
+                      ],
+                      "display": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-lg": [
+                              "Manrope"
+                      ],
+                      "label-sm": [
+                              "Manrope"
+                      ],
+                      "body-md": [
+                              "Manrope"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      }
+              }
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased flex min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<nav class="w-[280px] h-screen fixed left-0 top-0 hidden lg:flex flex-col bg-surface-container-lowest dark:bg-surface-dim border-r border-outline-variant dark:border-outline shadow-sm flex flex-col gap-unit p-margin-desktop z-50">
+<!-- Header / Brand -->
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div>
+<h1 class="font-display text-headline-lg text-primary dark:text-primary-fixed-dim">CameLog</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Desert Oasis Care</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<ul class="flex flex-col gap-2 flex-1">
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">potted_plant</span>
+                    Rośliny
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">assignment</span>
+                    Taski
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">notifications</span>
+                    Przypomnienia
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+                    Statystyki
+                </a>
+</li>
+<!-- Active State -->
+<li>
+<a class="flex items-center gap-4 bg-primary text-on-primary rounded-full px-6 py-3 font-label-md scale-95 active:scale-90 shadow-sm" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+                    Profil
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+                    Admin
+                </a>
+</li>
+</ul>
+<!-- CTA -->
+<div class="mt-auto">
+<button class="w-full flex items-center justify-center gap-2 bg-secondary-container text-on-secondary-container hover:bg-secondary-container/90 px-6 py-4 rounded-xl font-label-md transition-colors shadow-sm">
+<span class="material-symbols-outlined">add</span>
+                Dodaj roślinę
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-[280px] flex flex-col min-h-screen w-full">
+<!-- TopAppBar (Shared Component) -->
+<header class="w-full h-16 sticky top-0 z-40 bg-background/80 backdrop-blur-md flex justify-between items-center px-margin-mobile lg:px-margin-desktop transition-all duration-300 border-b-0">
+<!-- Hidden on desktop, shown on mobile per JSON -->
+<div class="lg:hidden font-display text-headline-md text-primary">CameLog</div>
+<div class="flex-1 flex justify-end items-center gap-4">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container-low transition-colors duration-300">
+<span class="material-symbols-outlined">notifications_active</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-outline-variant hover:border-primary transition-colors cursor-pointer">
+<img alt="User profile avatar of Ola" class="w-full h-full object-cover" data-alt="A close-up portrait of a cheerful young woman named Ola, bathed in soft, warm golden hour light to reflect a natural, organic aesthetic. She has an approachable smile, wearing natural earth-tone clothing that harmonizes perfectly with the 'Desert Oasis Care' brand palette of sand and subtle terracotta. The background is softly blurred to keep focus on her face, evoking a sense of calm and resilience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCw7AzAvZS_tItu5OwAtrZ8rp_vtVCQOB3pl_IQdtOhm0Av-EeXVvFVXOvj7vdzIAbqxoM_pIQ1h0GHWozdynYj_n_qSHfy-Xaezj84tyrwVamw97AB9W_TOgTRlc3I1zm3Vw2tcXOygPTW4hDYfo8hKJjSigoOuDSvb_OxLWqLBDMFDwIe2z-_N8J_TvHwnaydOcagsSYH8hdpu_kuxxcO7_3q8QYYpRE1NRoseC5veuhZzcLRowVVI7_POf0u0Azh1A6aB2vWkA-e"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="p-margin-desktop max-w-container-max mx-auto w-full flex-1 flex flex-col gap-12">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row items-center md:items-end gap-6 pb-8 border-b border-outline-variant/30">
+<div class="relative group">
+<div class="w-32 h-32 rounded-3xl overflow-hidden border-4 border-surface-container-lowest shadow-sm relative">
+<img alt="Profile avatar" class="w-full h-full object-cover" data-alt="A larger, high-quality profile portrait of a smiling woman in her late twenties. The image uses a soft, warm color grading featuring subtle cream and sand undertones. Her expression is welcoming and confident. The lighting is diffused and natural, matching an earthy, botanical mood. The background is a very soft, abstract blend of desert greens and soft sand colors, maintaining a clean, modern tactile feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByYzbZtKFct2qdubpiy62KyCfe6c-Ba8N70jmgEFQ1_MLePjTNWXszBTKUxo-vndLtWv1N3SNRWX0Bplap52VEgwiNW8O-p88bKkaHASdSHfoNWHcG04cwIB6dOZ0YI1U7XGk_Mu6sr4CqD1PjFwzuALo6whW-9lW77UAatOMmdWKY_-NsUUDu9vod-xIDucKdkUkTX0bo7O4a__kA8A32fsxeUWJSvwXTEs0IUHXO9vp6oOpEUCzIztbNkptVfnvUNvzn8j624csm"/>
+</div>
+<button class="absolute bottom-[-10px] right-[-10px] w-10 h-10 bg-surface-container-lowest rounded-full border-2 border-outline-variant flex items-center justify-center text-primary shadow-sm hover:border-primary transition-colors hover:scale-105">
+<span class="material-symbols-outlined" style="font-size: 20px;">photo_camera</span>
+</button>
+</div>
+<div class="text-center md:text-left flex-1">
+<h2 class="font-display text-display text-on-background tracking-tight">Ola Kowalska</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-2 flex items-center justify-center md:justify-start gap-2">
+<span class="material-symbols-outlined text-tertiary" style="font-size: 18px;">local_florist</span>
+                        Opiekunka roślin od 2021
+                    </p>
+</div>
+<div class="flex gap-4 mt-4 md:mt-0">
+<button class="px-6 py-3 rounded-full border-2 border-outline-variant text-on-surface font-label-md hover:bg-surface-container-lowest hover:border-primary transition-all duration-200">
+                        Anuluj
+                    </button>
+<button class="px-6 py-3 rounded-full bg-primary text-on-primary font-label-md shadow-sm hover:bg-primary/90 transition-all duration-200 shadow-[0_4px_16px_rgba(143,74,0,0.2)]">
+                        Zapisz zmiany
+                    </button>
+</div>
+</div>
+<!-- Bento Layout Content -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column (Span 2) -->
+<div class="lg:col-span-2 flex flex-col gap-8">
+<!-- Dane Konta Card -->
+<section class="bg-surface-container-lowest rounded-2xl p-8 shadow-[0_16px_32px_-12px_rgba(40,54,24,0.05)] border border-outline-variant/20">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">manage_accounts</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-background">Dane konta</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant pl-1">Imię</label>
+<input class="w-full bg-surface-container-lowest border-2 border-outline-variant rounded-xl px-4 py-3 text-on-surface font-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder-outline-variant/50" type="text" value="Ola"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant pl-1">Nazwisko</label>
+<input class="w-full bg-surface-container-lowest border-2 border-outline-variant rounded-xl px-4 py-3 text-on-surface font-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder-outline-variant/50" type="text" value="Kowalska"/>
+</div>
+<div class="flex flex-col gap-2 md:col-span-2">
+<label class="font-label-md text-label-md text-on-surface-variant pl-1">Adres Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">mail</span>
+<input class="w-full bg-surface-container-lowest border-2 border-outline-variant rounded-xl pl-12 pr-4 py-3 text-on-surface font-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder-outline-variant/50" type="email" value="ola.kowalska@example.com"/>
+</div>
+</div>
+<div class="flex flex-col gap-2 md:col-span-2">
+<label class="font-label-md text-label-md text-on-surface-variant pl-1">Bio (opcjonalnie)</label>
+<textarea class="w-full bg-surface-container-lowest border-2 border-outline-variant rounded-xl px-4 py-3 text-on-surface font-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder-outline-variant/50 resize-none" rows="3">Miłośniczka sukulentów i kaktusów. Marzę o własnej szklarni.</textarea>
+</div>
+</div>
+</section>
+<!-- Preferencje Card -->
+<section class="bg-surface-container-lowest rounded-2xl p-8 shadow-[0_16px_32px_-12px_rgba(40,54,24,0.05)] border border-outline-variant/20">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">tune</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-background">Preferencje</h3>
+</div>
+<div class="flex flex-col gap-6">
+<!-- Toggle Item 1 -->
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low transition-colors">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Powiadomienia o podlewaniu</span>
+<span class="font-body-md text-body-md text-sm text-on-surface-variant">Otrzymuj przypomnienia w aplikacji i na email.</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<hr class="border-outline-variant/30"/>
+<!-- Toggle Item 2 -->
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low transition-colors">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Newsletter CameLog</span>
+<span class="font-body-md text-body-md text-sm text-on-surface-variant">Porady o pielęgnacji i nowości w aplikacji.</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column (Span 1) -->
+<div class="lg:col-span-1 flex flex-col gap-8">
+<!-- Bezpieczeństwo Card -->
+<section class="bg-surface-container-lowest rounded-2xl p-8 shadow-[0_16px_32px_-12px_rgba(40,54,24,0.05)] border border-outline-variant/20 sticky top-24">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-error-container/50 flex items-center justify-center text-error">
+<span class="material-symbols-outlined">shield_lock</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-background">Bezpieczeństwo</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 text-sm">
+                            Zadbaj o bezpieczeństwo swojego konta regularnie zmieniając hasło.
+                        </p>
+<div class="flex flex-col gap-5">
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant pl-1">Aktualne hasło</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-size: 20px;">key</span>
+<input class="w-full bg-surface-container-lowest border-2 border-outline-variant rounded-xl pl-12 pr-4 py-3 text-on-surface font-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<hr class="border-outline-variant/30 my-1"/>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant pl-1">Nowe hasło</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-size: 20px;">lock_reset</span>
+<input class="w-full bg-surface-container-lowest border-2 border-outline-variant rounded-xl pl-12 pr-4 py-3 text-on-surface font-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Wprowadź nowe hasło" type="password"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant pl-1">Powtórz nowe hasło</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-size: 20px;">lock</span>
+<input class="w-full bg-surface-container-lowest border-2 border-outline-variant rounded-xl pl-12 pr-4 py-3 text-on-surface font-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Potwierdź nowe hasło" type="password"/>
+</div>
+</div>
+<button class="w-full mt-4 px-6 py-3 rounded-xl bg-surface-container-high text-on-surface font-label-md shadow-sm hover:bg-surface-variant transition-all duration-200 border border-outline-variant/50">
+                                Aktualizuj hasło
+                            </button>
+</div>
+</section>
+<!-- Decorative Element or Quick Stats could go here to balance layout -->
+<div class="bg-surface-container rounded-2xl p-6 border border-outline-variant/10 text-center">
+<span class="material-symbols-outlined text-tertiary mb-2" style="font-size: 32px;">park</span>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-1">12 Roślin</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Pod twoją czułą opieką</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

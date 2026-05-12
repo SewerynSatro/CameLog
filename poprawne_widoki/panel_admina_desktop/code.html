@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zarządzanie użytkownikami - CameLog</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed": "#2b1700",
+                        "surface-bright": "#f0ffd8",
+                        "surface-tint": "#924c00",
+                        "primary-fixed-dim": "#ffb781",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#273517",
+                        "on-primary-container": "#fffbff",
+                        "tertiary-fixed-dim": "#bfcd8f",
+                        "inverse-primary": "#ffb781",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#544438",
+                        "secondary-fixed": "#ffdcbb",
+                        "surface-container": "#e2f4c8",
+                        "on-primary-fixed": "#2f1400",
+                        "surface-dim": "#cee0b5",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#e5f7cb",
+                        "primary-container": "#ae611a",
+                        "on-surface": "#121f05",
+                        "primary": "#8f4a00",
+                        "secondary": "#835418",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#e8facd",
+                        "secondary-container": "#fdbd77",
+                        "tertiary-fixed": "#dbe9a9",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-background": "#121f05",
+                        "on-tertiary-container": "#fcffe3",
+                        "tertiary-container": "#6e7a44",
+                        "on-tertiary-fixed": "#171e00",
+                        "background": "#f0ffd8",
+                        "tertiary": "#55612e",
+                        "secondary-fixed-dim": "#faba75",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#673d00",
+                        "on-primary-fixed-variant": "#6f3800",
+                        "primary-fixed": "#ffdcc4",
+                        "outline": "#877366",
+                        "on-tertiary-fixed-variant": "#404b1b",
+                        "on-secondary-container": "#784a0d",
+                        "surface-variant": "#d7e9bd",
+                        "surface": "#f0ffd8",
+                        "surface-container-highest": "#d7e9bd",
+                        "outline-variant": "#d9c2b3",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#dcefc3"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px"
+                    },
+                    fontFamily: {
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Manrope"],
+                        "display": ["Plus Jakarta Sans"],
+                        "body-lg": ["Manrope"],
+                        "label-sm": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    fontSize: {
+                        "headline-lg-mobile": ["28px", { lineHeight: "1.2", fontWeight: "700" }],
+                        "headline-md": ["24px", { lineHeight: "1.3", fontWeight: "600" }],
+                        "label-md": ["14px", { lineHeight: "1.4", letterSpacing: "0.01em", fontWeight: "600" }],
+                        "display": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "label-sm": ["12px", { lineHeight: "1.4", fontWeight: "700" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-lg": ["32px", { lineHeight: "1.2", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex flex-col lg:flex-row">
+<!-- SideNavBar (Desktop) -->
+<nav class="bg-surface-container-lowest dark:bg-surface-dim text-primary dark:text-primary-fixed-dim w-[280px] h-screen fixed left-0 top-0 hidden lg:flex flex-col border-r border-outline-variant dark:border-outline shadow-sm z-50">
+<div class="p-margin-desktop border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined icon-fill">potted_plant</span>
+</div>
+<div>
+<h1 class="font-display text-headline-lg text-primary dark:text-primary-fixed-dim m-0 leading-none">CameLog</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Desert Oasis Care</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-unit p-margin-desktop flex-1 overflow-y-auto">
+<!-- Tab: Dashboard -->
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Tab: Rośliny -->
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">potted_plant</span>
+<span>Rośliny</span>
+</a>
+<!-- Tab: Taski -->
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span>Taski</span>
+</a>
+<!-- Tab: Przypomnienia -->
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span>Przypomnienia</span>
+</a>
+<!-- Tab: Statystyki -->
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span>Statystyki</span>
+</a>
+<!-- Tab: Profil -->
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-primary px-6 py-3 font-label-md hover:bg-surface-container-high transition-colors duration-200 rounded-full scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">person</span>
+<span>Profil</span>
+</a>
+<!-- Tab: Admin (ACTIVE) -->
+<a class="flex items-center gap-4 bg-primary text-on-primary rounded-full px-6 py-3 font-label-md scale-95 active:scale-90 transition-all duration-200 shadow-md" href="#">
+<span class="material-symbols-outlined icon-fill">admin_panel_settings</span>
+<span>Admin</span>
+</a>
+</div>
+<div class="p-margin-desktop mt-auto">
+<button class="w-full bg-tertiary text-on-tertiary rounded-full px-6 py-3 font-label-md flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+                Dodaj roślinę
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col lg:pl-[280px] pb-24 lg:pb-0">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-background text-on-background dark:text-on-background w-full h-16 sticky top-0 z-40 bg-background/80 backdrop-blur-md flex justify-between items-center px-margin-mobile lg:px-margin-desktop w-full transition-all duration-300">
+<div class="flex items-center gap-4">
+<h2 class="lg:hidden font-display text-headline-md text-primary">CameLog</h2>
+<h2 class="hidden lg:block font-headline-md text-headline-md text-on-background">Zarządzanie użytkownikami</h2>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface hover:bg-surface-container-low p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications_active</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<img alt="User profile avatar of Ola" class="w-full h-full object-cover" data-alt="A bright, cheerful portrait photo of a young woman used as a user profile picture. The lighting is soft and natural, fitting a warm, welcoming UI theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCmNZT165QfS8vv2StVr4DZQNcqAa_9pLuBuWWLqGBREnppYoo7QFLb0nI9DwUBicCn4xe7acwR2kLh5Hbn0bwCOstHz5QkFCH5G1qWCYi8HskWYiZkeyGzfsNnMVzPlRI0ZkY9NuXAg3Ht0YMak1hPfyHCmfGCApor-xwzBdvKezM1V_H6RVMqUnpe7W6WZKA69lcEcl0aHPX2lph3jA58vfdjNA2_OeBEuczsprz5qkI6uJ-uTP-Of6jle6o2Lhm1j2rcoNTENSl"/>
+</div>
+</div>
+</header>
+<main class="flex-1 p-margin-mobile lg:p-margin-desktop max-w-container-max mx-auto w-full flex flex-col gap-8">
+<!-- Mobile Page Title -->
+<div class="lg:hidden">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-background">Zarządzanie użytkownikami</h1>
+</div>
+<!-- Summary Cards Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/50 shadow-[0_4px_16px_rgba(40,54,24,0.04)] flex flex-col gap-2 relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-xl"></div>
+<span class="material-symbols-outlined text-primary text-3xl">group</span>
+<h3 class="font-body-md text-body-md text-on-surface-variant mt-2">Liczba użytkowników</h3>
+<p class="font-display text-display text-on-surface">128</p>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/50 shadow-[0_4px_16px_rgba(40,54,24,0.04)] flex flex-col gap-2 relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-tertiary/5 rounded-full blur-xl"></div>
+<span class="material-symbols-outlined text-tertiary text-3xl">verified_user</span>
+<h3 class="font-body-md text-body-md text-on-surface-variant mt-2">Aktywni (30 dni)</h3>
+<p class="font-display text-display text-on-surface">94</p>
+</div>
+<!-- Card 3 -->
+<div class="bg-primary p-6 rounded-xl border border-primary-container shadow-[0_4px_16px_rgba(40,54,24,0.08)] flex flex-col gap-2 relative overflow-hidden text-on-primary">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
+<span class="material-symbols-outlined text-3xl">person_add</span>
+<h3 class="font-body-md text-body-md text-on-primary/80 mt-2">Nowe rejestracje</h3>
+<p class="font-display text-display">+12</p>
+<p class="font-label-sm text-label-sm text-on-primary/70 mt-auto">w tym tygodniu</p>
+</div>
+</section>
+<!-- Search and Filter Bar -->
+<section class="flex flex-col md:flex-row gap-4 items-center justify-between bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/50 shadow-[0_4px_16px_rgba(40,54,24,0.04)]">
+<div class="relative w-full md:w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-3 bg-white border-2 border-outline-variant rounded-lg focus:border-primary focus:ring-0 font-body-md text-body-md transition-colors placeholder:text-outline" placeholder="Szukaj po imieniu lub emailu..." type="text"/>
+</div>
+<div class="flex gap-2 w-full md:w-auto">
+<button class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-3 border-2 border-outline-variant text-on-surface rounded-lg hover:bg-surface-container-low transition-colors font-label-md">
+<span class="material-symbols-outlined">filter_list</span>
+                        Filtruj
+                    </button>
+<button class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-surface-variant text-on-surface-variant rounded-lg hover:bg-surface-container-high transition-colors font-label-md">
+<span class="material-symbols-outlined">download</span>
+                        Eksport
+                    </button>
+</div>
+</section>
+<!-- User Data Table -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/50 shadow-[0_4px_16px_rgba(40,54,24,0.04)] overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr>
+<th class="py-4 px-6 border-b border-outline-variant font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Imię i nazwisko</th>
+<th class="py-4 px-6 border-b border-outline-variant font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Email</th>
+<th class="py-4 px-6 border-b border-outline-variant font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Rola</th>
+<th class="py-4 px-6 border-b border-outline-variant font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Status</th>
+<th class="py-4 px-6 border-b border-outline-variant font-label-sm text-label-sm text-tertiary uppercase tracking-wider text-right">Akcje</th>
+</tr>
+</thead>
+<tbody>
+<!-- Row 1 -->
+<tr class="group border-b border-outline-variant/30 hover:bg-surface/50 transition-colors">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-sm">AK</div>
+<span class="font-body-md text-on-surface font-medium">Anna Kowalska</span>
+</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">anna.kowalska@example.com</td>
+<td class="py-4 px-6">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full font-label-sm">Admin</span>
+</td>
+<td class="py-4 px-6">
+<span class="bg-surface-container text-tertiary px-3 py-1 rounded-full font-label-sm flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Aktywny
+                                </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-lg transition-colors" title="Edytuj">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:bg-surface-container-low rounded-lg transition-colors" title="Zablokuj">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group border-b border-outline-variant/30 hover:bg-surface/50 transition-colors">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-label-sm">MN</div>
+<span class="font-body-md text-on-surface font-medium">Michał Nowak</span>
+</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">m.nowak@example.com</td>
+<td class="py-4 px-6">
+<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full font-label-sm">Użytkownik</span>
+</td>
+<td class="py-4 px-6">
+<span class="bg-surface-container text-tertiary px-3 py-1 rounded-full font-label-sm flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Aktywny
+                                </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-lg transition-colors" title="Edytuj">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:bg-surface-container-low rounded-lg transition-colors" title="Zablokuj">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/50 rounded-lg transition-colors" title="Usuń">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group border-b border-outline-variant/30 hover:bg-surface/50 transition-colors bg-surface-container-low/30">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-label-sm">PW</div>
+<span class="font-body-md text-on-surface font-medium opacity-60">Piotr Wiśniewski</span>
+</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant opacity-60">piotr.w@example.com</td>
+<td class="py-4 px-6">
+<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full font-label-sm opacity-60">Użytkownik</span>
+</td>
+<td class="py-4 px-6">
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full font-label-sm flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Zablokowany
+                                </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-on-surface-variant hover:text-tertiary hover:bg-surface-container-low rounded-lg transition-colors" title="Odblokuj">
+<span class="material-symbols-outlined text-[20px]">lock_open</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/50 rounded-lg transition-colors" title="Usuń">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-surface/50 transition-colors">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<img alt="User avatar" class="w-8 h-8 rounded-full object-cover" data-alt="A small, circular avatar portrait of a man with glasses smiling gently. Soft natural lighting, warm aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUIJoyRFkOIJm7VGQGlYHHsYsg762DbNW_i2nz_7H4Cj3ynjqe3W75vKa_kXJBodd-MpBjhzqr4ZnIIT-0_McroM0rY_1q9HTpGV_hHmucjj_5xU1VuLMArEjLKdtkXZ5SZdYFbmqcohYO8oJ7g8oLxBIYH-mOactIFrBXTCM9BXAcZlYkAIst-zt6cmTz1Thoo_CEe36y1Ym3Q9G67fqnto4daVht_k65E0IJgOwfsV9B648zHO1oda6LAv31F5WnonWSHYvjrK-P"/>
+<span class="font-body-md text-on-surface font-medium">Tomasz Lewandowski</span>
+</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">tomasz.l@example.com</td>
+<td class="py-4 px-6">
+<span class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full font-label-sm">Ekspert</span>
+</td>
+<td class="py-4 px-6">
+<span class="bg-surface-container text-tertiary px-3 py-1 rounded-full font-label-sm flex items-center gap-1 w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Aktywny
+                                </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-lg transition-colors" title="Edytuj">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-secondary hover:bg-surface-container-low rounded-lg transition-colors" title="Zablokuj">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error-container/50 rounded-lg transition-colors" title="Usuń">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination (Simple) -->
+<div class="px-6 py-4 border-t border-outline-variant flex items-center justify-between">
+<span class="font-label-sm text-on-surface-variant">Wyświetlano 1-4 z 128</span>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded-lg text-outline hover:bg-surface-container disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-sm flex items-center justify-center">1</button>
+<button class="w-8 h-8 rounded-lg text-on-surface hover:bg-surface-container font-label-sm flex items-center justify-center">2</button>
+<button class="w-8 h-8 rounded-lg text-on-surface hover:bg-surface-container font-label-sm flex items-center justify-center">3</button>
+<span class="text-outline mx-1">...</span>
+<button class="p-1 rounded-lg text-on-surface hover:bg-surface-container">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- BottomNavBar (Mobile) - Hidden on Admin as per intent logic, but keeping structure if needed for context, though instruction says to suppress if task-focused or deep navigation. Admin is a top level, but desktop priority. Let's include it for mobile completeness based on JSON -->
+<nav class="bg-surface-container/90 dark:bg-surface-container-highest/90 text-primary dark:text-primary-fixed fixed bottom-0 w-full z-50 lg:hidden rounded-t-xl backdrop-blur-lg border-t border-outline-variant/30 shadow-lg flex justify-around items-center h-20 pb-safe px-2">
+<button class="flex flex-col items-center justify-center text-on-surface-variant scale-110 transition-transform duration-200 active:bg-surface-variant p-2 rounded-xl">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant scale-110 transition-transform duration-200 active:bg-surface-variant p-2 rounded-xl">
+<span class="material-symbols-outlined">potted_plant</span>
+<span class="font-label-sm text-label-sm mt-1">Rośliny</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant scale-110 transition-transform duration-200 active:bg-surface-variant p-2 rounded-xl">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-label-sm text-label-sm mt-1">Dodaj</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant scale-110 transition-transform duration-200 active:bg-surface-variant p-2 rounded-xl">
+<span class="material-symbols-outlined">task_alt</span>
+<span class="font-label-sm text-label-sm mt-1">Zadania</span>
+</button>
+<!-- No direct admin mapping in BottomNav, so all inactive -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant scale-110 transition-transform duration-200 active:bg-surface-variant p-2 rounded-xl">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm mt-1">Profil</span>
+</button>
+</nav>
+</body></html>

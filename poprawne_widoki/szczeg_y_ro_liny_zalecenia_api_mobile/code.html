@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Monstera Deliciosa - CameLog</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Manrope:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#2f1400",
+                      "surface-container-low": "#e8facd",
+                      "secondary": "#835418",
+                      "primary": "#8f4a00",
+                      "secondary-fixed-dim": "#faba75",
+                      "on-secondary": "#ffffff",
+                      "on-primary-container": "#fffbff",
+                      "on-tertiary-container": "#fcffe3",
+                      "tertiary-fixed-dim": "#bfcd8f",
+                      "on-primary-fixed-variant": "#6f3800",
+                      "surface-tint": "#924c00",
+                      "surface-variant": "#d7e9bd",
+                      "on-surface-variant": "#544438",
+                      "primary-fixed": "#ffdcc4",
+                      "inverse-on-surface": "#e5f7cb",
+                      "inverse-surface": "#273517",
+                      "surface-container-highest": "#d7e9bd",
+                      "tertiary-fixed": "#dbe9a9",
+                      "on-tertiary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "surface-container": "#e2f4c8",
+                      "on-secondary-fixed-variant": "#673d00",
+                      "on-secondary-fixed": "#2b1700",
+                      "primary-fixed-dim": "#ffb781",
+                      "secondary-fixed": "#ffdcbb",
+                      "tertiary": "#55612e",
+                      "inverse-primary": "#ffb781",
+                      "background": "#f0ffd8",
+                      "error-container": "#ffdad6",
+                      "secondary-container": "#fdbd77",
+                      "outline-variant": "#d9c2b3",
+                      "surface-dim": "#cee0b5",
+                      "on-surface": "#121f05",
+                      "tertiary-container": "#6e7a44",
+                      "on-error": "#ffffff",
+                      "on-background": "#121f05",
+                      "surface": "#f0ffd8",
+                      "surface-bright": "#f0ffd8",
+                      "on-tertiary-fixed": "#171e00",
+                      "outline": "#877366",
+                      "on-tertiary-fixed-variant": "#404b1b",
+                      "on-secondary-container": "#784a0d",
+                      "surface-container-high": "#dcefc3",
+                      "primary-container": "#ae611a",
+                      "error": "#ba1a1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "margin-desktop": "40px",
+                      "container-max": "1280px",
+                      "gutter": "24px",
+                      "unit": "8px"
+              },
+              "fontFamily": {
+                      "label-md": [
+                              "Manrope"
+                      ],
+                      "label-sm": [
+                              "Manrope"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-lg": [
+                              "Manrope"
+                      ],
+                      "body-md": [
+                              "Manrope"
+                      ],
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background antialiased font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top App Bar -->
+<header class="w-full h-16 sticky top-0 z-40 bg-background/80 backdrop-blur-md flex justify-between items-center px-margin-mobile lg:px-margin-desktop shadow-none border-none">
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined text-on-background" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="lg:hidden font-display text-headline-md text-primary">CameLog</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined text-on-background" data-icon="edit">edit</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined text-on-background" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</header>
+<main class="pb-24">
+<!-- Hero Image Header -->
+<section class="w-full relative rounded-b-[2rem] overflow-hidden bg-surface-container shadow-sm mb-6 pb-6">
+<div class="w-full h-64 md:h-80 relative overflow-hidden rounded-b-[3rem] shadow-[0_16px_40px_-15px_rgba(40,54,24,0.1)]">
+<img alt="A lush, vibrant Monstera Deliciosa plant with deeply fenestrated, glossy dark green leaves. The plant sits in a textured terracotta pot within a brightly lit, warm, minimalist interior setting. Soft natural light highlights the organic shapes of the foliage, reinforcing a serene, botanical aesthetic aligned with the modern tactile design system." class="w-full h-full object-cover" data-alt="A lush, vibrant Monstera Deliciosa plant with deeply fenestrated, glossy dark green leaves. The plant sits in a textured terracotta pot within a brightly lit, warm, minimalist interior setting. Soft natural light highlights the organic shapes of the foliage, reinforcing a serene, botanical aesthetic aligned with the modern tactile design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS_h3U81FKPqDAO_vuXEOn0OIZ7Ys7SIRoJD7PNC9niMUg1AQPmV_RRsnvj4ZB-AFa2Vdkkvcup1IQePFXzU7-Sal_oNUAt5om7kw0IqgGnzCpPZVrO7_IeD4C-armD7OUtrYIoK0vYgMub02lE8BwckgYgBvkQrgCGi4aHNJHzNjbU8OmMelEjzZ5HrCxBWgSQroOwn8HbSx4FZVgs-5W6tO1vp1Ycz6Ut8C-Apv7Qh88ayYqrJFWVWGgZdrz6VFj0DsUfWqwIOq3"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+<div class="absolute bottom-6 left-margin-mobile right-margin-mobile text-white">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-surface-variant text-on-surface-variant font-label-sm px-3 py-1 rounded-full border border-outline-variant/50 backdrop-blur-sm shadow-sm">Salon</span>
+<span class="bg-tertiary-container text-on-tertiary-container font-label-sm px-3 py-1 rounded-full border border-tertiary/20 backdrop-blur-sm flex items-center gap-1 shadow-sm"><span class="material-symbols-outlined text-[14px]" data-icon="favorite">favorite</span> Zdrowa</span>
+</div>
+<h2 class="font-display text-headline-lg-mobile text-white">Monstera Deliciosa</h2>
+<p class="font-body-md text-white/90">"Stefan"</p>
+</div>
+</div>
+</section>
+<div class="px-margin-mobile md:max-w-2xl md:mx-auto">
+<!-- Tabs -->
+<div class="flex gap-2 mb-6 bg-surface-container-low p-1 rounded-xl shadow-[0_4px_16px_-8px_rgba(40,54,24,0.05)] border border-outline-variant/30">
+<button class="flex-1 py-2 px-4 rounded-lg bg-primary text-on-primary font-label-md shadow-sm transition-all text-center">
+                    Przegląd
+                </button>
+<button class="flex-1 py-2 px-4 rounded-lg text-on-surface-variant hover:bg-surface-container font-label-md transition-all text-center">
+                    Taski
+                </button>
+<button class="flex-1 py-2 px-4 rounded-lg text-on-surface-variant hover:bg-surface-container font-label-md transition-all text-center">
+                    Historia
+                </button>
+</div>
+<!-- Bento Grid - Metadata -->
+<section class="grid grid-cols-2 gap-4 mb-8">
+<!-- Water -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-[0_16px_32px_-12px_rgba(40,54,24,0.06)] border border-outline-variant/40 flex flex-col items-center justify-center gap-3 relative overflow-hidden group hover:shadow-[0_24px_48px_-16px_rgba(40,54,24,0.08)] transition-all duration-300">
+<div class="absolute -top-4 -right-4 w-16 h-16 bg-surface-container-high rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-tertiary z-10">
+<span class="material-symbols-outlined text-3xl" data-icon="water_drop">water_drop</span>
+</div>
+<div class="text-center z-10">
+<p class="font-label-sm text-on-surface-variant mb-1">Kolejne podlewanie</p>
+<p class="font-headline-md text-on-surface">Za 2 dni</p>
+</div>
+</div>
+<!-- Light -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-[0_16px_32px_-12px_rgba(40,54,24,0.06)] border border-outline-variant/40 flex flex-col items-center justify-center gap-3 relative overflow-hidden group hover:shadow-[0_24px_48px_-16px_rgba(40,54,24,0.08)] transition-all duration-300">
+<div class="absolute -bottom-6 -left-6 w-20 h-20 bg-secondary-container rounded-full opacity-30 group-hover:scale-150 transition-transform duration-500"></div>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-secondary z-10">
+<span class="material-symbols-outlined text-3xl" data-icon="light_mode">light_mode</span>
+</div>
+<div class="text-center z-10">
+<p class="font-label-sm text-on-surface-variant mb-1">Wymagania świetlne</p>
+<p class="font-headline-md text-on-surface">Półcień</p>
+</div>
+</div>
+<!-- Humidity -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-[0_16px_32px_-12px_rgba(40,54,24,0.06)] border border-outline-variant/40 flex items-center gap-4 col-span-2 hover:shadow-[0_24px_48px_-16px_rgba(40,54,24,0.08)] transition-all duration-300">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="air">air</span>
+</div>
+<div>
+<p class="font-label-sm text-on-surface-variant">Wilgotność powietrza</p>
+<p class="font-body-md text-on-surface font-semibold">Wysoka (60-80%)</p>
+</div>
+</div>
+</section>
+<!-- Upcoming Tasks -->
+<section class="mb-8">
+<h3 class="font-headline-md text-on-surface mb-4 flex items-center justify-between">
+                    Nadchodzące
+                    <span class="font-label-sm text-primary bg-primary-container/20 px-3 py-1 rounded-full cursor-pointer hover:bg-primary-container/30 transition-colors">Zobacz wszystkie</span>
+</h3>
+<div class="flex flex-col gap-3">
+<!-- Task Item -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_8px_16px_-8px_rgba(40,54,24,0.04)] border border-outline-variant/40 flex items-center gap-4">
+<div class="w-6 h-6 rounded border-2 border-tertiary flex-shrink-0 cursor-pointer hover:bg-tertiary/10 transition-colors"></div>
+<div class="flex-1">
+<p class="font-label-md text-on-surface">Zraszanie liści</p>
+<p class="font-label-sm text-on-surface-variant">Codziennie rano</p>
+</div>
+<div class="bg-surface-container px-2 py-1 rounded text-on-surface-variant font-label-sm">Dziś</div>
+</div>
+<!-- Task Item -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_8px_16px_-8px_rgba(40,54,24,0.04)] border border-outline-variant/40 flex items-center gap-4 opacity-75">
+<div class="w-6 h-6 rounded border-2 border-outline flex-shrink-0 cursor-pointer hover:bg-outline/10 transition-colors"></div>
+<div class="flex-1">
+<p class="font-label-md text-on-surface">Nawożenie (Azot)</p>
+<p class="font-label-sm text-on-surface-variant">Raz w miesiącu (wiosna/lato)</p>
+</div>
+<div class="bg-surface-variant px-2 py-1 rounded text-on-surface-variant font-label-sm">Za 5 dni</div>
+</div>
+</div>
+</section>
+<!-- API Recommendations -->
+<section class="mb-8">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-tertiary" data-icon="database">database</span>
+<h3 class="font-headline-md text-on-surface">Zalecenia z API</h3>
+</div>
+<div class="bg-surface-container-high rounded-2xl p-5 border border-tertiary/20 shadow-sm relative overflow-hidden">
+<div class="absolute -top-12 -right-12 w-40 h-40 bg-tertiary/5 rounded-full blur-2xl"></div>
+<div class="flex flex-col gap-4 relative z-10">
+<div class="grid grid-cols-2 gap-4 border-b border-outline-variant/30 pb-4">
+<div>
+<p class="font-label-sm text-on-surface-variant mb-1">Nazwa zwyczajowa</p>
+<p class="font-body-md text-on-surface font-semibold">Swiss Cheese Plant</p>
+</div>
+<div>
+<p class="font-label-sm text-on-surface-variant mb-1">Nazwa naukowa</p>
+<p class="font-body-md text-on-surface italic">Monstera deliciosa</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-surface-container-lowest p-3 rounded-xl shadow-sm border border-outline-variant/40 flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-lg" data-icon="water_drop">water_drop</span>
+<p class="font-label-sm text-on-surface-variant">Podlewanie</p>
+</div>
+<p class="font-label-md text-on-surface">Umiarkowane</p>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded-xl shadow-sm border border-outline-variant/40 flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg" data-icon="light_mode">light_mode</span>
+<p class="font-label-sm text-on-surface-variant">Światło</p>
+</div>
+<p class="font-label-md text-on-surface">Półcień</p>
+</div>
+<div class="bg-surface-container-lowest p-3 rounded-xl shadow-sm border border-outline-variant/40 flex flex-col gap-1 col-span-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="school">school</span>
+<p class="font-label-sm text-on-surface-variant">Poziom trudności</p>
+</div>
+<p class="font-label-md text-on-surface">Łatwa</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Species Info / Tips -->
+<section class="bg-secondary-container/20 p-5 rounded-2xl border border-secondary/10 relative overflow-hidden">
+<span class="material-symbols-outlined absolute -top-4 -right-4 text-secondary/10 text-[100px] pointer-events-none" data-icon="energy_savings_leaf" style="font-variation-settings: 'FILL' 1;">energy_savings_leaf</span>
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-secondary" data-icon="psychology">psychology</span>
+<h3 class="font-headline-md text-on-surface">Wskazówka od CameLog</h3>
+</div>
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+                    Młode liście Monstery są pełne, dopiero z wiekiem i przy odpowiedniej ilości światła zaczynają pękać. Jeśli twój 'Stefan' nie ma dziur, spróbuj przenieść go w jaśniejsze miejsce, unikając bezpośredniego słońca.
+                </p>
+</section>
+</div>
+</main>
+<!-- Contextual FAB (Hidden as per rules for Details screen, but adding quick action logic if needed elsewhere. Left out here to obey the 'Suppress FAB on Settings, Profile, Details' rule) -->
+<!-- Navigation omitted as per 'The "Destination" Rule' & 'Automatic Suppression' rules - this is a sub-page (Details screen) with a 'Back' action. -->
+</body></html>
