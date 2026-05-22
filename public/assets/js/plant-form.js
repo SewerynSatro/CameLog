@@ -53,11 +53,8 @@ const PlantForm = {
               <input id="name" name="name" class="input" placeholder="Np. Fikus Benjamina" required value="${v('name')}" />
             </div>
             <div class="field">
-              <label class="field-label" for="species">Gatunek *</label>
-              <div class="species-lookup">
-                <input id="species" name="custom_species_name" class="input" placeholder="np. Monstera Deliciosa" autocomplete="off" value="${UI.escapeHtml(p?.species_common || p?.custom_species_name || '')}" />
-                <button type="button" class="btn btn-outline" id="btn-species-search">${Icons.search} Sprawdź API</button>
-              </div>
+              <label class="field-label" for="species">Gatunek (Wyszukaj) *</label>
+              <input id="species" name="custom_species_name" class="input" placeholder="np. Monstera Deliciosa" autocomplete="off" value="${UI.escapeHtml(p?.species_common || p?.custom_species_name || '')}" />
             </div>
             <div class="field">
               <label class="field-label" for="location">Lokalizacja</label>
@@ -78,10 +75,10 @@ const PlantForm = {
 
         <div class="card mb-3">
           <h2>${Icons.upload} Zdjęcie</h2>
-          <div id="photo-drop" style="margin-top:16px;border:2px dashed var(--outline-variant);border-radius:16px;padding:32px;text-align:center;cursor:pointer;background:var(--surface-container)">
-            <div style="font-size:32px">${Icons.upload}</div>
-            <div style="margin-top:8px;font-weight:600">Przeciągnij i upuść zdjęcie rośliny</div>
-            <div class="text-muted" style="font-size:13px">lub kliknij, aby przeglądać pliki. JPG, PNG, max 5 MB.</div>
+          <div id="photo-drop" class="photo-drop">
+            <div class="photo-drop-icon">${Icons.upload}</div>
+            <div class="photo-drop-title">Przeciągnij i upuść zdjęcie rośliny</div>
+            <div class="text-muted text-sm">lub kliknij, aby przeglądać pliki. JPG, PNG, max 5 MB.</div>
             <input id="photo-input" type="file" accept="image/*" hidden />
             <div id="photo-preview" class="mt-2"></div>
           </div>
@@ -101,7 +98,7 @@ const PlantForm = {
           </div>
           <div class="field mt-3">
             <label class="field-label">Trudność pielęgnacji</label>
-            <div style="display:flex;gap:8px;flex-wrap:wrap" id="care-level">
+            <div class="chip-group" id="care-level">
               ${['easy','medium','hard'].map(level => {
                 const lbl = level === 'easy' ? 'Łatwa' : level === 'medium' ? 'Średnia' : 'Wymagająca';
                 const active = (p?.care_level || 'easy') === level;
@@ -114,8 +111,8 @@ const PlantForm = {
           <label class="checkbox mt-3">
             <input type="checkbox" name="auto_task" checked />
             <div>
-              <div style="font-weight:600">Utwórz automatyczny task</div>
-              <div class="text-muted" style="font-size:13px">System automatycznie przypomni o podlewaniu i nawożeniu.</div>
+              <div class="text-strong">Utwórz automatyczny task</div>
+              <div class="text-muted text-sm">System automatycznie przypomni o podlewaniu i nawożeniu.</div>
             </div>
           </label>`}
         </div>
@@ -125,7 +122,7 @@ const PlantForm = {
           <textarea name="notes" class="textarea mt-2" placeholder="Dodaj dodatkowe informacje, np. wymagania świetlne, historia szczepki…">${v('notes')}</textarea>
         </div>
 
-        <div style="display:flex;gap:12px;justify-content:flex-end;align-items:center;margin-top:32px">
+        <div class="form-actions mt-4">
           <a href="${editing ? '/plants/'+p.id : '/plants'}" data-link class="btn btn-outline">Anuluj</a>
           <button type="submit" class="btn btn-primary">${Icons.check} ${editing ? 'Zapisz zmiany' : 'Zapisz roślinę'}</button>
         </div>
@@ -164,7 +161,7 @@ const PlantForm = {
       const f = input.files[0];
       if (!f) { preview.innerHTML = ''; return; }
       const url = URL.createObjectURL(f);
-      preview.innerHTML = `<img src="${url}" style="max-width:200px;max-height:160px;border-radius:12px" />`;
+      preview.innerHTML = `<img src="${url}" alt="Podgląd zdjęcia" />`;
     }
 
     // Submit
@@ -183,10 +180,6 @@ const PlantForm = {
             watering_info: this.selectedSpecies.watering_info,
             sunlight_info: this.selectedSpecies.sunlight_info,
             climate_info: this.selectedSpecies.climate_info,
-            description: this.selectedSpecies.description,
-            watering_interval_days: this.selectedSpecies.watering_interval_days,
-            fertilizing_interval_days: this.selectedSpecies.fertilizing_interval_days,
-            care_guide: this.selectedSpecies.care_guide,
           });
           speciesId = r.species_id;
         } catch (err) { console.warn('species import failed', err); }

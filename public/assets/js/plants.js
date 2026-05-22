@@ -9,17 +9,17 @@ const Plants = {
       </section>
 
       <div class="filters mb-3">
-        <div class="input-wrap" style="flex:1">
+        <div class="input-wrap filters-grow">
           <span class="leading-icon">${Icons.search}</span>
           <input id="plants-search" class="input has-icon" placeholder="Szukaj po nazwie rośliny" />
         </div>
-        <input id="filter-species" class="select" placeholder="Gatunek" />
+        <input id="filter-species" class="input" placeholder="Gatunek" />
         <select id="filter-location" class="select">
           <option value="">Lokalizacja</option>
           <option>Salon</option><option>Sypialnia</option><option>Kuchnia</option>
           <option>Łazienka</option><option>Biuro</option><option>Parapet</option><option>Balkon</option>
         </select>
-        <a href="/plants/create" class="btn btn-primary" data-link>${Icons.plus} Dodaj roślinę</a>
+        <a href="/plants/create" class="btn btn-primary btn-sm" data-link>${Icons.plus} Dodaj roślinę</a>
       </div>
 
       <div id="plants-grid" class="plant-grid">${UI.loader()}</div>`;
@@ -112,7 +112,7 @@ const Plants = {
           <div class="api-panel">
             <div class="api-panel-title">${Icons.sparkle} ZALECENIA PIELĘGNACYJNE Z API <span class="pill">Perenual</span></div>
             <div class="api-grid">
-              <div class="api-cell"><div class="label-sm">Gatunek (Baza)</div>${UI.escapeHtml(p.species_common || '—')}<br><em style="font-size:13px;color:var(--on-surface-variant)">${UI.escapeHtml(p.species_scientific || '')}</em></div>
+              <div class="api-cell"><div class="label-sm">Gatunek (Baza)</div>${UI.escapeHtml(p.species_common || '—')}<br><em class="text-sm text-muted">${UI.escapeHtml(p.species_scientific || '')}</em></div>
               <div class="api-cell"><div class="label-sm">Podlewanie</div>${UI.escapeHtml(p.species_watering || '—')}<br>${p.watering_interval_days ? `<small class="text-muted">Co ${p.watering_interval_days} dni</small>` : ''}</div>
               <div class="api-cell"><div class="label-sm">Nasłonecznienie</div>${UI.escapeHtml(p.species_sunlight || '—')}</div>
               <div class="api-cell"><div class="label-sm">Poziom trudności</div>${UI.escapeHtml(p.species_care_level || p.care_level || '—')}</div>
@@ -123,12 +123,12 @@ const Plants = {
       const historyHtml = history.length === 0
         ? '<p class="text-muted">Brak wpisów. Zaznaczone jako wykonane taski będą tu rejestrowane.</p>'
         : history.slice(0, 10).map(h => `
-            <div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--outline-variant)">
-              <div style="width:36px;height:36px;border-radius:9999px;background:var(--surface-container);display:flex;align-items:center;justify-content:center">${UI.taskTypeIcon(h.type)}</div>
-              <div style="flex:1">
-                <div style="font-weight:600">${UI.escapeHtml(UI.taskTypeLabel(h.type))}</div>
-                <div class="text-muted" style="font-size:13px">${UI.formatDate(h.performed_at)}</div>
-                ${h.note ? `<div class="text-muted" style="font-size:13px">${UI.escapeHtml(h.note)}</div>` : ''}
+            <div class="media-row">
+              <div class="media-row-icon">${UI.taskTypeIcon(h.type)}</div>
+              <div class="media-row-body">
+                <div class="media-row-title">${UI.escapeHtml(UI.taskTypeLabel(h.type))}</div>
+                <div class="media-row-meta">${UI.formatDate(h.performed_at)}</div>
+                ${h.note ? `<div class="media-row-meta">${UI.escapeHtml(h.note)}</div>` : ''}
               </div>
             </div>`).join('');
 
@@ -139,45 +139,45 @@ const Plants = {
             ${UI.escapeHtml(t.title)}
             <span class="task-meta">${UI.taskTypeLabel(t.type)} · ${UI.formatRelative(t.due_date)}</span>
           </div>
-          <span class="badge badge-info">${UI.formatRelative(t.due_date)}</span>
-          <div>${UI.taskTypeIcon(t.type)}</div>
+          <span class="badge badge-info task-badge">${UI.formatRelative(t.due_date)}</span>
+          <span class="icon task-actions">${UI.taskTypeIcon(t.type)}</span>
         </div>`).join('') || '<p class="text-muted">Brak otwartych tasków dla tej rośliny.</p>';
 
       root.innerHTML = `
-        <div class="card mb-3" style="display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center">
-          <div style="width:240px;height:200px;border-radius:24px;overflow:hidden;background:var(--surface-container)">
+        <div class="card mb-3 plant-detail-hero">
+          <div class="plant-detail-media">
             ${UI.plantImg(p)}
           </div>
           <div>
             ${UI.healthBadge(p.health_status)}
-            <h1 style="margin-top:8px">${UI.escapeHtml(p.name)}</h1>
-            <p class="text-muted" style="font-style:italic">${UI.escapeHtml(p.species_common || p.custom_species_name || '')}</p>
-            <div style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap">
+            <h1 class="mt-1">${UI.escapeHtml(p.name)}</h1>
+            <p class="text-muted italic">${UI.escapeHtml(p.species_common || p.custom_species_name || '')}</p>
+            <div class="plant-detail-chips">
               <span class="chip">${Icons.pin} Lokalizacja: ${UI.escapeHtml(p.location || '—')}</span>
               <span class="chip">${Icons.calendar} Posadzono: ${UI.formatDate(p.planted_at)}</span>
             </div>
           </div>
-          <div style="display:flex;gap:8px">
+          <div class="plant-detail-actions">
             <a class="btn btn-outline" href="/plants/${p.id}/edit" data-link>${Icons.edit} Edytuj</a>
-            <button class="btn btn-danger" id="btn-delete-plant">${Icons.trash}</button>
+            <button class="btn btn-danger" id="btn-delete-plant" aria-label="Usuń roślinę">${Icons.trash}</button>
           </div>
         </div>
 
         <div class="two-col">
           <div>
-            <h2 class="section-header" style="margin-top:0">Przegląd</h2>
+            <h2 class="section-header section-header--flush">Przegląd</h2>
             <div class="form-grid mb-3">
               <div class="card-tinted">
                 <div class="label-sm">Potrzeby</div>
                 <div class="mt-2">
-                  <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">${Icons.drop}<div><strong>Podlewanie</strong><br><span class="text-muted" style="font-size:13px">${p.watering_interval_days ? 'Co ' + p.watering_interval_days + ' dni' : '—'}</span></div></div>
-                  <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">${Icons.sun}<div><strong>Światło</strong><br><span class="text-muted" style="font-size:13px">${UI.escapeHtml(p.species_sunlight || 'Jasne, rozproszone')}</span></div></div>
-                  <div style="display:flex;gap:10px;align-items:center">${Icons.flask}<div><strong>Nawożenie</strong><br><span class="text-muted" style="font-size:13px">${p.fertilizing_interval_days ? 'Co ' + p.fertilizing_interval_days + ' dni' : '—'}</span></div></div>
+                  <div class="care-row"><span class="icon">${Icons.drop}</span><div><strong>Podlewanie</strong><br><span class="text-muted text-sm">${p.watering_interval_days ? 'Co ' + p.watering_interval_days + ' dni' : '—'}</span></div></div>
+                  <div class="care-row"><span class="icon">${Icons.sun}</span><div><strong>Światło</strong><br><span class="text-muted text-sm">${UI.escapeHtml(p.species_sunlight || 'Jasne, rozproszone')}</span></div></div>
+                  <div class="care-row"><span class="icon">${Icons.flask}</span><div><strong>Nawożenie</strong><br><span class="text-muted text-sm">${p.fertilizing_interval_days ? 'Co ' + p.fertilizing_interval_days + ' dni' : '—'}</span></div></div>
                 </div>
               </div>
               <div class="card-tinted">
                 <div class="label-sm">Notatki</div>
-                <div class="mt-2" style="font-style:italic">${UI.escapeHtml(p.notes || 'Brak notatek.')}</div>
+                <div class="mt-2 italic">${UI.escapeHtml(p.notes || 'Brak notatek.')}</div>
               </div>
             </div>
 
@@ -201,12 +201,12 @@ const Plants = {
             <div class="card">
               <div class="label-sm">Statystyki (30 dni)</div>
               <div class="mt-2">
-                <div style="display:flex;justify-content:space-between"><span>Podlewanie</span><strong>${stats.watering || 0}× </strong></div>
-                <div class="bar mt-1"><span style="width:${Math.min(100,(stats.watering||0)*10)}%"></span></div>
-                <div style="display:flex;justify-content:space-between;margin-top:12px"><span>Nawożenie</span><strong>${stats.fertilizing || 0}×</strong></div>
-                <div class="bar bar-tertiary mt-1"><span style="width:${Math.min(100,(stats.fertilizing||0)*15)}%"></span></div>
-                <div style="display:flex;justify-content:space-between;margin-top:12px"><span>Zraszanie</span><strong>${stats.misting || 0}×</strong></div>
-                <div class="bar mt-1"><span style="width:${Math.min(100,(stats.misting||0)*10)}%"></span></div>
+                <div class="bar-row"><span>Podlewanie</span><strong>${stats.watering || 0}×</strong></div>
+                <div class="bar"><span style="width:${Math.min(100,(stats.watering||0)*10)}%"></span></div>
+                <div class="bar-row"><span>Nawożenie</span><strong>${stats.fertilizing || 0}×</strong></div>
+                <div class="bar bar-tertiary"><span style="width:${Math.min(100,(stats.fertilizing||0)*15)}%"></span></div>
+                <div class="bar-row"><span>Zraszanie</span><strong>${stats.misting || 0}×</strong></div>
+                <div class="bar"><span style="width:${Math.min(100,(stats.misting||0)*10)}%"></span></div>
               </div>
             </div>
           </aside>
