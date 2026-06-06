@@ -17,14 +17,15 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 
 # Dostęp do .htaccess
 RUN printf '<Directory ${APACHE_DOCUMENT_ROOT}>\n  AllowOverride All\n  Require all granted\n</Directory>\n' \
-    > /etc/apache2/conf-available/camelog.conf \
+> /etc/apache2/conf-available/camelog.conf \
     && a2enconf camelog
 
 WORKDIR /var/www/html
 
 COPY . /var/www/html/
 
-RUN chown -R www-data:www-data /var/www/html/public/uploads /var/www/html/storage \
+RUN mkdir -p /var/www/html/public/uploads/plants /var/www/html/storage/cache /var/www/html/storage/logs \
+ && chown -R www-data:www-data /var/www/html/public/uploads /var/www/html/storage \
  && chmod -R 775 /var/www/html/public/uploads /var/www/html/storage
 
 EXPOSE 80
