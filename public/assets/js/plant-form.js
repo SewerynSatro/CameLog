@@ -16,13 +16,15 @@ const PlantForm = {
     UI.renderShell({ active: '/plants', user, content });
     try {
       const r = await API.get('/api/plants/' + id);
+      const rawSpecies = parseSpeciesRaw(r.plant.species_raw);
       this.selectedSpecies = r.plant.species_id ? {
+        ...rawSpecies,
         local_id: r.plant.species_id,
-        common_name: r.plant.species_common,
-        scientific_name: r.plant.species_scientific,
-        watering_info: r.plant.species_watering,
-        sunlight_info: r.plant.species_sunlight,
-        care_level: r.plant.species_care_level,
+        common_name: r.plant.species_common || rawSpecies.common_name,
+        scientific_name: r.plant.species_scientific || rawSpecies.scientific_name,
+        watering_info: r.plant.species_watering || rawSpecies.watering_info,
+        sunlight_info: r.plant.species_sunlight || rawSpecies.sunlight_info,
+        care_level: r.plant.species_care_level || rawSpecies.care_level,
       } : null;
       document.getElementById('plant-form-root').outerHTML = this._formHtml(r.plant);
       this._attach(r.plant);
@@ -53,8 +55,11 @@ const PlantForm = {
               <input id="name" name="name" class="input" placeholder="Np. Fikus Benjamina" required value="${v('name')}" />
             </div>
             <div class="field">
-              <label class="field-label" for="species">Gatunek (Wyszukaj) *</label>
-              <input id="species" name="custom_species_name" class="input" placeholder="np. Monstera Deliciosa" autocomplete="off" value="${UI.escapeHtml(p?.species_common || p?.custom_species_name || '')}" />
+              <label class="field-label" for="species">Gatunek *</label>
+              <div class="species-lookup">
+                <input id="species" name="custom_species_name" class="input" placeholder="np. Monstera Deliciosa" autocomplete="off" value="${UI.escapeHtml(p?.species_common || p?.custom_species_name || '')}" />
+                <button type="button" class="btn btn-outline" id="btn-species-search">${Icons.search} Sprawdź API</button>
+              </div>
             </div>
             <div class="field">
               <label class="field-label" for="location">Lokalizacja</label>
@@ -75,10 +80,10 @@ const PlantForm = {
 
         <div class="card mb-3">
           <h2>${Icons.upload} Zdjęcie</h2>
-          <div id="photo-drop" class="photo-drop">
-            <div class="photo-drop-icon">${Icons.upload}</div>
-            <div class="photo-drop-title">Przeciągnij i upuść zdjęcie rośliny</div>
-            <div class="text-muted text-sm">lub kliknij, aby przeglądać pliki. JPG, PNG, max 5 MB.</div>
+          <div id="photo-drop" class="photo-dropzone">
+            <div class="photo-dropzone-icon">${Icons.upload}</div>
+            <div style="margin-top:8px;font-weight:600">Przeciągnij i upuść zdjęcie rośliny</div>
+            <div class="text-muted" style="font-size:13px">lub kliknij, aby przeglądać pliki. JPG, PNG, max 5 MB.</div>
             <input id="photo-input" type="file" accept="image/*" hidden />
             <div id="photo-preview" class="mt-2"></div>
           </div>
@@ -98,7 +103,7 @@ const PlantForm = {
           </div>
           <div class="field mt-3">
             <label class="field-label">Trudność pielęgnacji</label>
-            <div class="chip-group" id="care-level">
+            <div style="display:flex;gap:8px;flex-wrap:wrap" id="care-level">
               ${['easy','medium','hard'].map(level => {
                 const lbl = level === 'easy' ? 'Łatwa' : level === 'medium' ? 'Średnia' : 'Wymagająca';
                 const active = (p?.care_level || 'easy') === level;
@@ -111,8 +116,8 @@ const PlantForm = {
           <label class="checkbox mt-3">
             <input type="checkbox" name="auto_task" checked />
             <div>
-              <div class="text-strong">Utwórz automatyczny task</div>
-              <div class="text-muted text-sm">System automatycznie przypomni o podlewaniu i nawożeniu.</div>
+              <div style="font-weight:600">Utwórz automatyczny task</div>
+              <div class="text-muted" style="font-size:13px">System automatycznie przypomni o podlewaniu i nawożeniu.</div>
             </div>
           </label>`}
         </div>
@@ -122,7 +127,7 @@ const PlantForm = {
           <textarea name="notes" class="textarea mt-2" placeholder="Dodaj dodatkowe informacje, np. wymagania świetlne, historia szczepki…">${v('notes')}</textarea>
         </div>
 
-        <div class="form-actions mt-4">
+        <div style="display:flex;gap:12px;justify-content:flex-end;align-items:center;margin-top:32px">
           <a href="${editing ? '/plants/'+p.id : '/plants'}" data-link class="btn btn-outline">Anuluj</a>
           <button type="submit" class="btn btn-primary">${Icons.check} ${editing ? 'Zapisz zmiany' : 'Zapisz roślinę'}</button>
         </div>
@@ -161,7 +166,7 @@ const PlantForm = {
       const f = input.files[0];
       if (!f) { preview.innerHTML = ''; return; }
       const url = URL.createObjectURL(f);
-      preview.innerHTML = `<img src="${url}" alt="Podgląd zdjęcia" />`;
+      preview.innerHTML = `<img src="${url}" style="max-width:200px;max-height:160px;border-radius:12px" />`;
     }
 
     // Submit
@@ -173,6 +178,7 @@ const PlantForm = {
       if (this.selectedSpecies && !speciesId) {
         try {
           const r = await Species.importToLocal({
+            ...this.selectedSpecies,
             external_id: this.selectedSpecies.external_id || null,
             common_name: this.selectedSpecies.common_name,
             scientific_name: this.selectedSpecies.scientific_name,
@@ -180,6 +186,10 @@ const PlantForm = {
             watering_info: this.selectedSpecies.watering_info,
             sunlight_info: this.selectedSpecies.sunlight_info,
             climate_info: this.selectedSpecies.climate_info,
+            description: this.selectedSpecies.description,
+            watering_interval_days: this.selectedSpecies.watering_interval_days,
+            fertilizing_interval_days: this.selectedSpecies.fertilizing_interval_days,
+            care_guide: this.selectedSpecies.care_guide,
           });
           speciesId = r.species_id;
         } catch (err) { console.warn('species import failed', err); }
@@ -229,18 +239,61 @@ const PlantForm = {
   _renderApiPanel(sp) {
     const slot = document.getElementById('api-panel-slot');
     if (!slot) return;
+
+    const facts = [
+      sp.flowers === true ? 'Kwitnie' : null,
+      sp.fruits === true ? 'Owocuje' : null,
+      sp.edible_fruit === true ? 'Jadalne owoce' : null,
+      sp.indoor === true ? 'Do wnętrz' : null,
+      sp.drought_tolerant === true ? 'Toleruje suszę' : null,
+      sp.tropical === true ? 'Tropikalna' : null,
+      sp.thorny === true ? 'Kolczasta' : null,
+      sp.invasive === true ? 'Inwazyjna' : null,
+      sp.poisonous_to_humans === true ? 'Trująca dla ludzi' : null,
+      sp.poisonous_to_pets === true ? 'Trująca dla zwierząt' : null,
+      sp.medicinal === true ? 'Właściwości lecznicze' : null,
+    ].filter(Boolean);
+
+    const imageUrl = sp.image_url || sp.image?.small_url || sp.image?.medium_url || sp.image?.thumbnail || '';
+    const benchmark = sp.watering_benchmark_label || formatWateringBenchmark(sp.watering_general_benchmark);
+    const wateringText = [
+      sp.watering_interval_days ? `Co ${sp.watering_interval_days} dni` : null,
+      sp.watering_info || null,
+      benchmark ? `Benchmark: ${benchmark}` : null,
+    ].filter(Boolean).join('<br>') || '—';
+
     slot.innerHTML = `
-      <div class="api-panel">
+      <div class="api-panel api-panel-rich">
         <div class="api-panel-title">${Icons.sparkle} Zalecenia z bazy gatunków <span class="pill">Perenual</span></div>
-        <div class="api-grid">
-          <div class="api-cell"><div class="label-sm">Nazwa zwyczajowa</div>${UI.escapeHtml(sp.common_name || '—')}</div>
-          <div class="api-cell"><div class="label-sm">Nazwa naukowa</div><em>${UI.escapeHtml(sp.scientific_name || '—')}</em></div>
-          <div class="api-cell"><div class="label-sm">Poziom trudności</div>${UI.escapeHtml(careLabel(sp.care_level) || '—')}</div>
-          <div class="api-cell"><div class="label-sm">Podlewanie</div>${sp.watering_interval_days ? `Co ${sp.watering_interval_days} dni` : (UI.escapeHtml(sp.watering_info || '—'))}</div>
-          <div class="api-cell"><div class="label-sm">Nasłonecznienie</div>${UI.escapeHtml(sp.sunlight_info || '—')}</div>
-          <div class="api-cell"><div class="label-sm">Typ uprawy</div>${UI.escapeHtml(sp.type || sp.cycle || '—')}</div>
+        <div class="api-summary">
+          ${imageUrl ? `<img class="api-species-image" src="${UI.escapeHtml(imageUrl)}" alt="${UI.escapeHtml(sp.common_name || 'Zdjęcie rośliny')}" />` : ''}
+          <div>
+            <div class="api-species-name">${UI.escapeHtml(sp.common_name || '—')}</div>
+            <div class="api-species-scientific">${UI.escapeHtml(sp.scientific_name || '—')}</div>
+            ${sp.description ? `<p class="text-muted mt-2">${UI.escapeHtml(sp.description)}</p>` : ''}
+          </div>
         </div>
-        ${sp.description ? `<div class="mt-3"><div class="label-sm">Opis pielęgnacji</div><p class="text-muted mt-1">${UI.escapeHtml(sp.description)}</p></div>` : ''}
+        <div class="api-grid api-grid-wide">
+          ${apiCell('Nazwa zwyczajowa', sp.common_name)}
+          ${apiCell('Nazwa naukowa', sp.scientific_name, true)}
+          ${apiCell('Rodzina', sp.family)}
+          ${apiCell('Rodzaj', sp.genus)}
+          ${apiCell('Pochodzenie', listValue(sp.origin))}
+          ${apiCell('Typ', sp.type)}
+          ${apiCell('Cykl', sp.cycle)}
+          ${apiCell('Wymiary', sp.dimensions)}
+          ${apiCell('Strefa mrozoodporności', sp.hardiness || sp.climate_info)}
+          ${apiCell('Poziom trudności', careLabel(sp.care_level) || sp.maintenance)}
+          ${apiCell('Podlewanie', wateringText)}
+          ${apiCell('Nasłonecznienie', sp.sunlight_info)}
+          ${apiCell('Tempo wzrostu', sp.growth_rate)}
+          ${apiCell('Przycinanie', listValue(sp.pruning_month))}
+          ${apiCell('Rozmnażanie', listValue(sp.propagation))}
+          ${apiCell('Przyciąga', listValue(sp.attracts))}
+          ${apiCell('Gleba', listValue(sp.soil))}
+          ${apiCell('Okres zbioru', sp.harvest_season)}
+        </div>
+        ${facts.length ? `<div class="api-facts">${facts.map(f => `<span class="chip">${UI.escapeHtml(f)}</span>`).join('')}</div>` : ''}
         <div class="api-help">${Icons.warning}<span>To są zalecenia pobrane z zewnętrznej bazy gatunków. Możesz dostosować harmonogram pielęgnacji ręcznie.</span></div>
         <div class="api-actions">
           <button type="button" class="btn btn-tertiary" id="btn-apply-api">${Icons.check} Użyj zaleceń</button>
@@ -272,4 +325,33 @@ const PlantForm = {
 
 function careLabel(c) {
   return ({ easy: 'Łatwa', medium: 'Średnia', hard: 'Wymagająca' })[c] || c || '';
+}
+
+function parseSpeciesRaw(raw) {
+  if (!raw) return {};
+  if (typeof raw === 'object') return raw;
+  try { return JSON.parse(raw) || {}; }
+  catch (_) { return {}; }
+}
+
+function listValue(value) {
+  if (Array.isArray(value)) return value.filter(Boolean).join(', ');
+  return value || '';
+}
+
+function formatWateringBenchmark(benchmark) {
+  if (!benchmark) return '';
+  if (typeof benchmark === 'string') return benchmark.replace(/^"|"$/g, '');
+  if (typeof benchmark !== 'object') return String(benchmark);
+  const value = String(benchmark.value || '').replace(/^"|"$/g, '');
+  const unit = benchmark.unit || '';
+  return value ? `${value}${unit ? ' ' + unit : ''}` : '';
+}
+
+function apiCell(label, value, italic = false) {
+  const text = value === undefined || value === null || value === '' ? '—' : String(value);
+  const body = text.includes('<br>')
+    ? text.split('<br>').map(part => UI.escapeHtml(part)).join('<br>')
+    : UI.escapeHtml(text);
+  return `<div class="api-cell"><div class="label-sm">${UI.escapeHtml(label)}</div>${italic ? `<em>${body}</em>` : body}</div>`;
 }

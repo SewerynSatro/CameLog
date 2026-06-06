@@ -66,73 +66,46 @@ class NotificationRepository
 
     public function refreshTaskNotifications(int $userId): void
     {
-        // 1) Pobierz obecne powiadomienia do tasków
-        $stmt = $this->db->prepare('SELECT id, task_id, is_read FROM notifications WHERE user_id = :uid AND task_id IS NOT NULL');
+        // 1) Wyczyść stare task-notifications dla tego użytkownika (te dotyczące tasków)
+        $stmt = $this->db->prepare('DELETE FROM notifications WHERE user_id = :uid AND task_id IS NOT NULL');
         $stmt->execute([':uid' => $userId]);
-        $existing = [];
-        foreach ($stmt->fetchAll() as $row) {
-            $existing[$row['task_id']] = $row;
-        }
 
-        $validTaskIds = [];
-        $createOrUpdate = function($t, $type, $msg) use ($userId, &$existing, &$validTaskIds) {
-            $taskId = $t['id'];
-            $validTaskIds[] = $taskId;
-            if (isset($existing[$taskId])) {
-                $id = $existing[$taskId]['id'];
-                $sql = 'UPDATE notifications SET title = :title, message = :msg, type = :type WHERE id = :id';
-                $stmt = $this->db->prepare($sql);
-                $stmt->execute([
-                    ':title' => $t['title'],
-                    ':msg' => $msg,
-                    ':type' => $type,
-                    ':id' => $id
-                ]);
-            } else {
-                $this->create([
-                    'user_id' => $userId, 'task_id' => $taskId,
-                    'title' => $t['title'], 'message' => $msg,
-                    'type' => $type,
-                ]);
-            }
-        };
-
-        // 2) Utwórz/aktualizuj "today"
+        // 2) Utwórz "today"
         $stmt = $this->db->prepare("SELECT id, title, plant_id FROM care_tasks
                                     WHERE user_id = :uid AND status = 'pending'
                                       AND DATE(due_date) = CURDATE()");
         $stmt->execute([':uid' => $userId]);
         foreach ($stmt->fetchAll() as $t) {
-            $createOrUpdate($t, 'today', 'Zaplanowane na dziś.');
+            $this->create([
+                'user_id' => $userId, 'task_id' => $t['id'],
+                'title' => $t['title'], 'message' => 'Zaplanowane na dziś.',
+                'type' => 'today',
+            ]);
         }
-
-        // 3) Utwórz/aktualizuj "overdue"
+        // 3) Utwórz "overdue"
         $stmt = $this->db->prepare("SELECT id, title, plant_id FROM care_tasks
                                     WHERE user_id = :uid AND status = 'pending'
                                       AND DATE(due_date) < CURDATE()");
         $stmt->execute([':uid' => $userId]);
         foreach ($stmt->fetchAll() as $t) {
-            $createOrUpdate($t, 'overdue', 'Zaległe zadanie pielęgnacyjne.');
+            $this->create([
+                'user_id' => $userId, 'task_id' => $t['id'],
+                'title' => $t['title'], 'message' => 'Zaległe zadanie pielęgnacyjne.',
+                'type' => 'overdue',
+            ]);
         }
-
-        // 4) Utwórz/aktualizuj "incoming" (najbliższe 3 dni)
+        // 4) Utwórz "incoming" (najbliższe 3 dni)
         $stmt = $this->db->prepare("SELECT id, title, plant_id FROM care_tasks
                                     WHERE user_id = :uid AND status = 'pending'
                                       AND DATE(due_date) > CURDATE()
                                       AND DATE(due_date) <= DATE_ADD(CURDATE(), INTERVAL 3 DAY)");
         $stmt->execute([':uid' => $userId]);
         foreach ($stmt->fetchAll() as $t) {
-            $createOrUpdate($t, 'incoming', 'Nadchodzące zadanie.');
-        }
-
-        // 5) Usuń powiadomienia dla tasków, które już nie są aktualne (np. zostały wykonane)
-        $toDelete = array_diff(array_keys($existing), $validTaskIds);
-        if (!empty($toDelete)) {
-            $placeholders = str_repeat('?,', count($toDelete) - 1) . '?';
-            $sql = "DELETE FROM notifications WHERE user_id = ? AND task_id IN ($placeholders)";
-            $stmt = $this->db->prepare($sql);
-            $params = array_merge([$userId], array_values($toDelete));
-            $stmt->execute($params);
+            $this->create([
+                'user_id' => $userId, 'task_id' => $t['id'],
+                'title' => $t['title'], 'message' => 'Nadchodzące zadanie.',
+                'type' => 'incoming',
+            ]);
         }
     }
 }

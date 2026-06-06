@@ -103,10 +103,16 @@ class TaskRepository
 
     public function statsForUser(int $userId): array
     {
-        $today = (int) $this->getCount($userId, 'AND DATE(due_date) = CURDATE() AND status = "pending"');
+        $today = (int) $this->getCount($userId, 'AND DATE(due_date) = CURDATE()');
         $overdue = (int) $this->getCount($userId, 'AND DATE(due_date) < CURDATE() AND status = "pending"');
         $weekDone = (int) $this->getCount($userId, 'AND status = "done" AND completed_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)');
-        return ['today' => $today, 'overdue' => $overdue, 'week_done' => $weekDone];
+        $upcomingWeek = (int) $this->getCount($userId, 'AND status = "pending" AND DATE(due_date) > CURDATE() AND DATE(due_date) <= DATE_ADD(CURDATE(), INTERVAL 7 DAY)');
+        return [
+            'today' => $today,
+            'overdue' => $overdue,
+            'week_done' => $weekDone,
+            'upcoming_week' => $upcomingWeek,
+        ];
     }
 
     private function getCount(int $userId, string $extra): int

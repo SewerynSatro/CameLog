@@ -60,13 +60,6 @@ class TaskService
             'performed_at' => $now,
         ]);
 
-        // Automatyczna poprawa statusu rośliny po wykonaniu zadania
-        $plantRepo = new \App\Repositories\PlantRepository();
-        $plant = $plantRepo->findForUser($task['plant_id'], $userId);
-        if ($plant && $plant['health_status'] === 'needs_attention') {
-            $plantRepo->update($task['plant_id'], $userId, ['health_status' => 'healthy']);
-        }
-
         // Jeśli task jest cykliczny – utwórz kolejny.
         if (!empty($task['repeat_interval_days'])) {
             $nextDue = (new \DateTimeImmutable($task['due_date']))

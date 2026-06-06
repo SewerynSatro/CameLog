@@ -4,7 +4,7 @@ const Stats = {
   async render(_, user) {
     const content = `
       <section class="page-head">
-        <h1>Statystyki</h1>
+        <h1>${Icons.stats} Statystyki</h1>
         <p>Twoja zielona oaza w liczbach – ostatnie 30 dni.</p>
       </section>
       <div id="stats-content">${UI.loader()}</div>`;
@@ -21,7 +21,7 @@ const Stats = {
       ];
       const tileHtml = tiles.map(t => `
         <div class="stat-tile ${t.cls}">
-          <div class="stat-row">
+          <div style="display:flex;align-items:center;justify-content:space-between">
             <div class="stat-label">${UI.escapeHtml(t.label)}</div>
             <div class="stat-icon">${t.icon}</div>
           </div>
@@ -37,9 +37,9 @@ const Stats = {
 
         <div class="two-col">
           <div class="card">
-            <h2>Aktywność w ostatnich 30 dniach</h2>
+            <h2>${Icons.history} Aktywność w ostatnich 30 dniach</h2>
             <canvas id="chart" class="chart-canvas mt-2" height="220"></canvas>
-            <p class="text-muted text-sm mt-2">Łączna liczba akcji pielęgnacyjnych dziennie.</p>
+            <p class="text-muted mt-2" style="font-size:13px">Łączna liczba akcji pielęgnacyjnych dziennie.</p>
           </div>
           <aside>
             <div class="card mb-3">
@@ -49,8 +49,8 @@ const Stats = {
               </div>
             </div>
             <div class="card-tinted">
-              <h3>Top roślina</h3>
-              <p class="mt-1">${o.top_plant ? UI.escapeHtml(o.top_plant.name) + ' – ' + o.top_plant.cnt + ' akcji' : 'Zarejestruj akcje opieki, aby zobaczyć ranking.'}</p>
+              <h3>${Icons.leaf} Top roślina</h3>
+              <p class="mt-1">${o.top_plant ? UI.escapeHtml(o.top_plant.name) + ' – ' + o.top_plant.count + ' akcji' : 'Zarejestruj akcje opieki, aby zobaczyć ranking.'}</p>
             </div>
           </aside>
         </div>`;
@@ -69,11 +69,11 @@ function renderTypeBars(breakdown) {
     const pct = Math.round((Number(b.count) / total) * 100);
     return `
       <div class="mb-2">
-        <div class="bar-row">
+        <div style="display:flex;justify-content:space-between;font-size:13px">
           <span>${UI.escapeHtml(UI.taskTypeLabel(b.type))}</span>
           <strong>${pct}% (${b.count})</strong>
         </div>
-        <div class="bar"><span style="width:${pct}%"></span></div>
+        <div class="bar mt-1"><span style="width:${pct}%"></span></div>
       </div>`;
   }).join('');
 }

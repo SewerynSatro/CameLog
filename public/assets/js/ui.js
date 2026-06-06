@@ -114,17 +114,25 @@ const UI = {
           </div>
         </div>
         <nav class="sidebar-nav">${nav}</nav>
+        <a href="/tasks/create" class="sidebar-cta sidebar-cta-task" data-link>${Icons.tasks} Dodaj task</a>
         <a href="/plants/create" class="sidebar-cta" data-link>${Icons.plus} Dodaj roślinę</a>
       </aside>
+      <header class="mobile-header">
+        <div class="name">CameLog</div>
+        <div class="topbar-actions">
+          <a href="/notifications" class="icon-btn" data-link aria-label="Powiadomienia">${Icons.bell}<span class="dot" id="notif-dot" hidden></span></a>
+          <a href="/profile" class="avatar" data-link aria-label="Profil">${initials}</a>
+        </div>
+      </header>
       <main class="shell-main">
-        <header class="shell-header">
-          <div class="shell-header-brand">CameLog</div>
+        <div class="topbar">
+          <div></div>
           <div class="topbar-actions">
-            <a href="/notifications" class="icon-btn" data-link aria-label="Powiadomienia">${Icons.bell}<span class="notif-dot" hidden></span></a>
+            <a href="/notifications" class="icon-btn" data-link aria-label="Powiadomienia">${Icons.bell}<span class="dot" id="notif-dot" hidden></span></a>
             <a href="/profile" class="avatar" data-link aria-label="Profil">${initials}</a>
           </div>
-        </header>
-        <div class="shell-content">${content}</div>
+        </div>
+        ${content}
       </main>
       <nav class="bottom-nav">
         <a href="/dashboard" data-link class="${active==='/dashboard'?'active':''}">${Icons.home}<span>Home</span></a>
@@ -141,7 +149,7 @@ const UI = {
     if (!user) return;
     try {
       const data = await API.get('/api/notifications');
-      const dots = document.querySelectorAll('.notif-dot');
+      const dots = document.querySelectorAll('#notif-dot');
       dots.forEach(d => { d.hidden = !((data.unread_count || 0) > 0); });
     } catch (e) { /* offline ok */ }
   },
@@ -196,7 +204,7 @@ const UI = {
   },
 
   loader(label = 'Ładowanie…') {
-    return `<div class="empty"><span class="loading"></span><p class="mt-2">${escapeHtml(label)}</p></div>`;
+    return `<div class="empty"><span class="loading"></span><p style="margin-top:12px">${escapeHtml(label)}</p></div>`;
   },
 
   empty({ title, desc, action }) {

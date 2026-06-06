@@ -23,7 +23,7 @@ const Auth = {
               <img src="/assets/images/logo.svg" alt="" />
               <div>
                 <div class="name">CameLog</div>
-                <div class="text-muted text-xs">Desert Oasis Care</div>
+                <div class="text-muted" style="font-size:12px">Desert Oasis Care</div>
               </div>
             </div>
             <h1>Zaloguj się do CameLog</h1>
@@ -52,6 +52,17 @@ const Auth = {
 
             <div class="auth-link-row">Nie masz konta? <a href="/register" data-link>Zarejestruj się</a></div>
           </form>
+          <div class="auth-art">
+            <div class="auth-art-card">
+              <div class="reminder">
+                <div class="icon">${Icons.drop}</div>
+                <div>
+                  <div class="label-sm">Przypomnienie</div>
+                  <div style="font-weight:700">Czas podlać Fikusa</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>`;
     document.getElementById('login-form').addEventListener('submit', async (e) => {
@@ -79,7 +90,7 @@ const Auth = {
               <img src="/assets/images/logo.svg" alt="" />
               <div>
                 <div class="name">CameLog</div>
-                <div class="text-muted text-xs">Desert Oasis Care</div>
+                <div class="text-muted" style="font-size:12px">Desert Oasis Care</div>
               </div>
             </div>
             <h1>Załóż konto</h1>
@@ -107,6 +118,17 @@ const Auth = {
             <button type="submit" class="btn btn-primary btn-block btn-lg">Utwórz konto ${Icons.arrowRight}</button>
             <div class="auth-link-row">Masz już konto? <a href="/login" data-link>Zaloguj się</a></div>
           </form>
+          <div class="auth-art">
+            <div class="auth-art-card">
+              <div class="reminder">
+                <div class="icon">${Icons.leaf}</div>
+                <div>
+                  <div class="label-sm">CameLog</div>
+                  <div style="font-weight:700">Twoja zielona oaza</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>`;
     document.getElementById('register-form').addEventListener('submit', async (e) => {
@@ -135,9 +157,9 @@ const Auth = {
   renderProfile(user) {
     const initials = (user.name || '?').split(' ').map(s => s[0]).slice(0,2).join('').toUpperCase();
     const content = `
-      <section class="profile-head page-head">
-        <div class="profile-head-main">
-          <div class="avatar avatar-lg">${initials}</div>
+      <section class="page-head" style="display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:20px">
+          <div class="avatar" style="width:80px;height:80px;font-size:28px;border-radius:24px">${initials}</div>
           <div>
             <h1>${UI.escapeHtml(user.name)}</h1>
             <p class="text-muted">${UI.escapeHtml(user.email)} · ${user.role === 'admin' ? 'Administrator' : 'Opiekun roślin'}</p>
@@ -165,7 +187,7 @@ const Auth = {
                 <label class="field-label">Bio (opcjonalnie)</label>
                 <textarea class="textarea" name="bio">${UI.escapeHtml(user.bio || '')}</textarea>
               </div>
-              <div class="form-actions">
+              <div class="mt-3" style="display:flex;justify-content:flex-end">
                 <button class="btn btn-primary" type="submit">Zapisz zmiany</button>
               </div>
             </form>
@@ -199,9 +221,9 @@ const Auth = {
             </form>
           </div>
 
-          <div class="card-tinted card-centered">
-            <div class="text-muted">
-              <span class="icon">${Icons.leaf}</span>
+          <div class="card-tinted">
+            <div class="text-muted" style="text-align:center">
+              ${Icons.leaf}
               <h3 class="mt-2">Twoja oaza</h3>
               <p>Pod twoją czułą opieką</p>
             </div>

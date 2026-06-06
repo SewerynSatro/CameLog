@@ -28,25 +28,34 @@ class SpeciesController
     public function show(Request $req): void
     {
         $id = (string) $req->param('id');
-        // Najpierw sprawdź lokalną bazę po liczbowym ID
+
+        // Ten endpoint jest używany z frontendu głównie jako ID z Perenual.
+        // Najpierw pobieramy szczegóły po external_api_id, aby lokalne ID rekordu
+        // nie zasłoniło gatunku z API o tym samym numerze.
+        $detail = $this->api->detail($id);
+        if ($detail) {
+            Response::json(['species' => $detail]);
+        }
+
+        // Fallback dla ręcznego odczytu lokalnego rekordu gatunku.
         if (ctype_digit($id)) {
             $local = $this->repo->findById((int) $id);
             if ($local) {
-                $detail = $this->api->detail($local['external_api_id'] ?? $id) ?? [
+                $raw = json_decode($local['raw_api_data'] ?? 'null', true);
+                Response::json(['species' => array_merge(is_array($raw) ? $raw : [], [
                     'local_id' => $local['id'],
+                    'external_id' => $local['external_api_id'],
                     'common_name' => $local['common_name'],
                     'scientific_name' => $local['scientific_name'],
                     'care_level' => $local['care_level'],
                     'watering_info' => $local['watering_info'],
                     'sunlight_info' => $local['sunlight_info'],
                     'climate_info' => $local['climate_info'],
-                ];
-                Response::json(['species' => $detail]);
+                ])]);
             }
         }
-        $detail = $this->api->detail($id);
-        if (!$detail) Response::notFound('Gatunek nie znaleziony');
-        Response::json(['species' => $detail]);
+
+        Response::notFound('Gatunek nie znaleziony');
     }
 
     public function import(Request $req): void

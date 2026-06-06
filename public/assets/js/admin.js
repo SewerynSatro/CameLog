@@ -11,7 +11,7 @@ const Admin = {
       <div id="admin-stats" class="stat-grid">${UI.loader()}</div>
 
       <div class="filters mb-3">
-        <div class="input-wrap filters-grow">
+        <div class="input-wrap" style="flex:1">
           <span class="leading-icon">${Icons.search}</span>
           <input id="a-search" class="input has-icon" placeholder="Szukaj po nazwie lub email" />
         </div>
@@ -27,7 +27,7 @@ const Admin = {
         </select>
       </div>
 
-      <div class="card card-flush">
+      <div class="card" style="padding:0">
         <table class="table" id="a-table">
           <thead>
             <tr>
@@ -61,8 +61,8 @@ const Admin = {
         tbody.innerHTML = r.users.map(u => `
           <tr>
             <td data-label="Użytkownik">
-              <div class="table-user">
-                <div class="avatar avatar-sm">${(u.name || '?').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase()}</div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="avatar" style="width:36px;height:36px;font-size:13px">${(u.name || '?').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase()}</div>
                 <strong>${UI.escapeHtml(u.name)}</strong>
               </div>
             </td>

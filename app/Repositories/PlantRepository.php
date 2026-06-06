@@ -22,21 +22,16 @@ class PlantRepository
         $params = [':user_id' => $userId];
 
         if (!empty($filters['search'])) {
-            $sql .= ' AND (p.name LIKE :search1 OR p.custom_species_name LIKE :search2 OR s.common_name LIKE :search3)';
-            $search = '%' . $filters['search'] . '%';
-            $params[':search1'] = $search;
-            $params[':search2'] = $search;
-            $params[':search3'] = $search;
+            $sql .= ' AND (p.name LIKE :search OR p.custom_species_name LIKE :search OR s.common_name LIKE :search)';
+            $params[':search'] = '%' . $filters['search'] . '%';
         }
         if (!empty($filters['location'])) {
             $sql .= ' AND p.location = :location';
             $params[':location'] = $filters['location'];
         }
         if (!empty($filters['species'])) {
-            $sql .= ' AND (s.common_name LIKE :sp1 OR p.custom_species_name LIKE :sp2)';
-            $sp = '%' . $filters['species'] . '%';
-            $params[':sp1'] = $sp;
-            $params[':sp2'] = $sp;
+            $sql .= ' AND (s.common_name LIKE :sp OR p.custom_species_name LIKE :sp)';
+            $params[':sp'] = '%' . $filters['species'] . '%';
         }
         $sql .= ' ORDER BY p.created_at DESC';
 

@@ -19,46 +19,56 @@ const Species = {
    * onSelect(speciesDetail) – callback po wyborze.
    */
   attachAutocomplete(input, onSelect) {
-    let timer = null;
     let dropdown = null;
+    const button = document.getElementById('btn-species-search');
 
     function close() { dropdown?.remove(); dropdown = null; }
 
-    input.addEventListener('input', () => {
-      clearTimeout(timer);
+    button?.addEventListener('click', async () => {
       const q = input.value.trim();
-      if (q.length < 2) { close(); return; }
-      timer = setTimeout(async () => {
-        try {
-          const r = await Species.search(q);
-          renderDropdown(r);
-        } catch (err) {
-          console.warn('[species] search error', err);
-          if (!dropdown) renderDropdown({ results: [] });
-        }
-      }, 250);
+      if (q.length < 2) {
+        close();
+        UI.toast('Wpisz co najmniej 2 znaki nazwy gatunku.', 'warning');
+        return;
+      }
+
+      button.disabled = true;
+      const previousHtml = button.innerHTML;
+      button.innerHTML = '<span class="loading"></span> Szukam';
+      try {
+        const r = await Species.search(q);
+        renderDropdown(r);
+      } catch (err) {
+        console.warn('[species] search error', err);
+        renderDropdown({ results: [] });
+        UI.toast(err.message || 'Nie udało się sprawdzić gatunku w API', 'error');
+      } finally {
+        button.disabled = false;
+        button.innerHTML = previousHtml;
+      }
     });
 
+    input.addEventListener('input', close);
     input.addEventListener('blur', () => setTimeout(close, 200));
 
     function renderDropdown(r) {
       close();
       dropdown = document.createElement('div');
-      dropdown.className = 'species-dropdown';
-      const wrap = input.parentElement;
-      wrap.classList.add('input-wrap-relative');
+      dropdown.style.cssText = 'position:absolute;background:#fff;border:1px solid var(--outline-variant);border-radius:12px;box-shadow:var(--shadow-2);z-index:100;max-height:280px;overflow:auto;width:100%;margin-top:4px';
+      const wrap = input.closest('.species-lookup') || input.parentElement;
+      wrap.style.position = 'relative';
 
       const meta = (r.source === 'mock' || r.source === 'mock-fallback')
-        ? '<div class="species-dropdown-meta">DEMO – Brak klucza Perenual API</div>'
+        ? '<div style="padding:6px 12px;font-size:11px;color:var(--on-surface-variant);background:var(--surface-container);border-bottom:1px solid var(--outline-variant)">DEMO – Brak klucza Perenual API</div>'
         : '';
 
       if (!r.results || r.results.length === 0) {
-        dropdown.innerHTML = meta + '<div class="species-dropdown-empty">Brak wyników. Możesz wpisać nazwę ręcznie.</div>';
+        dropdown.innerHTML = meta + '<div style="padding:14px;color:var(--on-surface-variant);font-size:13px">Brak wyników. Możesz wpisać nazwę ręcznie.</div>';
       } else {
         dropdown.innerHTML = meta + r.results.map(s => `
-          <div data-ext="${UI.escapeHtml(s.external_id)}" class="species-item" role="option" tabindex="0">
-            <div class="species-item-title">${UI.escapeHtml(s.common_name)}</div>
-            <div class="species-item-sub">${UI.escapeHtml(s.scientific_name || '')}</div>
+          <div data-ext="${UI.escapeHtml(s.external_id)}" class="species-item" style="padding:10px 12px;cursor:pointer;border-bottom:1px solid var(--outline-variant)">
+            <div style="font-weight:600">${UI.escapeHtml(s.common_name)}</div>
+            <div style="font-size:12px;color:var(--on-surface-variant);font-style:italic">${UI.escapeHtml(s.scientific_name || '')}</div>
           </div>`).join('');
       }
       wrap.appendChild(dropdown);
@@ -68,13 +78,22 @@ const Species = {
         if (!item) return;
         e.preventDefault();
         const ext = item.dataset.ext;
+        const fallback = (r.results || []).find(s => String(s.external_id) === String(ext));
         try {
           const detail = await Species.detail(ext);
           input.value = detail.species.common_name;
           close();
           onSelect && onSelect(detail.species);
         } catch (err) {
-          UI.toast('Nie udało się pobrać szczegółów gatunku', 'error');
+          console.error('[species] detail error', err);
+          if (fallback) {
+            input.value = fallback.common_name || input.value;
+            close();
+            onSelect && onSelect(fallback);
+            UI.toast((err.message || 'Nie udało się pobrać pełnych szczegółów gatunku') + '. Użyto danych z listy wyników.', 'warning');
+            return;
+          }
+          UI.toast(err.message || 'Nie udało się pobrać szczegółów gatunku', 'error');
         }
       });
     }

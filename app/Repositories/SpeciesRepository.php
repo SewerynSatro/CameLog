@@ -13,6 +13,15 @@ class SpeciesRepository
         $this->db = Database::getInstance();
     }
 
+    private function encodeRawApiData($raw): ?string
+    {
+        if ($raw === null) return null;
+        if (!is_array($raw)) return (string) $raw;
+
+        $json = json_encode($raw, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
+        return $json === false ? null : $json;
+    }
+
     public function findById(int $id): ?array
     {
         $stmt = $this->db->prepare('SELECT * FROM species WHERE id = :id LIMIT 1');
@@ -52,7 +61,7 @@ class SpeciesRepository
                 ':wi' => $data['watering_info'] ?? null,
                 ':si' => $data['sunlight_info'] ?? null,
                 ':ci' => $data['climate_info'] ?? null,
-                ':raw' => is_array($data['raw_api_data'] ?? null) ? json_encode($data['raw_api_data']) : ($data['raw_api_data'] ?? null),
+                ':raw' => $this->encodeRawApiData($data['raw_api_data'] ?? null),
                 ':id' => $existing['id'],
             ]);
             return (int) $existing['id'];
@@ -68,7 +77,7 @@ class SpeciesRepository
             ':wi' => $data['watering_info'] ?? null,
             ':si' => $data['sunlight_info'] ?? null,
             ':ci' => $data['climate_info'] ?? null,
-            ':raw' => is_array($data['raw_api_data'] ?? null) ? json_encode($data['raw_api_data']) : ($data['raw_api_data'] ?? null),
+            ':raw' => $this->encodeRawApiData($data['raw_api_data'] ?? null),
         ]);
         return (int) $this->db->lastInsertId();
     }

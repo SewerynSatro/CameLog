@@ -2,7 +2,7 @@
  * Strategia: cache-first dla statyki, network-first dla API (fallback do cache).
  * Offline fallback: /offline.html dla nawigacji.
  */
-const CACHE_VERSION = 'camelog-v9';
+const CACHE_VERSION = 'camelog-v9-api-detail-fix';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 
 const STATIC_ASSETS = [
@@ -10,19 +10,19 @@ const STATIC_ASSETS = [
   '/index.html',
   '/offline.html',
   '/manifest.json',
-  '/assets/css/app.css?v=9',
-  '/assets/js/api.js?v=9',
-  '/assets/js/auth.js?v=9',
-  '/assets/js/router.js?v=9',
-  '/assets/js/ui.js?v=9',
-  '/assets/js/plants.js?v=9',
-  '/assets/js/plant-form.js?v=9',
-  '/assets/js/species.js?v=9',
-  '/assets/js/tasks.js?v=9',
-  '/assets/js/notifications.js?v=9',
-  '/assets/js/stats.js?v=9',
-  '/assets/js/admin.js?v=9',
-  '/assets/js/app.js?v=9',
+  '/assets/css/app.css?v=20260606-api-detail-fix',
+  '/assets/js/api.js?v=20260606-api-detail-fix',
+  '/assets/js/auth.js',
+  '/assets/js/router.js',
+  '/assets/js/ui.js?v=20260606-api-detail-fix',
+  '/assets/js/plants.js',
+  '/assets/js/plant-form.js?v=20260606-api-detail-fix',
+  '/assets/js/species.js?v=20260606-api-detail-fix',
+  '/assets/js/tasks.js?v=20260606-api-detail-fix',
+  '/assets/js/notifications.js',
+  '/assets/js/stats.js',
+  '/assets/js/admin.js',
+  '/assets/js/app.js?v=20260606-api-detail-fix',
   '/assets/images/logo.svg',
   '/assets/images/logo-mark.svg',
   '/assets/images/plant-placeholder.svg',
@@ -68,7 +68,7 @@ self.addEventListener('fetch', (event) => {
 
   // Statyka – cache-first
   event.respondWith(
-    caches.match(req, { ignoreSearch: true }).then((cached) => {
+    caches.match(req).then((cached) => {
       if (cached) return cached;
       return fetch(req).then((resp) => {
         const copy = resp.clone();
