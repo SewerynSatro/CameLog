@@ -9,9 +9,6 @@ use App\Repositories\SpeciesRepository;
  */
 class SpeciesApiService
 {
-    private const MIN_EXTERNAL_ID = 1;
-    private const MAX_EXTERNAL_ID = 3000;
-
     private string $apiKey;
     private string $baseUrl;
     private SpeciesRepository $repo;
@@ -38,7 +35,7 @@ class SpeciesApiService
             return ['source' => 'mock', 'results' => $this->mockSearch($query)];
         }
 
-        $url = $this->baseUrl . '/v2/species-list?key=' . urlencode($this->apiKey) . '&q=' . urlencode($query);
+        $url = $this->baseUrl . '/species-list?key=' . urlencode($this->apiKey) . '&q=' . urlencode($query);
         $resp = $this->httpGet($url);
         if ($resp === null) {
             // fallback mock
@@ -46,51 +43,6 @@ class SpeciesApiService
         }
 
         $data = json_decode($resp, true);
-        $results = $this->mapSearchResults($data['data'] ?? []);
-        return ['source' => 'perenual', 'results' => $results];
-    }
-
-    private function mapSearchResults(array $items): array
-    {
-        $results = [];
-        foreach ($items as $item) {
-            if (!$this->isAllowedExternalId((string) ($item['id'] ?? ''))) {
-                continue;
-            }
-
-            $scientificName = is_array($item['scientific_name'] ?? null)
-                ? implode(', ', $item['scientific_name'])
-                : ($item['scientific_name'] ?? null);
-            $result = [
-                'external_id' => $item['id'] ?? null,
-                'common_name' => $item['common_name'] ?? '-',
-                'scientific_name' => $scientificName,
-                'cycle' => $this->cleanApiValue($item['cycle'] ?? null),
-                'watering' => $this->cleanApiValue($item['watering'] ?? null),
-                'sunlight' => $this->cleanApiValue(is_array($item['sunlight'] ?? null) ? implode(', ', $item['sunlight']) : ($item['sunlight'] ?? null)),
-                'thumbnail' => $item['default_image']['thumbnail'] ?? null,
-            ];
-            $results[] = $result;
-
-            if (!empty($result['external_id']) && !empty($result['common_name'])) {
-                $this->repo->upsert([
-                    'external_api_id' => (string) $result['external_id'],
-                    'common_name' => $result['common_name'],
-                    'scientific_name' => $result['scientific_name'],
-                    'care_level' => null,
-                    'watering_info' => $result['watering'],
-                    'sunlight_info' => $result['sunlight'],
-                    'climate_info' => null,
-                    'raw_api_data' => array_merge($item, ['external_id' => $result['external_id']]),
-                ]);
-            }
-        }
-        return $results;
-    }
-
-    private function legacyMapSearchResults(array $items): array
-    {
-        return [];
         $results = [];
         foreach (($data['data'] ?? []) as $item) {
             $results[] = [
@@ -108,12 +60,8 @@ class SpeciesApiService
 
     public function detail(string $externalId): ?array
     {
-        if (!$this->isAllowedExternalId($externalId)) {
-            return null;
-        }
-
         $cached = $this->repo->findByExternalId($externalId);
-        if ($cached && (!$this->hasKey() || !ctype_digit((string) $externalId))) {
+        if ($cached) {
             $raw = json_decode($cached['raw_api_data'] ?? 'null', true);
             return $this->mapDetail($raw ?: $cached, $cached['id']);
         }
@@ -135,54 +83,24 @@ class SpeciesApiService
             return $mock;
         }
 
-        $url = $this->baseUrl . '/v2/species/details/' . urlencode($externalId) . '?key=' . urlencode($this->apiKey);
+        $url = $this->baseUrl . '/species/details/' . urlencode($externalId) . '?key=' . urlencode($this->apiKey);
         $resp = $this->httpGet($url);
-        if ($resp === null) {
-            if ($cached) {
-                $raw = json_decode($cached['raw_api_data'] ?? 'null', true);
-                return $this->enrichWithFallbackRecommendations($this->mapDetail($raw ?: $cached, (int) $cached['id']));
-            }
-            return $this->mockDetail($externalId);
-        }
+        if ($resp === null) return $this->mockDetail($externalId);
         $data = json_decode($resp, true);
         if (!$data) return null;
-        if (!empty($data['message']) && $this->isUpgradeText((string) $data['message'])) {
-            if ($cached) {
-                $raw = json_decode($cached['raw_api_data'] ?? 'null', true);
-                return $this->enrichWithFallbackRecommendations($this->mapDetail($raw ?: $cached, (int) $cached['id']));
-            }
-            return $this->mockDetail($externalId);
-        }
-
-        $guide = $this->careGuide($externalId, $data['common_name'] ?? null);
-        $wateringGuide = $guide['watering'] ?? null;
-        $sunlightGuide = $guide['sunlight'] ?? null;
-        $pruningGuide = $guide['pruning'] ?? null;
-        $wateringIntervalDays = $this->wateringIntervalDays($data['watering_general_benchmark'] ?? null, $data['watering'] ?? null);
-        $careLevel = $this->normalizeCareLevel($data['care_level'] ?? $data['maintenance'] ?? null);
 
         $mapped = [
             'external_id' => $data['id'] ?? $externalId,
             'common_name' => $data['common_name'] ?? '',
             'scientific_name' => is_array($data['scientific_name'] ?? null) ? implode(', ', $data['scientific_name']) : ($data['scientific_name'] ?? ''),
-            'care_level' => $careLevel,
-            'watering_info' => $wateringGuide ?: $this->cleanApiValue($data['watering'] ?? null),
-            'sunlight_info' => $this->cleanApiValue(is_array($data['sunlight'] ?? null) ? implode(', ', $data['sunlight']) : ($data['sunlight'] ?? null)),
+            'care_level' => $data['care_level'] ?? null,
+            'watering_info' => $data['watering'] ?? null,
+            'sunlight_info' => is_array($data['sunlight'] ?? null) ? implode(', ', $data['sunlight']) : ($data['sunlight'] ?? null),
             'climate_info' => $data['hardiness']['min'] ?? null,
             'cycle' => $data['cycle'] ?? null,
-            'description' => $this->joinDescriptions([
-                $data['description'] ?? null,
-                $wateringGuide ? 'Podlewanie: ' . $wateringGuide : null,
-                $sunlightGuide ? 'Światło: ' . $sunlightGuide : null,
-                $pruningGuide ? 'Przycinanie: ' . $pruningGuide : null,
-            ]),
+            'description' => $data['description'] ?? null,
             'type' => $data['type'] ?? null,
             'watering_general_benchmark' => $data['watering_general_benchmark'] ?? null,
-            'watering_interval_days' => $wateringIntervalDays,
-            'fertilizing_interval_days' => $this->fertilizingIntervalDays($careLevel),
-            'care_guide' => $guide,
-            'sunlight_guide' => $sunlightGuide,
-            'pruning_guide' => $pruningGuide,
         ];
 
         $localId = $this->repo->upsert([
@@ -193,16 +111,14 @@ class SpeciesApiService
             'watering_info' => $mapped['watering_info'],
             'sunlight_info' => $mapped['sunlight_info'],
             'climate_info' => $mapped['climate_info'],
-            'raw_api_data' => array_merge($data, ['care_guide' => $guide]),
+            'raw_api_data' => $data,
         ]);
         $mapped['local_id'] = $localId;
-        return $this->enrichWithFallbackRecommendations($mapped);
+        return $mapped;
     }
 
     public function importToLocal(array $species): int
     {
-        $raw = $species;
-
         return $this->repo->upsert([
             'external_api_id' => $species['external_id'] ?? null,
             'common_name' => $species['common_name'] ?? '',
@@ -211,170 +127,25 @@ class SpeciesApiService
             'watering_info' => $species['watering_info'] ?? null,
             'sunlight_info' => $species['sunlight_info'] ?? null,
             'climate_info' => $species['climate_info'] ?? null,
-            'raw_api_data' => $raw,
+            'raw_api_data' => $species,
         ]);
     }
 
     private function mapDetail($raw, int $localId): array
     {
-        $careGuide = is_array($raw['care_guide'] ?? null) ? $raw['care_guide'] : [];
-        $wateringInfo = $raw['watering_info'] ?? $careGuide['watering'] ?? $raw['watering'] ?? null;
-        $sunlightInfo = $raw['sunlight_info'] ?? $careGuide['sunlight'] ?? $raw['sunlight'] ?? null;
-        if (is_array($sunlightInfo)) $sunlightInfo = implode(', ', $sunlightInfo);
-        $wateringInfo = $this->cleanApiValue($wateringInfo);
-        $sunlightInfo = $this->cleanApiValue($sunlightInfo);
-
         return [
             'local_id' => $localId,
             'external_id' => $raw['external_api_id'] ?? $raw['external_id'] ?? null,
             'common_name' => $raw['common_name'] ?? '',
-            'scientific_name' => is_array($raw['scientific_name'] ?? null) ? implode(', ', $raw['scientific_name']) : ($raw['scientific_name'] ?? ''),
-            'care_level' => $this->normalizeCareLevel($raw['care_level'] ?? $raw['maintenance'] ?? null),
-            'watering_info' => $wateringInfo,
-            'sunlight_info' => $sunlightInfo,
+            'scientific_name' => $raw['scientific_name'] ?? '',
+            'care_level' => $raw['care_level'] ?? null,
+            'watering_info' => $raw['watering_info'] ?? $raw['watering'] ?? null,
+            'sunlight_info' => $raw['sunlight_info'] ?? $raw['sunlight'] ?? null,
             'climate_info' => $raw['climate_info'] ?? null,
             'cycle' => $raw['cycle'] ?? null,
-            'description' => $this->joinDescriptions([
-                $raw['description'] ?? null,
-                !empty($careGuide['watering']) ? 'Podlewanie: ' . $careGuide['watering'] : null,
-                !empty($careGuide['sunlight']) ? 'Światło: ' . $careGuide['sunlight'] : null,
-            ]),
+            'description' => $raw['description'] ?? null,
             'type' => $raw['type'] ?? null,
-            'watering_interval_days' => $this->wateringIntervalDays($raw['watering_general_benchmark'] ?? null, $raw['watering'] ?? null),
-            'fertilizing_interval_days' => $this->fertilizingIntervalDays($raw['care_level'] ?? $raw['maintenance'] ?? null),
-            'care_guide' => $careGuide,
         ];
-    }
-
-    private function careGuide(string $externalId, ?string $commonName = null): array
-    {
-        if (!$this->isAllowedExternalId($externalId)) {
-            return [];
-        }
-
-        $guide = [];
-        $url = $this->baseUrl . '/species-care-guide-list?key=' . urlencode($this->apiKey) . '&species_id=' . urlencode($externalId);
-        $resp = $this->httpGet($url);
-
-        if ($resp === null && $commonName) {
-            $url = $this->baseUrl . '/species-care-guide-list?key=' . urlencode($this->apiKey) . '&q=' . urlencode($commonName);
-            $resp = $this->httpGet($url);
-        }
-        if ($resp === null) return $guide;
-
-        $data = json_decode($resp, true);
-        $first = $data['data'][0] ?? null;
-        if (!$first || empty($first['section']) || !is_array($first['section'])) return $guide;
-
-        foreach ($first['section'] as $section) {
-            if (empty($section['type']) || empty($section['description'])) continue;
-            $guide[(string) $section['type']] = (string) $section['description'];
-        }
-        return $guide;
-    }
-
-    private function wateringIntervalDays($benchmark, ?string $watering): ?int
-    {
-        if (is_array($benchmark) && !empty($benchmark['value'])) {
-            if (is_numeric($benchmark['value'])) return (int) $benchmark['value'];
-            if (preg_match_all('/\d+/', (string) $benchmark['value'], $m) && !empty($m[0])) {
-                $nums = array_map('intval', $m[0]);
-                return (int) round(array_sum($nums) / count($nums));
-            }
-        }
-
-        return match (strtolower((string) $watering)) {
-            'frequent' => 4,
-            'average' => 7,
-            'minimum' => 14,
-            'none' => 30,
-            default => null,
-        };
-    }
-
-    private function fertilizingIntervalDays(?string $careLevel): int
-    {
-        return match ($this->normalizeCareLevel($careLevel)) {
-            'hard' => 21,
-            'medium' => 30,
-            default => 45,
-        };
-    }
-
-    private function normalizeCareLevel(?string $value): ?string
-    {
-        $v = strtolower(trim((string) $value));
-        return match ($v) {
-            'low', 'easy' => 'easy',
-            'medium', 'moderate' => 'medium',
-            'high', 'hard', 'difficult' => 'hard',
-            default => $v !== '' ? $v : null,
-        };
-    }
-
-    private function joinDescriptions(array $parts): ?string
-    {
-        $parts = array_values(array_filter(array_map(fn($p) => is_string($p) ? trim($p) : null, $parts)));
-        return $parts ? implode("\n\n", $parts) : null;
-    }
-
-    private function enrichWithFallbackRecommendations(array $detail): array
-    {
-        $hasCare = !empty($detail['watering_info']) || !empty($detail['sunlight_info']) || !empty($detail['description']);
-        if ($hasCare) return $detail;
-
-        $mock = $this->findMockByName($detail['common_name'] ?? '', $detail['scientific_name'] ?? '');
-        if (!$mock) return $detail;
-
-        $externalId = $detail['external_id'] ?? null;
-        $localId = $detail['local_id'] ?? null;
-        $detail = array_merge($detail, $mock);
-        if ($externalId) $detail['external_id'] = $externalId;
-        if ($localId) $detail['local_id'] = $localId;
-        $detail['recommendation_source'] = 'mock-fallback';
-        return $detail;
-    }
-
-    private function findMockByName(string $commonName, string $scientificName): ?array
-    {
-        $haystack = mb_strtolower($commonName . ' ' . $scientificName);
-        foreach ($this->mockData() as $mock) {
-            $common = mb_strtolower($mock['common_name']);
-            $scientific = mb_strtolower($mock['scientific_name']);
-            if (($common && str_contains($haystack, $common)) || ($scientific && str_contains($haystack, $scientific))) {
-                return $mock;
-            }
-            $genus = strtok($scientific, ' ');
-            if ($genus && str_contains($haystack, $genus)) {
-                return $mock;
-            }
-        }
-        return null;
-    }
-
-    private function cleanApiValue($value): ?string
-    {
-        if (is_array($value)) $value = implode(', ', $value);
-        if ($value === null) return null;
-        $value = trim((string) $value);
-        if ($value === '' || $this->isUpgradeText($value)) return null;
-        return $value;
-    }
-
-    private function isUpgradeText(string $value): bool
-    {
-        $v = mb_strtolower($value);
-        return str_contains($v, 'upgrade plan') || str_contains($v, 'upgrade access') || str_contains($v, 'subscription-api-pricing');
-    }
-
-    private function isAllowedExternalId(string $externalId): bool
-    {
-        if (!ctype_digit($externalId)) {
-            return str_starts_with($externalId, 'mock-');
-        }
-
-        $id = (int) $externalId;
-        return $id >= self::MIN_EXTERNAL_ID && $id <= self::MAX_EXTERNAL_ID;
     }
 
     private function httpGet(string $url): ?string

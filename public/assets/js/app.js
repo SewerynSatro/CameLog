@@ -4,16 +4,13 @@ const Dashboard = {
   async render(_, user) {
     const greeting = greetingFor(user);
     const content = `
-      <section class="page-head" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
-        <div>
+      <div class="page-toolbar">
+        <section class="page-head">
           <h1>${UI.escapeHtml(greeting)}, ${UI.escapeHtml(user.name.split(' ')[0])} 🌵</h1>
           <p>Oto stan Twojej zielonej oazy.</p>
-        </div>
-        <div class="page-actions">
-          <a href="/tasks/create" class="btn btn-secondary" data-link>${Icons.tasks} Dodaj task</a>
-          <a href="/plants/create" class="btn btn-primary" data-link>${Icons.plus} Dodaj roślinę</a>
-        </div>
-      </section>
+        </section>
+        <a href="/plants/create" class="btn btn-primary btn-sm" data-link>${Icons.plus} Dodaj roślinę</a>
+      </div>
 
       <div class="stat-grid" id="d-stats">${UI.loader()}</div>
 
@@ -22,7 +19,7 @@ const Dashboard = {
           <h2 class="section-header">${Icons.calendar} Dzisiaj do zrobienia <span class="count-pill primary" id="today-count">…</span></h2>
           <div id="d-today" class="task-list">${UI.loader()}</div>
 
-          <h2 class="section-header" style="margin-top:32px">${Icons.plants} Twoje rośliny</h2>
+          <h2 class="section-header">${Icons.plants} Twoje rośliny</h2>
           <div id="d-plants" class="plant-grid">${UI.loader()}</div>
         </div>
         <aside>
@@ -49,57 +46,129 @@ const Dashboard = {
       const o = stats.overview || {};
       document.getElementById('d-stats').innerHTML = `
         <div class="stat-tile">
-          <div style="display:flex;justify-content:space-between"><div class="stat-label">Moje rośliny</div>${Icons.plants}</div>
+          <div class="stat-row"><div class="stat-label">Moje rośliny</div><span class="icon">${Icons.plants}</span></div>
           <div class="stat-value">${o.plants_count || 0}</div>
         </div>
         <div class="stat-tile tile-warning">
-          <div style="display:flex;justify-content:space-between"><div class="stat-label">Taski na dziś</div>${Icons.calendar}</div>
-          <div class="stat-value">${o.tasks_today || 0}</div>
+          <div class="stat-row"><div class="stat-label">Taski na dziś</div><span class="icon">${Icons.calendar}</span></div>
+          <div class="stat-value">${o.today_tasks || 0}</div>
         </div>
         <div class="stat-tile tile-danger">
-          <div style="display:flex;justify-content:space-between"><div class="stat-label">Zaległe</div>${Icons.warning}</div>
-          <div class="stat-value">${o.tasks_overdue || 0}</div>
+          <div class="stat-row"><div class="stat-label">Zaległe</div><span class="icon">${Icons.warning}</span></div>
+          <div class="stat-value">${o.overdue_tasks || 0}</div>
         </div>
         <div class="stat-tile tile-success">
-          <div style="display:flex;justify-content:space-between"><div class="stat-label">Następne 7 dni</div>${Icons.calendar}</div>
-          <div class="stat-value">${o.tasks_done_week || 0}</div>
+          <div class="stat-row"><div class="stat-label">Wykonane (7 dni)</div><span class="icon">${Icons.check}</span></div>
+          <div class="stat-value">${o.week_done_tasks || 0}</div>
         </div>`;
 
       const todayList = today.tasks || [];
       document.getElementById('today-count').textContent = todayList.length;
       const todayNode = document.getElementById('d-today');
       if (todayList.length === 0) {
-        todayNode.innerHTML = `<div class="card-tinted text-muted" style="text-align:center;padding:24px">${Icons.check}<p class="mt-2">Wszystko zrobione na dziś! Cieszmy się oazą spokoju.</p></div>`;
+        todayNode.innerHTML = `<div class="card-tinted card-centered text-muted" style="padding:var(--s-3)"><span class="icon">${Icons.check}</span><p class="mt-2">Wszystko zrobione na dziś! Cieszmy się oazą spokoju.</p></div>`;
       } else {
         todayNode.innerHTML = todayList.slice(0, 6).map(taskCard).join('');
       }
 
-      const ps = (plants.plants || []).slice(0, 3);
+      const ps = plants.plants || [];
       const plantsNode = document.getElementById('d-plants');
-      plantsNode.innerHTML = ps.length ? ps.map(plantCard).join('') : UI.empty({
-        title: 'Brak roślin',
-        desc: 'Dodaj pierwszą roślinę.',
-        action: '<a class="btn btn-primary mt-2" href="/plants/create" data-link>Dodaj roślinę</a>',
-      });
+      let currentPlantPage = 1;
+      const plantsPerPage = 5;
+
+      function renderDashboardPlants() {
+        const start = (currentPlantPage - 1) * plantsPerPage;
+        const pagePlants = ps.slice(start, start + plantsPerPage);
+        
+        let html = pagePlants.length ? pagePlants.map(plantCard).join('') : UI.empty({
+          title: 'Brak roślin',
+          desc: 'Dodaj pierwszą roślinę.',
+          action: '<a class="btn btn-primary mt-2" href="/plants/create" data-link>Dodaj roślinę</a>',
+        });
+
+        if (ps.length > plantsPerPage) {
+          const totalPages = Math.ceil(ps.length / plantsPerPage);
+          html += `
+            <div class="pagination mt-3" style="display: flex; justify-content: space-between; align-items: center; padding: 0 var(--s-1);">
+              <button class="btn btn-sm btn-outline" id="d-plant-prev" ${currentPlantPage === 1 ? 'disabled' : ''}>${Icons.arrowRight} Poprzednie</button>
+              <span class="text-sm font-semibold" style="color: var(--on-surface-variant);">Strona ${currentPlantPage} z ${totalPages}</span>
+              <button class="btn btn-sm btn-outline" id="d-plant-next" ${currentPlantPage >= totalPages ? 'disabled' : ''}>Następne ${Icons.arrowRight}</button>
+            </div>
+          `;
+          // Zmiana kierunku ikonki dla przycisku "Poprzednie"
+          html = html.replace('id="d-plant-prev"', 'id="d-plant-prev" style="flex-direction: row-reverse;"');
+        }
+        
+        plantsNode.innerHTML = html;
+
+        if (ps.length > plantsPerPage) {
+          const btnPrev = document.getElementById('d-plant-prev');
+          const btnNext = document.getElementById('d-plant-next');
+          if (btnPrev && currentPlantPage > 1) {
+            btnPrev.addEventListener('click', () => { currentPlantPage--; renderDashboardPlants(); });
+          }
+          if (btnNext && currentPlantPage < Math.ceil(ps.length / plantsPerPage)) {
+            btnNext.addEventListener('click', () => { currentPlantPage++; renderDashboardPlants(); });
+          }
+          // Fix for arrow icon rotation in prev
+          if (btnPrev) {
+             const svg = btnPrev.querySelector('svg');
+             if (svg) svg.style.transform = 'rotate(180deg)';
+          }
+        }
+      }
+      renderDashboardPlants();
 
       const inc = (incoming.tasks || []).slice(0, 6);
       document.getElementById('d-incoming').innerHTML = inc.length ? inc.map(t => `
-        <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--outline-variant)">
-          <div style="width:36px;height:36px;border-radius:9999px;background:var(--surface-container);display:flex;align-items:center;justify-content:center">${UI.taskTypeIcon(t.type)}</div>
-          <div style="flex:1">
-            <div style="font-weight:600">${UI.escapeHtml(t.title)}</div>
-            <div class="text-muted" style="font-size:13px">${UI.escapeHtml(t.plant_name || '')} · ${UI.formatRelative(t.due_date)}</div>
+        <div class="media-row">
+          <div class="media-row-icon">${UI.taskTypeIcon(t.type)}</div>
+          <div class="media-row-body">
+            <div class="media-row-title">${UI.escapeHtml(t.title)}</div>
+            <div class="media-row-meta">${UI.escapeHtml(t.plant_name || '')} · ${UI.formatRelative(t.due_date)}</div>
           </div>
         </div>`).join('') : '<p class="text-muted">Brak nadchodzących tasków.</p>';
 
-      // Działania na taskach
-      document.querySelectorAll('[data-complete]').forEach(b => b.addEventListener('click', async () => {
+      // Działania na taskach (wykonane za pomocą delegacji na całym widoku)
+      document.getElementById('d-today').addEventListener('click', async (e) => {
+        const b = e.target.closest('[data-complete]');
+        if (!b) return;
         try {
           await API.patch('/api/tasks/' + b.dataset.complete + '/complete', {});
           UI.toast('Wykonane!', 'success');
           Router.resolve();
         } catch (err) { UI.toast(err.message || 'Błąd', 'error'); }
-      }));
+      });
+
+      // Działania na roślinach
+      document.getElementById('d-plants').addEventListener('click', async (e) => {
+        const editBtn = e.target.closest('[data-edit]');
+        const delBtn = e.target.closest('[data-delete]');
+        const card = e.target.closest('.plant-card');
+        if (editBtn) {
+          e.stopPropagation();
+          Router.navigate('/plants/' + editBtn.dataset.edit + '/edit');
+          return;
+        }
+        if (delBtn) {
+          e.stopPropagation();
+          const ok = await UI.confirm({
+            title: 'Usunąć roślinę?',
+            message: 'Tej operacji nie da się cofnąć.',
+            confirmText: 'Usuń', danger: true,
+          });
+          if (!ok) return;
+          try {
+            await API.delete('/api/plants/' + delBtn.dataset.delete);
+            UI.toast('Roślina usunięta', 'success');
+            Router.resolve();
+          } catch (err) { UI.toast(err.message || 'Błąd', 'error'); }
+          return;
+        }
+        if (card && card.dataset.id) {
+          Router.navigate('/plants/' + card.dataset.id);
+        }
+      });
     } catch (err) {
       document.getElementById('d-stats').innerHTML = UI.empty({ title: 'Błąd', desc: err.message });
     }

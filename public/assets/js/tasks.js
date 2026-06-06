@@ -3,15 +3,13 @@
 const Tasks = {
   async renderList(_, user) {
     const content = `
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px">
-        <div class="page-head" style="margin-bottom:0">
+      <div class="page-toolbar">
+        <section class="page-head">
           <h1>Twoje Zadania</h1>
           <p>Harmonogram pielęgnacji Twojej oazy na najbliższe dni.</p>
-        </div>
+        </section>
         <div class="page-actions">
-          <a href="/tasks/create" class="btn btn-primary" data-link>${Icons.plus} Dodaj task</a>
-          <button class="icon-btn" title="Filtry">${Icons.filter}</button>
-          <button class="icon-btn" title="Kalendarz">${Icons.calendar}</button>
+          <a href="/tasks/create" class="btn btn-primary" data-link>${Icons.plus} Dodaj zadanie</a>
         </div>
       </div>
 
@@ -36,8 +34,8 @@ const Tasks = {
         <div id="tasks-content">${UI.loader()}</div>
         <aside>
           <div class="card mb-3" id="tasks-summary">${UI.loader('Podsumowanie...')}</div>
-          <div class="card-tinted" style="background:var(--secondary-container);color:var(--on-secondary-container);text-align:center">
-            <div>${Icons.leaf}</div>
+          <div class="card-tinted card-centered" style="background:var(--secondary-container);color:var(--on-secondary-container)">
+            <span class="icon">${Icons.leaf}</span>
             <h3 class="mt-2">Oaza spokoju</h3>
             <p>Regularna opieka sprawia, że Twoje rośliny rosną zdrowe i silne.</p>
           </div>
@@ -83,20 +81,21 @@ const Tasks = {
         const summary = document.getElementById('tasks-summary');
         const progress = today.length === 0 ? 100 : Math.round((today.filter(t => t.status === 'done').length / today.length) * 100);
         summary.innerHTML = `
-          <h2 style="display:flex;align-items:center;gap:8px">${Icons.stats} Podsumowanie</h2>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px">
-            <div class="stat-tile" style="padding:18px"><div class="stat-value">${today.length}</div><div class="stat-label">DZISIAJ</div></div>
-            <div class="stat-tile tile-danger" style="padding:18px"><div class="stat-value">${overdue.length}</div><div class="stat-label">ZALEGŁE</div></div>
+          <h2 class="flex items-center gap-2">${Icons.stats} Podsumowanie</h2>
+          <div class="stat-mini-grid">
+            <div class="stat-tile"><div class="stat-value">${today.length}</div><div class="stat-label">DZISIAJ</div></div>
+            <div class="stat-tile tile-danger"><div class="stat-value">${overdue.length}</div><div class="stat-label">ZALEGŁE</div></div>
           </div>
-          <div class="mt-3" style="display:flex;justify-content:space-between"><span>Postęp na dziś</span><span>${progress}%</span></div>
-          <div class="bar mt-1"><span style="width:${progress}%"></span></div>
-          <div class="text-muted mt-2" style="text-align:center">Wykonano w tym tygodniu: ${done.length} zadań</div>`;
+          <div class="bar-row mt-3"><span>Postęp na dziś</span><span>${progress}%</span></div>
+          <div class="bar"><span style="width:${progress}%"></span></div>
+          <div class="text-muted mt-2 text-center">Wykonano w tym tygodniu: ${done.length} zadań</div>`;
       } catch (err) {
         document.getElementById('tasks-content').innerHTML = UI.empty({ title: 'Błąd', desc: err.message });
       }
     }
 
-    document.addEventListener('click', taskClickHandler);
+    const tasksContent = document.getElementById('tasks-content');
+    tasksContent.addEventListener('click', taskClickHandler);
 
     function taskClickHandler(e) {
       const cb = e.target.closest('[data-complete]');
@@ -133,7 +132,7 @@ const Tasks = {
         <p>Zaplanuj kolejne czynności pielęgnacyjne.</p>
       </section>
 
-      <form id="task-form" class="card" style="max-width:720px">
+      <form id="task-form" class="card form-card-narrow">
         <div class="form-grid">
           <div class="field">
             <label class="field-label">Roślina *</label>
@@ -153,11 +152,11 @@ const Tasks = {
               <option value="custom">Inne</option>
             </select>
           </div>
-          <div class="field" style="grid-column:1/-1">
+          <div class="field form-span-full">
             <label class="field-label">Tytuł *</label>
             <input class="input" name="title" required placeholder="np. Podlewanie Monstery" />
           </div>
-          <div class="field" style="grid-column:1/-1">
+          <div class="field form-span-full">
             <label class="field-label">Opis</label>
             <textarea class="textarea" name="description" placeholder="Dodatkowe wskazówki, np. dawka nawozu"></textarea>
           </div>
@@ -178,7 +177,7 @@ const Tasks = {
             </select>
           </div>
         </div>
-        <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:24px">
+        <div class="form-actions">
           <a href="/tasks" data-link class="btn btn-outline">Anuluj</a>
           <button class="btn btn-primary" type="submit">${Icons.check} Zapisz task</button>
         </div>
@@ -208,15 +207,17 @@ const Tasks = {
 function taskCard(t) {
   const overdue = isOverdue(t) && t.status === 'pending';
   const done = t.status === 'done';
+  const priorityBadge = t.priority === 'high' ? '<span class="badge badge-danger">Wysoki</span>' :
+                        t.priority === 'low' ? '<span class="badge badge-info">Niski</span>' : '';
   return `
     <div class="task-card ${overdue ? 'is-overdue' : ''} ${done ? 'is-done' : ''}">
       <button class="task-checkbox ${done ? 'is-done' : ''}" data-complete="${t.id}" aria-label="Wykonane">${done ? Icons.check : ''}</button>
       <div class="task-title">
-        <span>${UI.escapeHtml(t.plant_name || '')}</span>
-        <span class="task-meta">${UI.taskTypeIcon(t.type)} ${UI.escapeHtml(UI.taskTypeLabel(t.type))} ${t.plant_location ? '· ' + UI.escapeHtml(t.plant_location) : ''}</span>
+        <span>${UI.escapeHtml(t.title || '')}</span>
+        <span class="task-meta">${UI.taskTypeIcon(t.type)} ${UI.escapeHtml(UI.taskTypeLabel(t.type))} ${t.plant_name ? '· ' + UI.escapeHtml(t.plant_name) : ''} ${priorityBadge}</span>
       </div>
-      <span class="badge ${overdue ? 'badge-danger' : (isToday(t) ? 'badge-warning' : 'badge-info')}">${UI.formatRelative(t.due_date)}</span>
-      ${done ? '' : `<button class="btn btn-ghost btn-sm" data-complete="${t.id}">Wykonane</button>`}
+      <span class="badge task-badge ${overdue ? 'badge-danger' : (isToday(t) ? 'badge-warning' : 'badge-info')}">${UI.formatRelative(t.due_date)}</span>
+      ${done ? '' : `<button class="btn btn-ghost btn-sm task-actions" data-complete="${t.id}">Wykonane</button>`}
     </div>`;
 }
 
