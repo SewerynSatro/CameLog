@@ -2,7 +2,7 @@
  * Strategia: cache-first dla statyki, network-first dla API (fallback do cache).
  * Offline fallback: /offline.html dla nawigacji.
  */
-const CACHE_VERSION = 'camelog-v9-api-detail-fix';
+const CACHE_VERSION = 'camelog-v10-notif-dashboard-delete';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 
 const STATIC_ASSETS = [
@@ -10,19 +10,19 @@ const STATIC_ASSETS = [
   '/index.html',
   '/offline.html',
   '/manifest.json',
-  '/assets/css/app.css?v=20260606-api-detail-fix',
-  '/assets/js/api.js?v=20260606-api-detail-fix',
+  '/assets/css/app.css?v=20260607-notif-dashboard-delete',
+  '/assets/js/api.js?v=20260607-notif-dashboard-delete',
   '/assets/js/auth.js',
   '/assets/js/router.js',
-  '/assets/js/ui.js?v=20260606-api-detail-fix',
-  '/assets/js/plants.js',
-  '/assets/js/plant-form.js?v=20260606-api-detail-fix',
-  '/assets/js/species.js?v=20260606-api-detail-fix',
-  '/assets/js/tasks.js?v=20260606-api-detail-fix',
-  '/assets/js/notifications.js',
+  '/assets/js/ui.js?v=20260607-notif-dashboard-delete',
+  '/assets/js/plants.js?v=20260607-notif-dashboard-delete',
+  '/assets/js/plant-form.js?v=20260607-notif-dashboard-delete',
+  '/assets/js/species.js?v=20260607-notif-dashboard-delete',
+  '/assets/js/tasks.js?v=20260607-notif-dashboard-delete',
+  '/assets/js/notifications.js?v=20260607-notif-dashboard-delete',
   '/assets/js/stats.js',
   '/assets/js/admin.js',
-  '/assets/js/app.js?v=20260606-api-detail-fix',
+  '/assets/js/app.js?v=20260607-notif-dashboard-delete',
   '/assets/images/logo.svg',
   '/assets/images/logo-mark.svg',
   '/assets/images/plant-placeholder.svg',

@@ -92,7 +92,8 @@ class PlantController
         $userId = Auth::id();
         $id = (int) $req->param('id');
         $ok = $this->plants->delete($id, $userId);
-        Response::json(['ok' => $ok]);
+        if (!$ok) Response::error('Nie udało się usunąć rośliny albo roślina nie istnieje.', 404);
+        Response::json(['ok' => true]);
     }
 
     public function uploadPhoto(Request $req): void

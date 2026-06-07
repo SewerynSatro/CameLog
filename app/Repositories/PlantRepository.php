@@ -110,8 +110,42 @@ class PlantRepository
 
     public function delete(int $id, int $userId): bool
     {
-        $stmt = $this->db->prepare('DELETE FROM plants WHERE id = :id AND user_id = :user_id');
-        return $stmt->execute([':id' => $id, ':user_id' => $userId]);
+        try {
+            $this->db->beginTransaction();
+
+            $check = $this->db->prepare('SELECT id FROM plants WHERE id = :id AND user_id = :user_id LIMIT 1');
+            $check->execute([':id' => $id, ':user_id' => $userId]);
+            if (!$check->fetch()) {
+                $this->db->rollBack();
+                return false;
+            }
+
+            $stmt = $this->db->prepare('DELETE FROM notifications
+                                        WHERE user_id = ?
+                                          AND task_id IN (SELECT id FROM care_tasks WHERE plant_id = ? AND user_id = ?)');
+            $stmt->execute([$userId, $id, $userId]);
+
+            $stmt = $this->db->prepare('DELETE FROM care_history WHERE plant_id = :id AND user_id = :user_id');
+            $stmt->execute([':id' => $id, ':user_id' => $userId]);
+
+            $stmt = $this->db->prepare('DELETE FROM care_tasks WHERE plant_id = :id AND user_id = :user_id');
+            $stmt->execute([':id' => $id, ':user_id' => $userId]);
+
+            $stmt = $this->db->prepare('DELETE FROM plant_photos WHERE plant_id = :id');
+            $stmt->execute([':id' => $id]);
+
+            $stmt = $this->db->prepare('DELETE FROM plants WHERE id = :id AND user_id = :user_id');
+            $stmt->execute([':id' => $id, ':user_id' => $userId]);
+            $deleted = $stmt->rowCount() > 0;
+
+            $this->db->commit();
+            return $deleted;
+        } catch (\Throwable $e) {
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
+            return false;
+        }
     }
 
     public function addPhoto(int $plantId, string $filePath, bool $isMain = true): int

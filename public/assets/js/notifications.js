@@ -36,6 +36,7 @@ const Notifications = {
       try {
         await API.patch('/api/notifications/read-all', {});
         UI.toast('Oznaczono wszystkie jako przeczytane', 'success');
+        UI.updateNotifDot(window.CURRENT_USER);
         load();
       } catch (err) { UI.toast(err.message || 'Błąd', 'error'); }
     });
@@ -71,13 +72,22 @@ const Notifications = {
       }
     }
 
-    document.addEventListener('click', async (e) => {
+    document.getElementById('notifs').addEventListener('click', async (e) => {
       const r = e.target.closest('[data-read]');
       if (!r) return;
+      e.preventDefault();
+      e.stopPropagation();
+
       try {
         await API.patch('/api/notifications/' + r.dataset.read + '/read', {});
-        load();
-      } catch {}
+        const card = r.closest('.notif-card');
+        if (card) card.classList.add('is-read');
+        const action = r.closest('.notif-action');
+        if (action) action.innerHTML = '<span class="badge badge-info">Przeczytane</span>';
+        UI.updateNotifDot(window.CURRENT_USER);
+      } catch (err) {
+        UI.toast(err.message || 'Nie udało się oznaczyć powiadomienia jako przeczytane', 'error');
+      }
     });
 
     load();
@@ -85,16 +95,18 @@ const Notifications = {
 };
 
 function notifCard(n) {
+  const isRead = n.is_read === true || n.is_read === 1 || n.is_read === '1' || n.is_read === 'true';
+
   return `
-    <div class="notif-card ${n.type === 'overdue' ? 'is-overdue' : ''}" style="${n.is_read ? 'opacity:0.6' : ''}">
+    <div class="notif-card ${n.type === 'overdue' ? 'is-overdue' : ''} ${isRead ? 'is-read' : ''}">
       <div class="notif-icon">${UI.taskTypeIcon(n.task_type || 'custom')}</div>
       <div>
         <div class="notif-title">${UI.escapeHtml(n.title)}</div>
         <div class="notif-desc">${UI.escapeHtml(n.message || '')}</div>
         <div class="text-muted" style="font-size:12px;margin-top:4px">${UI.formatDate(n.created_at)}</div>
       </div>
-      <div>
-        ${!n.is_read ? `<button class="btn btn-ghost btn-sm" data-read="${n.id}">${Icons.check} Przeczytane</button>` : `<span class="badge badge-info">Przeczytane</span>`}
+      <div class="notif-action">
+        ${!isRead ? `<button class="btn btn-ghost btn-sm" data-read="${n.id}">${Icons.check} Przeczytane</button>` : `<span class="badge badge-info">Przeczytane</span>`}
       </div>
     </div>`;
 }

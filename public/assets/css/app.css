@@ -408,6 +408,13 @@ h3 { font-size: 18px; font-weight: 600; }
   box-shadow: var(--shadow-1);
 }
 .notif-card.is-overdue { border-left: 4px solid var(--error); }
+.notif-card.is-read {
+  opacity: 0.58;
+  box-shadow: none;
+  background: var(--surface-container);
+}
+.notif-card.is-read .notif-title,
+.notif-card.is-read .notif-desc { color: var(--on-surface-variant); }
 .notif-card .notif-icon {
   width: 44px; height: 44px; border-radius: 9999px;
   background: var(--surface-container); display: inline-flex; align-items: center; justify-content: center;

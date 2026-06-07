@@ -82,6 +82,44 @@ const Dashboard = {
         action: '<a class="btn btn-primary mt-2" href="/plants/create" data-link>Dodaj roślinę</a>',
       });
 
+      plantsNode.addEventListener('click', async (e) => {
+        const editBtn = e.target.closest('[data-edit]');
+        const delBtn = e.target.closest('[data-delete]');
+        const card = e.target.closest('.plant-card');
+
+        if (editBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          Router.navigate('/plants/' + editBtn.dataset.edit + '/edit');
+          return;
+        }
+
+        if (delBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          const ok = await UI.confirm({
+            title: 'Usunąć roślinę?',
+            message: 'Tej operacji nie da się cofnąć. Wszystkie taski i historia zostaną usunięte.',
+            confirmText: 'Usuń',
+            danger: true,
+          });
+          if (!ok) return;
+
+          try {
+            await API.delete('/api/plants/' + delBtn.dataset.delete);
+            UI.toast('Roślina usunięta', 'success');
+            Router.resolve();
+          } catch (err) {
+            UI.toast(err.message || 'Nie udało się usunąć rośliny', 'error');
+          }
+          return;
+        }
+
+        if (card && card.dataset.id) {
+          Router.navigate('/plants/' + card.dataset.id);
+        }
+      });
+
       const inc = (incoming.tasks || []).slice(0, 6);
       document.getElementById('d-incoming').innerHTML = inc.length ? inc.map(t => `
         <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--outline-variant)">
